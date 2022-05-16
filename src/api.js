@@ -39,8 +39,8 @@ class PetlyApi {
       data,
       "post"
     );
-    this.token = response;
-    return response;
+    this.token = response.token;
+    return response.token;
   }
 
   /*Register route for both shelters and adopters
@@ -48,8 +48,8 @@ class PetlyApi {
    */
   static async logIn(userType, data) {
     const response = await this.request(`auth${userType}/token`, data, "post");
-    this.token = response;
-    return response;
+    this.token = response.token;
+    return response.token;
   }
 
   /*Get all users userType = shelters/adopters/adoptableDogs
@@ -122,7 +122,7 @@ class PetlyApi {
    */
   static async updateDog(data, params) {
     const res = await this.request(
-      `${type}/${params.userId}/${params.dogId}`,
+      `adoptableDogs/${params.userId}/${params.dogId}`,
       data,
       "patch"
     );

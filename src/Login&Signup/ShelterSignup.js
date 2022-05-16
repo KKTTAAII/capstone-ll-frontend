@@ -60,7 +60,7 @@ const ShelterSignUp = ({ signUp }) => {
       if (response) {
         swal(response[0]);
       } else {
-        history.push("/");
+        history.push("/shelters");
       }
     } else {
       swal("Oop, please fill out all required fields");
@@ -153,7 +153,7 @@ const ShelterSignUp = ({ signUp }) => {
         <button>Sign up</button>
       </form>
       <div>
-        Already signed up? <Link to={`/shelter/login`}>Log in</Link>
+        Already signed up? <Link to={`/shelters/login`}>Log in</Link>
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ const AdopterSignUp = ({ signUp }) => {
       if (response) {
         swal(response[0]);
       } else {
-        history.push("/");
+        history.push("/adopters");
       }
     } else {
       swal("Oop, please fill out all required fields");
@@ -156,7 +156,7 @@ const AdopterSignUp = ({ signUp }) => {
         <button>Sign up</button>
       </form>
       <div>
-        Already signed up? <Link to={`/adopter/login`}>Log in</Link>
+        Already signed up? <Link to={`/adopters/login`}>Log in</Link>
       </div>
     </div>
   );

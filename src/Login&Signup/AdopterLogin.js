@@ -38,7 +38,7 @@ const AdopterLogin = ({ logIn }) => {
       if (response) {
         swal(response[0]);
       } else {
-        history.push("/");
+        history.push("/adopters");
       }
     } else {
       swal("Oop, please fill out all required fields");
@@ -71,7 +71,7 @@ const AdopterLogin = ({ logIn }) => {
       </form>
       <div>
         Don't have an account yet? Sign up{" "}
-        <Link to={`/adopter/signup`}>here</Link>
+        <Link to={`/adopters/signup`}>here</Link>
       </div>
     </div>
   );

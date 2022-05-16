@@ -1,6 +1,7 @@
 import React from "react";
 
 const WARNING = "Please fill out the required fields";
+const ERROR = "Oops, somthing's wrong";
 
 function createInput(name, type, value, handleChange, label, required=false) {
   return (
@@ -26,4 +27,4 @@ function checkAllRequiredField(fields) {
 }
 
 
-export { createInput, checkAllRequiredField, WARNING };
+export { createInput, checkAllRequiredField, WARNING, ERROR };

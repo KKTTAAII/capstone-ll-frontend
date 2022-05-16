@@ -38,7 +38,7 @@ const ShelterLogin = ({ logIn }) => {
       if (response) {
         swal(response[0]);
       } else {
-        history.push("/");
+        history.push("/shelters");
       }
     } else {
       swal("Oop, please fill out all required fields");
@@ -71,7 +71,7 @@ const ShelterLogin = ({ logIn }) => {
       </form>
       <div>
         Don't have an account yet? Sign up{" "}
-        <Link to={`/shelter/signup`}>here</Link>
+        <Link to={`/shelters/signup`}>here</Link>
       </div>
     </div>
   );

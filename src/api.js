@@ -58,8 +58,9 @@ class PetlyApi {
    * adopter data = {username}
    * adoptableDog data = {name, city, state, postcode}
    */
-  static async getAll(userType, data = {}) {
-    const res = await this.request(`${userType}/`, data);
+  static async getAll(userType, data = {}, token = this.token) {
+    this.token = token;
+    const res = await this.request(`${userType}`, data);
     return res[userType];
   }
 

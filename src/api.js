@@ -68,7 +68,8 @@ class PetlyApi {
    * shelters params = userId
    * adoptableDogs params = dogId (can be number or string)
    */
-  static async get(type, params) {
+  static async get(type, params, token = this.token) {
+    this.token = token;
     const res = await this.request(`${type}/${params}`);
     if (type === "shelters") {
       return res.shelter;

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
-import UserInfoContext from "./UserInfoContext";
+import UserInfoContext from "../common/UserInfoContext"
 
 /** "Higher-Order Component" for private routes.
  *

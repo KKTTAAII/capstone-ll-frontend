@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import ShelterSignup from "./Login&Signup/ShelterSignup";
-
-import AdopterSignUp from "./Login&Signup/AdopterSignup";
-import ShelterLogin from "./Login&Signup/ShelterLogin";
-import AdopterLogin from "./Login&Signup/AdopterLogin";
-import SheltersList from "./Shelters/SheltersList";
-import NotFound from "./NotFound";
+import ShelterSignup from "../Login&Signup/ShelterSignup";
+import AdopterSignUp from "../Login&Signup/AdopterSignup";
+import ShelterLogin from "../Login&Signup/ShelterLogin";
+import AdopterLogin from "../Login&Signup/AdopterLogin";
+import SheltersList from "../Shelters/SheltersList";
+import ShelterDetails from "../Shelters/ShelterDetails";
+import NotFound from "../common/NotFound";
 import PrivateRoute from "./PrivateRoute";
-import UserInfoContext from "./UserInfoContext";
 
 const Routes = ({ signUp, logIn }) => {
   return (
@@ -29,6 +28,9 @@ const Routes = ({ signUp, logIn }) => {
         </Route>
         <PrivateRoute exact path="/shelters">
           <SheltersList />
+        </PrivateRoute>
+        <PrivateRoute exact path="/shelters/:id">
+          <ShelterDetails/>
         </PrivateRoute>
         <Route>
           <NotFound />

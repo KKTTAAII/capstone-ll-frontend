@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Routes from "./Routes";
+import React, { useEffect } from "react";
+import Routes from "./Routes/Routes";
 import PetlyApi from "./api";
-import UserInfoContext from "./UserInfoContext";
-import { BrowserRouter } from "react-router-dom";
-import { useLocalStorageState } from "./hooks";
+import UserInfoContext from "./common/UserInfoContext";
+import { BrowserRouter, Redirect } from "react-router-dom";
+import { useLocalStorageState } from "./common/hooks";
 
 import jwt_decode from "jwt-decode";
 import swal from "sweetalert";
@@ -43,8 +43,10 @@ const App = () => {
           }
         }
       } catch (err) {
-        swal("Oop, somthing's wrong");
-        throw new Error(err);
+        setUser(null);
+        swal(err[0]);
+        console.log(err);
+        return <Redirect to="/" />;
       }
     }
     getUser();

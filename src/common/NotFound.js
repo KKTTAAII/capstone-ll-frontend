@@ -1,5 +1,5 @@
 import React from "react";
-import ERROR_PIC from "./assets/error-404.png";
+import ERROR_PIC from "../assets/error-404.png";
 import { Link } from "react-router-dom";
 
 function NotFound() {

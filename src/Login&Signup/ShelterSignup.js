@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import swal from "sweetalert";
-import { checkAllRequiredField, createInput, WARNING } from "../helpers";
+import { checkAllRequiredField, createInput, WARNING } from "../common/helpers";
 
 const INITIAL_STATE = {
   username: "",

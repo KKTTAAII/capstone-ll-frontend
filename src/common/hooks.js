@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
 
-function useLocalStorageState(key, defaultValue) {
+const useLocalStorageState = (key, defaultValue) => {
   const [state, setState] = useState(() => {
     try {
       let value = JSON.parse(window.localStorage.getItem(key) || defaultValue);
       return value;
     } catch (e) {
-      window.localStorage.clear()
+      window.localStorage.clear();
       throw new Error(e);
     }
   });
@@ -18,9 +18,9 @@ function useLocalStorageState(key, defaultValue) {
   }, [key, state]);
 
   return [state, setState];
-}
+};
 
-function useFetch(request) {
+const useFetch = request => {
   const [resp, setResp] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
@@ -41,6 +41,14 @@ function useFetch(request) {
   }, []);
 
   return [resp, isLoading, setResp];
-}
+};
 
-export { useLocalStorageState, useFetch };
+const useToggle = initialState => {
+  const [state, setState] = useState(initialState);
+  const toggle = () => {
+    setState(state => !state);
+  };
+  return [state, toggle];
+};
+
+export { useLocalStorageState, useFetch, useToggle };

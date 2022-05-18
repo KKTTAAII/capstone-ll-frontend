@@ -72,12 +72,14 @@ class PetlyApi {
   static async get(type, params, token = this.token) {
     this.token = token;
     const res = await this.request(`${type}/${params}`);
-    if (type === "shelters") {
+    if (type === "shelters" && res.shelter) {
       return res.shelter;
-    } else if (type === "adopters") {
+    } else if (type === "adopters" && res.adopter) {
       return res.adopter;
-    } else if (type === "adoptableDogs") {
+    } else if (type === "adoptableDogs" && res.adoptableDog) {
       return res.adoptableDog;
+    } else {
+      return "No data found";
     }
   }
 

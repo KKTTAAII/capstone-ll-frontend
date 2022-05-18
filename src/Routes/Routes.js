@@ -9,8 +9,11 @@ import SheltersList from "../Shelters/SheltersList";
 import ShelterDetails from "../Shelters/ShelterDetails";
 import NotFound from "../common/NotFound";
 import PrivateRoute from "./PrivateRoute";
+import PrivateShelterRoute from "./PrivateShelterRoute";
+import AdoptableDogDetails from "../AdoptableDogs/AdoptableDogDetails.js";
+import AddDog from "../Shelters/ShelterAddDog";
 
-const Routes = ({ signUp, logIn }) => {
+const Routes = ({ signUp, logIn, addDog }) => {
   return (
     <BrowserRouter>
       <Switch>
@@ -29,8 +32,14 @@ const Routes = ({ signUp, logIn }) => {
         <PrivateRoute exact path="/shelters">
           <SheltersList />
         </PrivateRoute>
-        <PrivateRoute exact path="/shelters/:id">
-          <ShelterDetails/>
+        <PrivateRoute exact path="/shelters/:shelterId">
+          <ShelterDetails />
+        </PrivateRoute>
+        <PrivateShelterRoute exact path="/shelters/add/:shelterId">
+          <AddDog addDog={addDog}/>
+        </PrivateShelterRoute>
+        <PrivateRoute exact path="/adoptableDogs/:dogId">
+          <AdoptableDogDetails />
         </PrivateRoute>
         <Route>
           <NotFound />

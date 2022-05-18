@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import swal from "sweetalert";
-import { checkAllRequiredField, createInput, WARNING } from "../common/helpers";
+import {
+  checkAllRequiredField,
+  createInput,
+  WARNING,
+  createStateOptions,
+  USSTATES,
+} from "../common/helpers";
+import DEFAULT_PIC from "../assets/shelter.jpg";
 
 const INITIAL_STATE = {
   username: "",
@@ -55,6 +62,8 @@ const ShelterSignUp = ({ signUp }) => {
       email,
     ]);
     if (!isInvalid && isAllRequiredFieldFilled) {
+      //I mutate the data, is it okay here?
+      formData.logo = formData.logo === "" ? DEFAULT_PIC : formData.logo;
       let response = await signUp("Shelter", formData);
       //if there is a response, there is an error
       if (response) {
@@ -104,14 +113,15 @@ const ShelterSignUp = ({ signUp }) => {
           "Address"
         )}
         {createInput("city", "text", formData.city, handleChange, "City", true)}
-        {createInput(
-          "state",
-          "text",
-          formData.state,
-          handleChange,
-          "State",
-          true
-        )}
+        <label htmlFor="state">State:</label>
+        <select
+          id="state"
+          name="state"
+          onChange={handleChange}
+          value={formData.state}
+        >
+          {createStateOptions(USSTATES)}
+        </select>
         {createInput(
           "postcode",
           "text",
@@ -129,7 +139,7 @@ const ShelterSignUp = ({ signUp }) => {
         )}
         {createInput(
           "email",
-          "text",
+          "email",
           formData.email,
           handleChange,
           "Email",
@@ -142,13 +152,16 @@ const ShelterSignUp = ({ signUp }) => {
           handleChange,
           "Shelter's Logo"
         )}
-        {createInput(
-          "description",
-          "text",
-          formData.description,
-          handleChange,
-          "Shelter's Mission"
-        )}
+
+        <label>Shelter's Bio:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          rows="5"
+          cols="33"
+        ></textarea>
         {isInvalid && isTouched && <small>{WARNING}</small>}
         <button>Sign up</button>
       </form>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import { createInput, checkAllRequiredField, WARNING } from "../common/helpers";
+import DEFAULT_PIC from "../assets/user.png";
 
 const INITIAL_STATE = {
   username: "",
@@ -34,22 +35,19 @@ const AdopterSignUp = ({ signUp }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     setFormData(INITIAL_STATE);
-    let { username, password, email, privateOutdoors, numOfDogs } = formData;
+    let { username, password, email } = formData;
     const isAllRequiredFieldFilled = checkAllRequiredField([
       username,
       password,
       email,
     ]);
-    if (!isInvalid && isAllRequiredFieldFilled) {
-      //turn string from the form to boolean
-      if (privateOutdoors === "true") {
-        privateOutdoors = true;
-      } else if (privateOutdoors === "false") {
-        privateOutdoors = false;
-      }
-      //turn string to number
-      numOfDogs = +numOfDogs;
 
+    if (!isInvalid && isAllRequiredFieldFilled) {
+      //I mutate the data, is it okay here?
+      formData.picture =
+        formData.picture === "" ? DEFAULT_PIC : formData.picture;
+      //have to turn string into integer to meet jsonSchema
+      formData.numOfDogs = +formData.numOfDogs;
       let response = await signUp("Adopter", formData);
       //if there is a response, there is an error
       if (response) {
@@ -85,7 +83,7 @@ const AdopterSignUp = ({ signUp }) => {
         )}
         {createInput(
           "email",
-          "text",
+          "email",
           formData.email,
           handleChange,
           "Email",
@@ -98,13 +96,16 @@ const AdopterSignUp = ({ signUp }) => {
           handleChange,
           "Profile Picture"
         )}
-        {createInput(
-          "description",
-          "text",
-          formData.description,
-          handleChange,
-          "Adopter's bio"
-        )}
+        
+        <label>Adopter's Bio:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          rows="5"
+          cols="33"
+        ></textarea>
 
         <label htmlFor="privateOutdoors">Private Outdoors:</label>
         <select
@@ -113,8 +114,8 @@ const AdopterSignUp = ({ signUp }) => {
           onChange={handleChange}
           value={formData.privateOutdoors}
         >
-          <option value="false">No</option>
-          <option value="true">Yes</option>
+          <option value="1">No</option>
+          <option value="0">Yes</option>
         </select>
 
         <label htmlFor="numOfDogs">Number of dogs:</label>

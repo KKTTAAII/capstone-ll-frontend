@@ -1,19 +1,19 @@
 import React from "react";
-import "../css/ShelterCard.css"
+import { Link } from "react-router-dom";
+import "../css/ShelterCard.css";
 
-const ShelterCard = ({
-  id,
-  name,
-  city,
-  state,
-  logo,
-}) => {
+const ShelterCard = ({ shelter }) => {
+  const { id, name, city, state, logo } = shelter;
   return (
     <div id={id}>
-      <div>{name}</div>
-      <small>{city}</small>
-      <small>{state}</small>
-      <img src={logo} alt="logo" className="ShelterCard-img"/>
+      <Link to={`/shelters/${id}`}>
+        <div>{name}</div>
+      </Link>
+      <div>
+        <small>{city}</small>
+        <small>{state}</small>
+      </div>
+      <img src={logo} alt="logo" className="ShelterCard-img" />
     </div>
   );
 };

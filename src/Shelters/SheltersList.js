@@ -7,7 +7,7 @@ import {
   createInput,
   createStateOptions,
   ERROR,
-  USStates,
+  USSTATES,
 } from "../common/helpers";
 import ShelterCard from "./ShelterCard";
 import ReactPaginate from "react-paginate";
@@ -27,26 +27,13 @@ const SheltersList = () => {
     PetlyApi.getAll("shelters", {}, token)
   );
   const [pageNumber, setPageNumber] = useState(0);
-
   const sheltersPerPage = 10;
   const pagesVisites = pageNumber * sheltersPerPage;
-
   const displayShelters = shelters
     .slice(pagesVisites, pagesVisites + sheltersPerPage)
     .map(shelter => {
-      const { id, name, city, state, logo } = shelter;
-      return (
-        <ShelterCard
-          key={id}
-          id={id}
-          name={name}
-          city={city}
-          state={state}
-          logo={logo}
-        />
-      );
+      return <ShelterCard shelter={shelter} key={shelter.id}/>;
     });
-
   const pageCount = Math.ceil(shelters.length / sheltersPerPage);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -100,7 +87,7 @@ const SheltersList = () => {
           onChange={handleChange}
           value={searchTerms.state}
         >
-          {createStateOptions(USStates)}
+          {createStateOptions(USSTATES)}
         </select>
 
         {createInput(
@@ -114,6 +101,7 @@ const SheltersList = () => {
       </form>
 
       {displayShelters}
+
       <ReactPaginate
         previousLabel={"Previous"}
         nextLabel={"Next"}

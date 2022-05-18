@@ -80,11 +80,22 @@ const App = () => {
     setToken(null);
     setUser(null);
   };
+
+  const addDog = async (shelterId, data) => {
+    try {
+      const reponse = await PetlyApi.createDog(shelterId, data);
+      return reponse
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
   return (
     <BrowserRouter>
       <UserInfoContext.Provider value={{ user, token }}>
         <div className="App">
-          <Routes signUp={signUp} logIn={logIn} />
+          <Routes signUp={signUp} logIn={logIn} addDog={addDog}/>
         </div>
       </UserInfoContext.Provider>
     </BrowserRouter>

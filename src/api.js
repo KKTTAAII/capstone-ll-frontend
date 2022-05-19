@@ -52,6 +52,18 @@ class PetlyApi {
     return response.token;
   }
 
+  /**Authenticate for both shelters and adopters
+   * userType = Shelter/Adopter
+   */
+  static async authenticate(userType, data) {
+    const response = await this.request(
+      `auth${userType}/authenticate`,
+      data,
+      "post"
+    );
+    return response;
+  }
+
   /*Get all users userType = shelters/adopters/adoptableDogs
    * can filter the search with data
    * shelter data = {name, city, state, postcode}
@@ -146,9 +158,9 @@ class PetlyApi {
   /**Delete an existing dog
    * params = {userId, dogId}
    */
-  static async deleteDog(params) {
+  static async deleteDog(userId, dogId) {
     const res = await this.request(
-      `adoptableDogs/${params.userId}/${params.dogId}`,
+      `adoptableDogs/${userId}/${dogId}`,
       {},
       "delete"
     );

@@ -44,7 +44,7 @@ const App = () => {
         }
       } catch (err) {
         setUser(null);
-        swal(err[0]);
+        swal({ text: err[0], icon: "warning" });
         console.log(err);
         return <Redirect to="/" />;
       }
@@ -84,7 +84,17 @@ const App = () => {
   const addDog = async (shelterId, data) => {
     try {
       const reponse = await PetlyApi.createDog(shelterId, data);
-      return reponse
+      return reponse;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  const removeDog = async (shelterId, dogId) => {
+    try {
+      const response = await PetlyApi.deleteDog(shelterId, dogId);
+      return response;
     } catch (err) {
       console.log(err);
       return err;
@@ -95,7 +105,12 @@ const App = () => {
     <BrowserRouter>
       <UserInfoContext.Provider value={{ user, token }}>
         <div className="App">
-          <Routes signUp={signUp} logIn={logIn} addDog={addDog}/>
+          <Routes
+            signUp={signUp}
+            logIn={logIn}
+            addDog={addDog}
+            removeDog={removeDog}
+          />
         </div>
       </UserInfoContext.Provider>
     </BrowserRouter>

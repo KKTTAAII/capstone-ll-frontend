@@ -20,7 +20,7 @@ const useLocalStorageState = (key, defaultValue) => {
   return [state, setState];
 };
 
-const useFetch = request => {
+const useFetch = (request, dependencies = null) => {
   const [resp, setResp] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
@@ -38,7 +38,7 @@ const useFetch = request => {
       }
     }
     getData();
-  }, []);
+  }, [dependencies]);
 
   return [resp, isLoading, setResp];
 };

@@ -36,13 +36,16 @@ const ShelterLogin = ({ logIn }) => {
       const response = await logIn("Shelter", formData);
       //if there is a response, there is an error
       if (response) {
-        swal(response[0]);
+        swal({ text: response[0], icon: "warning" });
       } else {
         history.push("/shelters");
       }
     } else {
-      swal("Oop, please fill out all required fields");
-      console.log("Oop, please fill out all required fields");
+      swal({
+        text: "Oops, please fill out all required fields",
+        icon: "warning",
+      });
+      console.log("Oops, please fill out all required fields");
     }
   };
 

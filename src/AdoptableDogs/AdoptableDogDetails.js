@@ -36,7 +36,7 @@ const AdoptableDogDetails = () => {
       shelter,
     } = dog;
     return (
-      <div id={id}>
+      <div id={id} key={id}>
         <div>Name: {name}</div>
         <img src={picture} alt={name} />
         <div>

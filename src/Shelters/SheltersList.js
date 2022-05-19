@@ -32,7 +32,7 @@ const SheltersList = () => {
   const displayShelters = shelters
     .slice(pagesVisites, pagesVisites + sheltersPerPage)
     .map(shelter => {
-      return <ShelterCard shelter={shelter} key={shelter.id}/>;
+      return <ShelterCard shelter={shelter} key={shelter.id} />;
     });
   const pageCount = Math.ceil(shelters.length / sheltersPerPage);
   const changePage = ({ selected }) => {
@@ -63,7 +63,7 @@ const SheltersList = () => {
       setSearchTerms(INITIAL_SEARCH);
     } catch (err) {
       console.log(e);
-      swal(ERROR);
+      swal({ text: ERROR, icon: "warning" });
     }
   };
 

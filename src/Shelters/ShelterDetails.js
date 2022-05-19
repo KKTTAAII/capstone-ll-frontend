@@ -74,9 +74,12 @@ const ShelterDetails = () => {
     ]);
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await PetlyApi.contactShelter(formData, shelterId);
-      swal(response);
+      swal({ text: response, icon: "warning" });
     } else {
-      swal("Oop, please fill out all required fields");
+      swal({
+        text: "Oop, please fill out all required fields",
+        icon: "warning",
+      });
       console.log("Oop, please fill out all required fields");
     }
   };
@@ -85,7 +88,7 @@ const ShelterDetails = () => {
     <div id={id}>
       {/* shelter's info section */}
       <section>
-        <img src={logo} className="ShelterDetails-img" alt={name}/>
+        <img src={logo} className="ShelterDetails-img" alt={name} />
         <div>{name}</div>
         <div>
           {address} {city}, {state} {postcode}

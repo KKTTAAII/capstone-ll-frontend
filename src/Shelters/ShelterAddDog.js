@@ -13,14 +13,14 @@ import DEFAULT_PIC from "../assets/dog.png";
 
 const INITIAL_STATE = {
   name: "",
-  breedId: "",
-  gender: "",
-  age: "",
+  breedId: "1",
+  gender: "Female",
+  age: "Baby",
   picture: "",
   description: "",
-  goodWKids: "",
-  goodWDogs: "",
-  goodWCats: "",
+  goodWKids: "0",
+  goodWDogs: "0",
+  goodWCats: "0",
 };
 
 const AddDog = ({ addDog }) => {
@@ -33,7 +33,7 @@ const AddDog = ({ addDog }) => {
 
   //ensure correct shelter adding their dog
   if (+shelterId !== user.id) {
-    swal("Unautorized user");
+    swal({ text: "Unautorized user", icon: "warning" });
     return <Redirect to="/" />;
   }
 
@@ -69,7 +69,10 @@ const AddDog = ({ addDog }) => {
       let response = await addDog(shelterId, formData);
       history.push(`/adoptableDogs/${response.id}`);
     } else {
-      swal("Oop, please fill out all required fields");
+      swal({
+        text: "Oop, please fill out all required fields",
+        icon: "warning",
+      });
       console.log("Oop, please fill out all required fields");
     }
   };
@@ -128,8 +131,8 @@ const AddDog = ({ addDog }) => {
           onChange={handleChange}
           value={formData.goodWDogs}
         >
-          <option value="1">No</option>
-          <option value="0">Yes</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
         </select>
 
         <label htmlFor="goodWCats">Good with cats:</label>
@@ -139,8 +142,8 @@ const AddDog = ({ addDog }) => {
           onChange={handleChange}
           value={formData.goodWCats}
         >
-          <option value="1">No</option>
-          <option value="0">Yes</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
         </select>
 
         <label htmlFor="goodWKids">Good with children:</label>
@@ -150,8 +153,8 @@ const AddDog = ({ addDog }) => {
           onChange={handleChange}
           value={formData.goodWKids}
         >
-          <option value="1">No</option>
-          <option value="0">Yes</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
         </select>
 
         <label>Dog's Bio:</label>

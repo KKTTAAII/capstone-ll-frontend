@@ -46,8 +46,7 @@ const AdopterSignUp = ({ signUp }) => {
       //I mutate the data, is it okay here?
       formData.picture =
         formData.picture === "" ? DEFAULT_PIC : formData.picture;
-      //have to turn string into integer to meet jsonSchema
-      formData.numOfDogs = +formData.numOfDogs;
+  
       let response = await signUp("Adopter", formData);
       //if there is a response, there is an error
       if (response) {
@@ -117,8 +116,8 @@ const AdopterSignUp = ({ signUp }) => {
           onChange={handleChange}
           value={formData.privateOutdoors}
         >
-          <option value="1">No</option>
-          <option value="0">Yes</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
         </select>
 
         <label htmlFor="numOfDogs">Number of dogs:</label>

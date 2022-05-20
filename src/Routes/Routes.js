@@ -16,6 +16,9 @@ import ShelterProfile from "../Shelters/ShelterProfile";
 import RemoveDog from "../Shelters/ShelterRemoveDog";
 import AdoptableDogProfile from "../AdoptableDogs/AdoptableDogProfile";
 import AdoptableDogsList from "../AdoptableDogs/AdoptableDogsList";
+import ShelterResetPassword from "../Shelters/ShelterResetPassword";
+import PrivateAdopterRoute from "../Routes/PrivateAdopterRoute";
+import AdopterProfile from "../Adopters/AdopterProfile";
 
 const Routes = ({ signUp, logIn, addDog, removeDog }) => {
   return (
@@ -33,6 +36,9 @@ const Routes = ({ signUp, logIn, addDog, removeDog }) => {
         <Route exact path="/adopters/login">
           <AdopterLogin logIn={logIn} />
         </Route>
+        <PrivateAdopterRoute exact path="/adopters/profile/:username">
+          <AdopterProfile />
+        </PrivateAdopterRoute>
         <PrivateRoute exact path="/shelters">
           <SheltersList />
         </PrivateRoute>
@@ -47,6 +53,9 @@ const Routes = ({ signUp, logIn, addDog, removeDog }) => {
         </PrivateShelterRoute>
         <PrivateShelterRoute exact path="/shelters/remove/:shelterId">
           <RemoveDog removeDog={removeDog} />
+        </PrivateShelterRoute>
+        <PrivateShelterRoute exact path="/shelters/resetPassword/:shelterId">
+          <ShelterResetPassword />
         </PrivateShelterRoute>
         <PrivateShelterRoute exact path="/adoptableDogs/edit/:dogId/:shelterId">
           <AdoptableDogProfile />

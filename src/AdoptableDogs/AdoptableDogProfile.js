@@ -63,11 +63,6 @@ const AdoptableDogProfile = () => {
       breedId,
     ]);
 
-    //turn into integer to meet jsonschema
-    const breedNum = +breedId;
-    delete formData.breedId;
-    formData.breedId = breedNum;
-
     //we do not update these, so we will delete these we update data
     delete formData.breed;
     delete formData.shelterId;

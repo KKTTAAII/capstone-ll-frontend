@@ -57,10 +57,6 @@ const AddDog = ({ addDog }) => {
       gender,
       age,
     ]);
-    //turn into integer to meet jsonschema
-    const breedNum = +breedId;
-    delete formData.breedId;
-    formData.breedId = breedNum;
 
     //i mutate data here, is it okay?
     formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;

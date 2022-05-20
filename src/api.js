@@ -77,7 +77,7 @@ class PetlyApi {
   }
 
   /**Get individual
-   * adoptesr params = username
+   * adopters params = username
    * shelters params = userId
    * adoptableDogs params = dogId (can be number or string)
    */

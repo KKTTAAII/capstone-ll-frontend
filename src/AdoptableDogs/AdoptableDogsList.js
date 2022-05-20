@@ -77,8 +77,6 @@ const AdoptableDogsList = () => {
     }
   };
 
-  console.log(dogs);
-  console.log(searchTerms);
   return (
     <div>
       {/* Form for shelter search */}

@@ -218,8 +218,9 @@ class PetlyApi {
   /**Get an adopter's favorite dogs
    * params = username
    */
-  static async getFavoriteDog(params) {
-    const res = await this.request(`adopters/favoriteDogs${params}`);
+  static async getFavoriteDog(params, token) {
+    this.token = token;
+    const res = await this.request(`adopters/favoriteDogs/${params}`);
     return res.favoriteDogs;
   }
 }

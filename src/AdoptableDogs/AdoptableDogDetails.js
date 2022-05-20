@@ -6,7 +6,7 @@ import { useFetch } from "../common/hooks";
 import UserInfoContext from "../common/UserInfoContext";
 
 const AdoptableDogDetails = () => {
-  const { token } = useContext(UserInfoContext);
+  const { token, user } = useContext(UserInfoContext);
   const { dogId } = useParams();
   const [dogs, isLoading] = useFetch(
     PetlyApi.get("adoptableDogs", dogId, token)
@@ -37,6 +37,15 @@ const AdoptableDogDetails = () => {
     } = dog;
     return (
       <div id={id} key={id}>
+        {/* show edit button for the correct shelter */}
+        {user.userType === "shelters" && user.id === shelter.id ? (
+          <button>
+            <a href={`/adoptableDogs/edit/${id}/${shelter.id}`}>Edit</a>
+          </button>
+        ) : (
+          ""
+        )}
+
         <div>Name: {name}</div>
         <img src={picture} alt={name} />
         <div>

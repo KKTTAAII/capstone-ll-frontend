@@ -29,7 +29,7 @@ const SheltersList = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const sheltersPerPage = 10;
   const pagesVisites = pageNumber * sheltersPerPage;
-  const displayShelters = shelters
+  const allShelters = shelters
     .slice(pagesVisites, pagesVisites + sheltersPerPage)
     .map(shelter => {
       return <ShelterCard shelter={shelter} key={shelter.id} />;
@@ -100,7 +100,7 @@ const SheltersList = () => {
         <button>Seacrh</button>
       </form>
 
-      {displayShelters}
+      {allShelters}
 
       <ReactPaginate
         previousLabel={"Previous"}

@@ -68,7 +68,7 @@ class PetlyApi {
    * can filter the search with data
    * shelter data = {name, city, state, postcode}
    * adopter data = {username}
-   * adoptableDog data = {name, city, state, postcode}
+   * adoptableDog data = {name, goodWDogs, goodWCats, goodWKids, breedId, age, gender}
    */
   static async getAll(userType, data = {}, token = this.token) {
     this.token = token;

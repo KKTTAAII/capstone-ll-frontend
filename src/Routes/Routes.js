@@ -14,6 +14,8 @@ import AdoptableDogDetails from "../AdoptableDogs/AdoptableDogDetails.js";
 import AddDog from "../Shelters/ShelterAddDog";
 import ShelterProfile from "../Shelters/ShelterProfile";
 import RemoveDog from "../Shelters/ShelterRemoveDog";
+import AdoptableDogProfile from "../AdoptableDogs/AdoptableDogProfile";
+import AdoptableDogsList from "../AdoptableDogs/AdoptableDogsList";
 
 const Routes = ({ signUp, logIn, addDog, removeDog }) => {
   return (
@@ -46,6 +48,12 @@ const Routes = ({ signUp, logIn, addDog, removeDog }) => {
         <PrivateShelterRoute exact path="/shelters/remove/:shelterId">
           <RemoveDog removeDog={removeDog} />
         </PrivateShelterRoute>
+        <PrivateShelterRoute exact path="/adoptableDogs/edit/:dogId/:shelterId">
+          <AdoptableDogProfile />
+        </PrivateShelterRoute>
+        <PrivateRoute exact path="/adoptableDogs">
+          <AdoptableDogsList />
+        </PrivateRoute>
         <PrivateRoute exact path="/adoptableDogs/:dogId">
           <AdoptableDogDetails />
         </PrivateRoute>

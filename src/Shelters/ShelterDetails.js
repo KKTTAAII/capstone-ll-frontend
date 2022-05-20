@@ -72,6 +72,7 @@ const ShelterDetails = () => {
       adopterEmail,
       message,
     ]);
+
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await PetlyApi.contactShelter(formData, shelterId);
       swal({ text: response, icon: "warning" });

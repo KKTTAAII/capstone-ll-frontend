@@ -15,7 +15,7 @@ const RemoveDog = ({ removeDog }) => {
   );
   let dogs;
   //ensure correct shelter adding their dog
-  if (+shelterId !== user.id) {
+  if (+shelterId !== user.id ) {
     swal({ text: "Unautorized user", icon: "warning" });
     return <Redirect to="/" />;
   }

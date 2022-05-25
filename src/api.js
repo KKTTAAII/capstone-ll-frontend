@@ -199,7 +199,11 @@ class PetlyApi {
    * params = adoptableDogId
    */
   static async favoriteDog(params) {
-    const res = await this.request(`adopters/favoriteDog/${params}`, {}, "post");
+    const res = await this.request(
+      `adopters/favoriteDog/${params}`,
+      {},
+      "post"
+    );
     return res.favDog;
   }
 

@@ -61,13 +61,11 @@ const AdoptableDogsList = () => {
   }
 
   if (user.userType === "adopters" && !favoriteDogs) {
-    {
-      return (
-        <div className="loading">
-          <div>LOADING ...</div>
-        </div>
-      );
-    }
+    return (
+      <div className="loading">
+        <div>LOADING ...</div>
+      </div>
+    );
   }
 
   const handleChange = e => {

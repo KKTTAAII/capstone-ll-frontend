@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Routes from "./Routes/Routes";
 import PetlyApi from "./api";
 import UserInfoContext from "./common/UserInfoContext";
@@ -11,6 +11,10 @@ import swal from "sweetalert";
 const App = () => {
   const [token, setToken] = useLocalStorageState("token", null);
   const [user, setUser] = useLocalStorageState("user", null);
+  const [favoriteDogs, setFavoriteDogs] = useState(null);
+  const [isFavoriteDogsLoading, setIsFavoriteDogsLoading] = useState(true);
+  // stop memory leak in useEffect hook react - does not work? why?
+  const unmounted = useRef(false);
 
   useEffect(() => {
     async function getUser() {
@@ -44,13 +48,35 @@ const App = () => {
         }
       } catch (err) {
         setUser(null);
-        swal({ text: err[0], icon: "warning" });
+        setToken(null);
         console.log(err);
         return <Redirect to="/" />;
       }
     }
     getUser();
-  }, [token]);
+    //when the user is adopter, we want to get their list of favorite dogs so we can pass it to the Adoptable dog card
+    if (user && user.userType === "adopters") {
+      async function getFavoriteDogs() {
+        try {
+          const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+          setFavoriteDogs(favDogs);
+          setIsFavoriteDogsLoading(false);
+        } catch (err) {
+          console.log(err);
+          swal({ text: err[0], icon: "warning" });
+          return <Redirect to="/" />;
+        }
+      }
+      getFavoriteDogs();
+      // stop memory leak in useEffect hook react - does not work! why?
+      return () => {
+        unmounted.current = true;
+      };
+    } else {
+      setIsFavoriteDogsLoading(false);
+      return;
+    }
+  }, [token, favoriteDogs ? favoriteDogs.length : ""]);
 
   const signUp = async (userType, data) => {
     try {
@@ -103,7 +129,15 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <UserInfoContext.Provider value={{ user, token }}>
+      <UserInfoContext.Provider
+        value={{
+          user,
+          token,
+          favoriteDogs,
+          setFavoriteDogs,
+          isFavoriteDogsLoading,
+        }}
+      >
         <div className="App">
           <Routes
             signUp={signUp}

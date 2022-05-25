@@ -24,7 +24,7 @@ const INITIAL_SEARCH = {
 };
 
 const AdoptableDogsList = () => {
-  const { token } = useContext(UserInfoContext);
+  const { token, favoriteDogs, user } = useContext(UserInfoContext);
   const [searchTerms, setSearchTerms] = useState(INITIAL_SEARCH);
   const [dogs, isLoading, setDogs] = useFetch(
     PetlyApi.getAll("adoptableDogs", {}, token)
@@ -33,15 +33,24 @@ const AdoptableDogsList = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const dogsPerPage = 10;
   const pagesVisites = pageNumber * dogsPerPage;
-  const allDogs = dogs
-    .slice(pagesVisites, pagesVisites + dogsPerPage)
-    .map(dog => {
-      return <AdoptableDogCard dog={dog} key={dog.id} />;
-    });
   const pageCount = Math.ceil(dogs.length / dogsPerPage);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+  const favoriteDogsIds = favoriteDogs ? favoriteDogs.map(dog => dog.id) : [];
+  const allDogs = dogs
+    .slice(pagesVisites, pagesVisites + dogsPerPage)
+    .map(dog => {
+      return (
+        <AdoptableDogCard
+          dog={dog}
+          key={dog.id}
+          isFavoriteDog={
+            user.userType === "adopters" ? favoriteDogsIds.includes(dog.id) : ""
+          }
+        />
+      );
+    });
 
   if (isLoading) {
     return (
@@ -49,6 +58,16 @@ const AdoptableDogsList = () => {
         <div>LOADING ...</div>
       </div>
     );
+  }
+
+  if (user.userType === "adopters" && !favoriteDogs) {
+    {
+      return (
+        <div className="loading">
+          <div>LOADING ...</div>
+        </div>
+      );
+    }
   }
 
   const handleChange = e => {

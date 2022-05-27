@@ -14,11 +14,7 @@ const AdopterProfile = () => {
   const [adopter, isLoading] = useFetch(
     PetlyApi.get("adopters", username, token)
   );
-  //we want to track if the user can confirm the password so we add password property
-  adopter.password = "";
-  //we do not update this so we delete it
-  delete adopter.favDogs;
-  const [formData, setFormData] = useState(adopter);
+  const [formData, setFormData] = useState(JSON.parse(JSON.stringify(adopter)));
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
 
@@ -26,6 +22,11 @@ const AdopterProfile = () => {
   useEffect(() => {
     setFormData(adopter);
   }, [adopter]);
+
+  //we want to track if the user can confirm the password so we add password property
+  formData.password = "";
+  //we do not update this so we delete it
+  delete formData.favDogs;
 
   //ensure correct shelter adding their dog
   if (username !== user.username) {

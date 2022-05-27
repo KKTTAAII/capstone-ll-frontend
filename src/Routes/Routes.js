@@ -19,7 +19,7 @@ import AdoptableDogsList from "../AdoptableDogs/AdoptableDogsList";
 import ShelterResetPassword from "../Shelters/ShelterResetPassword";
 import PrivateAdopterRoute from "../Routes/PrivateAdopterRoute";
 import AdopterProfile from "../Adopters/AdopterProfile";
-import AdopterFavoriteDogs from "../Adopters/AdoptersFavoriteDogs";
+import AdopterFavoriteDogs from "../Adopters/AdopterFavoriteDogs";
 import AdopterResetPassword from "../Adopters/AdopterResetPassword";
 import NavBar from "../NavBars/NavBar";
 import MainPage from "../MainPage";

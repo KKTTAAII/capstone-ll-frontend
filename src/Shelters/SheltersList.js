@@ -113,7 +113,7 @@ const SheltersList = () => {
           "ShelterList-label",
           "ShelterList-input"
         )}
-        <button className="ShelterList-button">Seacrh</button>
+        <button className="ShelterList-button">Search</button>
       </form>
 
       <div className="ShelterList-list">{allShelters}</div>

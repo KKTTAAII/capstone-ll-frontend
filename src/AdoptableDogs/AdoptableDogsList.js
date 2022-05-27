@@ -32,24 +32,6 @@ const AdoptableDogsList = () => {
     PetlyApi.getAll("adoptableDogs", {}, token)
   );
 
-  // const [favoriteDogs, setFavoriteDogs] = useState([])
-
-  // // //useEffect(()=> {
-  //   if (user && user.userType === "adopters") {
-  //     async function getFavoriteDogs() {
-  //       try {
-  //         const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
-  //         console.log(favDogs)
-  //         setFavoriteDogs(favDogs);
-  //       } catch (err) {
-  //         console.log(err);
-  //         swal({ text: err[0], icon: "warning" });
-  //         return <Redirect to="/" />;
-  //       }
-  //     }
-  //     getFavoriteDogs();
-  // // }, [favoriteDogs.length])
-
   const [pageNumber, setPageNumber] = useState(0);
   const dogsPerPage = 10;
   const pagesVisites = pageNumber * dogsPerPage;
@@ -91,7 +73,6 @@ const AdoptableDogsList = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     setSearchTerms(INITIAL_SEARCH);
-    console.log(INITIAL_SEARCH);
     try {
       const response = await PetlyApi.getAll(
         "adoptableDogs",
@@ -129,7 +110,7 @@ const AdoptableDogsList = () => {
           name="breedId"
           onChange={handleChange}
           value={searchTerms.breedId}
-          className="AdoptableDogList-select"
+          className="AdoptableDogList-select breed"
         >
           {createBreedOptions(DOGBREEDS)}
         </select>
@@ -206,7 +187,7 @@ const AdoptableDogsList = () => {
           <option value="1">Yes</option>
         </select>
 
-        <button className="AdoptableDogList-button">Seacrh</button>
+        <button className="AdoptableDogList-button">Search</button>
       </form>
 
       <div className="AdoptableDogList-list">{allDogs}</div>

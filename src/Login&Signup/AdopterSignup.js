@@ -54,7 +54,7 @@ const AdopterSignUp = ({ signUp }) => {
       if (response) {
         swal({ text: response[0], icon: "warning" });
       } else {
-        history.push("/adopters");
+        history.push("/adoptableDogs");
       }
     } else {
       swal({

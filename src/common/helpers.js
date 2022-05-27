@@ -1,4 +1,7 @@
 import React from "react";
+import jwt_decode from "jwt-decode";
+import swal from "sweetalert";
+import PetlyApi from "../api";
 
 const WARNING = "Please fill out the required fields";
 const ERROR = "Oops, somthing's wrong";
@@ -406,7 +409,61 @@ const convertToYesNo = boolean => {
   }
 };
 
+const getUser = async (setToken, setUser, token) => {
+  try {
+    //check first if there is token in localStorage
+    if (token) {
+      //decode the token
+      const tokenInfo = jwt_decode(token);
+      //check the userType on token because we have two types: adopters and shelters
+      if (tokenInfo.userType === "shelters") {
+        const user = await PetlyApi.get(
+          tokenInfo.userType,
+          tokenInfo.id,
+          token
+        );
+        //check if we have this user in db, if not, token may expire or no that user
+        if (user) {
+          setUser(tokenInfo);
+        }
+      } else if (tokenInfo.userType === "adopters") {
+        const user = await PetlyApi.get(
+          tokenInfo.userType,
+          tokenInfo.username,
+          token
+        );
+        //check if we have this user in db, if not, token may expire or no that user
+        if (user) {
+          setUser(tokenInfo);
+        }
+      }
+    }
+  } catch (err) {
+    setUser(null);
+    setToken(null);
+    console.log(err);
+  }
+};
+
+const getFavoriteDogs = async (
+  user,
+  setFavoriteDogs,
+  setIsFavoriteDogsLoading,
+  token
+) => {
+  try {
+    const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+    setFavoriteDogs(favDogs);
+    setIsFavoriteDogsLoading(false);
+  } catch (err) {
+    console.log(err);
+    swal({ text: err[0], icon: "warning" });
+  }
+};
+
 export {
+  getFavoriteDogs,
+  getUser,
   createInput,
   checkAllRequiredField,
   WARNING,

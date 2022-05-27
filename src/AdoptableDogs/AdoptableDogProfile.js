@@ -62,16 +62,18 @@ const AdoptableDogProfile = () => {
     ]);
 
     //we do not update these, so we will delete these we update data
-    delete formData.breed;
-    delete formData.shelterId;
-    delete formData.shelter;
+    let copiedFormData = JSON.parse(JSON.stringify(formData));
+    delete copiedFormData.breed;
+    delete copiedFormData.shelterId;
+    delete copiedFormData.shelter;
 
     //i mutate data here, is it okay?
-    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
+    copiedFormData.picture =
+      copiedFormData.picture === "" ? DEFAULT_PIC : copiedFormData.picture;
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
-        const response = await PetlyApi.updateDog(formData, {
+        const response = await PetlyApi.updateDog(copiedFormData, {
           userId: shelterId,
           dogId: dogId,
         });
@@ -98,7 +100,11 @@ const AdoptableDogProfile = () => {
   return (
     <div className="AdoptableDogProfile-container">
       <div className="AdoptableDogProfile-header">Update {formData.name}</div>
-      <img alt={formData.name} src={formData.picture} className="AdoptabledogProfile-img"/>
+      <img
+        alt={formData.name}
+        src={formData.picture}
+        className="AdoptabledogProfile-img"
+      />
       <form onSubmit={handleSubmit} className="AdoptableDogProfile-form">
         {createInput(
           "name",
@@ -231,7 +237,9 @@ const AdoptableDogProfile = () => {
           rows="5"
           cols="50"
         ></textarea>
-        {isInvalid && isTouched && <small className="AdoptableDogProfile-warning">{WARNING}</small>}
+        {isInvalid && isTouched && (
+          <small className="AdoptableDogProfile-warning">{WARNING}</small>
+        )}
         <button className="AdoptableDogProfile-button">Edit</button>
       </form>
     </div>

@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import Routes from "./Routes/Routes";
 import PetlyApi from "./api";
 import UserInfoContext from "./common/UserInfoContext";
-import { BrowserRouter, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { useLocalStorageState } from "./common/hooks";
-
+import { getUser, getFavoriteDogs } from "./common/helpers";
 import jwt_decode from "jwt-decode";
-import swal from "sweetalert";
+
 
 const App = () => {
   const [token, setToken] = useLocalStorageState("token", null);
@@ -17,65 +17,14 @@ const App = () => {
   const unmounted = useRef(false);
 
   useEffect(() => {
-    async function getUser() {
-      try {
-        //check first if there is token in localStorage
-        if (token) {
-          //decode the token
-          const tokenInfo = jwt_decode(token);
-          //check the userType on token because we have two types: adopters and shelters
-          if (tokenInfo.userType === "shelters") {
-            const user = await PetlyApi.get(
-              tokenInfo.userType,
-              tokenInfo.id,
-              token
-            );
-            //check if we have this user in db, if not, token may expire or no that user
-            if (user) {
-              setUser(tokenInfo);
-            }
-          } else if (tokenInfo.userType === "adopters") {
-            const user = await PetlyApi.get(
-              tokenInfo.userType,
-              tokenInfo.username,
-              token
-            );
-            //check if we have this user in db, if not, token may expire or no that user
-            if (user) {
-              setUser(tokenInfo);
-            }
-          }
-        }
-      } catch (err) {
-        setUser(null);
-        setToken(null);
-        console.log(err);
-        return <Redirect to="/" />;
-      }
-    }
-    getUser();
+    getUser(setToken, setUser, token);
     //when the user is adopter, we want to get their list of favorite dogs so we can pass it to the Adoptable dog card
     if (user && user.userType === "adopters") {
-      async function getFavoriteDogs() {
-        try {
-          const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
-          console.log(favDogs)
-          setFavoriteDogs(favDogs);
-          setIsFavoriteDogsLoading(false);
-        } catch (err) {
-          console.log(err);
-          swal({ text: err[0], icon: "warning" });
-          return <Redirect to="/" />;
-        }
-      }
-      getFavoriteDogs();
+      getFavoriteDogs(user, setFavoriteDogs, setIsFavoriteDogsLoading, token);
       // stop memory leak in useEffect hook react - does not work! why?
       return () => {
         unmounted.current = true;
       };
-    } else {
-      setIsFavoriteDogsLoading(false);
-      return;
     }
   }, [token, favoriteDogs ? favoriteDogs.length : ""]);
 

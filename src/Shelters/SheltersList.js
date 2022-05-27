@@ -12,6 +12,8 @@ import {
 import ShelterCard from "./ShelterCard";
 import ReactPaginate from "react-paginate";
 import "../css/Pagination.css";
+import "../css/ShelterList.css";
+import Loading from "../common/Loading";
 
 const INITIAL_SEARCH = {
   name: "",
@@ -40,11 +42,7 @@ const SheltersList = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleChange = e => {
@@ -68,24 +66,39 @@ const SheltersList = () => {
   };
 
   return (
-    <div>
+    <div className="ShelterList-container">
       {/* Form for shelter search */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="ShelterList-form">
         {createInput(
           "name",
           "text",
           searchTerms.name,
           handleChange,
-          "Shelter Name"
+          "Shelter Name",
+          false,
+          "ShelterList-label",
+          "ShelterList-input"
         )}
-        {createInput("city", "text", searchTerms.city, handleChange, "City")}
+        {createInput(
+          "city",
+          "text",
+          searchTerms.city,
+          handleChange,
+          "City",
+          false,
+          "ShelterList-label",
+          "ShelterList-input"
+        )}
 
-        <label htmlFor="state">State:</label>
+        <label htmlFor="state" className="ShelterList-label">
+          State:
+        </label>
         <select
           id="state"
           name="state"
           onChange={handleChange}
           value={searchTerms.state}
+          className="ShelterList-select"
         >
           {createStateOptions(USSTATES)}
         </select>
@@ -95,12 +108,15 @@ const SheltersList = () => {
           "text",
           searchTerms.postcode,
           handleChange,
-          "Zip Code"
+          "Zip Code",
+          false,
+          "ShelterList-label",
+          "ShelterList-input"
         )}
-        <button>Seacrh</button>
+        <button className="ShelterList-button">Seacrh</button>
       </form>
 
-      {allShelters}
+      <div className="ShelterList-list">{allShelters}</div>
 
       <ReactPaginate
         previousLabel={"Previous"}

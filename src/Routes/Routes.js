@@ -21,11 +21,17 @@ import PrivateAdopterRoute from "../Routes/PrivateAdopterRoute";
 import AdopterProfile from "../Adopters/AdopterProfile";
 import AdopterFavoriteDogs from "../Adopters/AdoptersFavoriteDogs";
 import AdopterResetPassword from "../Adopters/AdopterResetPassword";
+import NavBar from "../NavBars/NavBar";
+import MainPage from "../MainPage";
 
-const Routes = ({ signUp, logIn, addDog, removeDog }) => {
+const Routes = ({ signUp, logIn, addDog, removeDog, logOut }) => {
   return (
     <BrowserRouter>
+      <NavBar logOut={logOut} />
       <Switch>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
         <Route exact path="/shelters/signup">
           <ShelterSignup signUp={signUp} />
         </Route>

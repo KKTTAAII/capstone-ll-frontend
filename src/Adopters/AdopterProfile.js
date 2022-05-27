@@ -5,6 +5,8 @@ import { useFetch } from "../common/hooks";
 import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import { checkAllRequiredField, createInput, WARNING } from "../common/helpers";
+import "../css/AdopterProfile.css";
+import Loading from "../common/Loading";
 
 const AdopterProfile = () => {
   const { username } = useParams();
@@ -32,11 +34,7 @@ const AdopterProfile = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleChange = e => {
@@ -78,95 +76,148 @@ const AdopterProfile = () => {
   };
 
   return (
-    <div>
-      <div>Update Profile {username}</div>
-      <form onSubmit={handleSubmit}>
-        {createInput(
-          "email",
-          "email",
-          //solution to error A component is changing an uncontrolled input of type text to be controlled.
-          formData.email || "",
-          handleChange,
-          "Email",
-          true
-        )}
-        {createInput(
-          "picture",
-          "text",
-          formData.picture || "",
-          handleChange,
-          "Profile Picture"
-        )}
+    <div className="AdopterProfile-container">
+      <div className="AdopterProfile-imgContainer">
+        <img
+          alt={adopter.username}
+          src={adopter.picture}
+          className="AdopterProfile-img"
+        />
+        <small className="AdopterProfile-caption">{adopter.username}</small>
+      </div>
+      <div>
+        <div className="AdopterProfile-header">
+          Update Profile {username}
+          <a
+            href={`/adopters/resetPassword/${adopter.username}`}
+            className="ShelterProfile-resetPassword"
+          >
+            Reset Password
+          </a>
+        </div>
 
-        <label>Adopter's Bio:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description || ""}
-          onChange={handleChange}
-          rows="5"
-          cols="33"
-        ></textarea>
+        <form onSubmit={handleSubmit} className="AdopterProfile-form">
+          {createInput(
+            "email",
+            "email",
+            //solution to error A component is changing an uncontrolled input of type text to be controlled.
+            formData.email || "",
+            handleChange,
+            "Email",
+            true,
+            "AdopterProfile-label",
+            "AdopterProfile-input"
+          )}
+          {createInput(
+            "picture",
+            "text",
+            formData.picture || "",
+            handleChange,
+            "Profile Picture",
+            false,
+            "AdopterProfile-label",
+            "AdopterProfile-input"
+          )}
 
-        <label htmlFor="privateOutdoors">Private Outdoors:</label>
-        <select
-          name="privateOutdoors"
-          id="privateOutdoors"
-          onChange={handleChange}
-          value={formData.privateOutdoors ? "1" : "0" || ""}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label htmlFor="numOfDogs" className="AdopterProfile-label">
+            Number of dogs:
+          </label>
+          <input
+            onChange={handleChange}
+            type="number"
+            id="numOfDogs"
+            name="numOfDogs"
+            min="0"
+            max="20"
+            value={formData.numOfDogs || ""}
+            className="AdopterProfile-numInput"
+          ></input>
 
-        <label htmlFor="numOfDogs">Number of dogs:</label>
-        <input
-          onChange={handleChange}
-          type="number"
-          id="numOfDogs"
-          name="numOfDogs"
-          min="0"
-          max="20"
-          value={formData.numOfDogs || ""}
-        ></input>
+          <div className="AdopterProfile-about">
+            <label
+              htmlFor="privateOutdoors"
+              className="AdopterProfile-label privateOutdoors"
+            >
+              Private Outdoors:
+            </label>
+            <select
+              name="privateOutdoors"
+              id="privateOutdoors"
+              onChange={handleChange}
+              value={formData.privateOutdoors ? "1" : "0" || ""}
+              className="AdopterProfile-select"
+            >
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
 
-        <label htmlFor="preferredGender">Preferred Gender:</label>
-        <select
-          name="preferredGender"
-          id="preferredGender"
-          onChange={handleChange}
-          value={formData.preferredGender || ""}
-        >
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-        </select>
+            <label
+              htmlFor="preferredGender"
+              className="AdopterProfile-label gender"
+            >
+              Preferred Gender:
+            </label>
+            <select
+              name="preferredGender"
+              id="preferredGender"
+              onChange={handleChange}
+              value={formData.preferredGender || ""}
+              className="AdopterProfile-select"
+            >
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+            </select>
 
-        <label htmlFor="preferredAge">Preferred Age:</label>
-        <select
-          name="preferredAge"
-          id="preferredAge"
-          onChange={handleChange}
-          value={formData.preferredAge || ""}
-        >
-          <option value="Baby">Baby</option>
-          <option value="Young">Young</option>
-          <option value="Adult">Adult</option>
-          <option value="Senior">Senior</option>
-        </select>
+            <label
+              htmlFor="preferredAge"
+              className="AdopterProfile-label preferredAge"
+            >
+              Preferred Age:
+            </label>
+            <select
+              name="preferredAge"
+              id="preferredAge"
+              onChange={handleChange}
+              value={formData.preferredAge || ""}
+              className="AdopterProfile-select"
+            >
+              <option value="Baby">Baby</option>
+              <option value="Young">Young</option>
+              <option value="Adult">Adult</option>
+              <option value="Senior">Senior</option>
+            </select>
+          </div>
 
-        <div>Please confirm your password to update the profile</div>
-        {createInput(
-          "password",
-          "password",
-          formData.password || "",
-          handleChange,
-          "Password",
-          true
-        )}
+          <label className="AdopterProfile-label">Adopter's Bio:</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description || ""}
+            onChange={handleChange}
+            rows="5"
+            cols="45"
+          ></textarea>
 
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Update</button>
-      </form>
+          <div className="AdopterProfile-passwordConfirm">
+            Please confirm your password to update the profile
+          </div>
+          {createInput(
+            "password",
+            "password",
+            formData.password || "",
+            handleChange,
+            "Password",
+            true,
+            "AdopterProfile-label",
+            "AdopterProfile-input"
+          )}
+
+          {isInvalid && isTouched && (
+            <small className="AdopterProfile-warning">{WARNING}</small>
+          )}
+          <button className="AdopterProfile-button">Update</button>
+        </form>
+      </div>
     </div>
   );
 };

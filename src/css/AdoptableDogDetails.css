@@ -1,0 +1,68 @@
+.AdoptableDogDetails-container {
+    position: relative;
+    margin-top: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.AdoptableDogDetails-name {
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 15px;
+}
+
+.AdoptableDogDetails-img {
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+    border: solid 2px rgb(242, 242, 242);
+}
+
+.AdoptableDogDetails-infoContainer {
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    justify-content: center;
+}
+
+.item {
+    margin: 10px;
+    width: 100px;
+}
+
+.story {
+    font-size: 1.5rem;
+}
+
+.back-to-link {
+    margin: 50px;
+}
+
+.link {
+    text-decoration: none;
+    color: rgb(226, 129, 148);
+}
+
+.description {
+    width: 300px;
+}
+
+.edit-button {
+    border-style: none;
+    background-color: transparent;
+    position: absolute;
+    top: 90px;
+    left: 625px;
+}

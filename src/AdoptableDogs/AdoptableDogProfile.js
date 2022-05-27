@@ -12,6 +12,8 @@ import {
   DOGBREEDS,
 } from "../common/helpers";
 import DEFAULT_PIC from "../assets/dog.png";
+import Loading from "../common/Loading";
+import "../css/AdoptableDogProfile.css";
 
 const AdoptableDogProfile = () => {
   const { shelterId, dogId } = useParams();
@@ -36,11 +38,7 @@ const AdoptableDogProfile = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleChange = e => {
@@ -78,7 +76,6 @@ const AdoptableDogProfile = () => {
           dogId: dogId,
         });
         setFormData(response);
-        console.log(response);
         swal({ text: "Dog profile was updated", icon: "success" });
       } catch (err) {
         swal({ text: err[0], icon: "warning" });
@@ -99,96 +96,143 @@ const AdoptableDogProfile = () => {
   }
 
   return (
-    <div>
-      <div>Update {formData.name}</div>
-      <form onSubmit={handleSubmit}>
-        {createInput("name", "text", formData.name, handleChange, "Name", true)}
+    <div className="AdoptableDogProfile-container">
+      <div className="AdoptableDogProfile-header">Update {formData.name}</div>
+      <img alt={formData.name} src={formData.picture} className="AdoptabledogProfile-img"/>
+      <form onSubmit={handleSubmit} className="AdoptableDogProfile-form">
+        {createInput(
+          "name",
+          "text",
+          formData.name,
+          handleChange,
+          "Name",
+          true,
+          "AdoptableDogProfile-label",
+          "AdoptableDogProfile-input"
+        )}
         {createInput(
           "picture",
           "text",
           formData.picture,
           handleChange,
-          "Picture"
+          "Picture",
+          false,
+          "AdoptableDogProfile-label",
+          "AdoptableDogProfile-input"
         )}
 
-        <label htmlFor="breedId">Breed:</label>
+        <label htmlFor="breedId" className="AdoptableDogProfile-label">
+          Breed:
+        </label>
         <select
           id="breedId"
           name="breedId"
           onChange={handleChange}
           value={formData.breedId}
+          className="AdoptableDogProfile-select"
         >
           {createBreedOptions(DOGBREEDS)}
         </select>
 
-        <label htmlFor="gender">Gender:</label>
-        <select
-          name="gender"
-          id="gender"
-          onChange={handleChange}
-          value={formData.gender}
-        >
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-        </select>
+        <div className="AdoptableDogProfile-form-identity">
+          <label htmlFor="gender" className="AdoptableDogProfile-label select ">
+            Gender:
+          </label>
+          <select
+            name="gender"
+            id="gender"
+            onChange={handleChange}
+            value={formData.gender}
+            className="AdoptableDogProfile-select"
+          >
+            <option
+              value="Female"
+              className="AdoptableDogProfile-label select "
+            >
+              Female
+            </option>
+            <option value="Male">Male</option>
+          </select>
 
-        <label htmlFor="age">Age:</label>
-        <select
-          name="age"
-          id="age"
-          onChange={handleChange}
-          value={formData.age}
-        >
-          <option value="Baby">Baby</option>
-          <option value="Young">Young</option>
-          <option value="Adult">Adult</option>
-          <option value="Senior">Senior</option>
-        </select>
+          <label htmlFor="age" className="AdoptableDogProfile-label select age">
+            Age:
+          </label>
+          <select
+            name="age"
+            id="age"
+            onChange={handleChange}
+            value={formData.age}
+            className="AdoptableDogProfile-select"
+          >
+            <option value="Baby">Baby</option>
+            <option value="Young">Young</option>
+            <option value="Adult">Adult</option>
+            <option value="Senior">Senior</option>
+          </select>
 
-        <label htmlFor="goodWDogs">Good with other dogs:</label>
-        <select
-          name="goodWDogs"
-          id="goodWDogs"
-          onChange={handleChange}
-          value={formData.goodWDogs ? "1" : "0"}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label
+            htmlFor="goodWDogs"
+            className="AdoptableDogProfile-label select "
+          >
+            Good with other dogs:
+          </label>
+          <select
+            name="goodWDogs"
+            id="goodWDogs"
+            onChange={handleChange}
+            value={formData.goodWDogs ? "1" : "0"}
+            className="AdoptableDogProfile-select"
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <label htmlFor="goodWCats">Good with cats:</label>
-        <select
-          name="goodWCats"
-          id="goodWCats"
-          onChange={handleChange}
-          value={formData.goodWCats ? "1" : "0"}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label
+            htmlFor="goodWCats"
+            className="AdoptableDogProfile-label select "
+          >
+            Good with cats:
+          </label>
+          <select
+            name="goodWCats"
+            id="goodWCats"
+            onChange={handleChange}
+            value={formData.goodWCats ? "1" : "0"}
+            className="AdoptableDogProfile-select"
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <label htmlFor="goodWKids">Good with children:</label>
-        <select
-          name="goodWKids"
-          id="goodWKids"
-          onChange={handleChange}
-          value={formData.goodWKids ? "1" : "0"}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label
+            htmlFor="goodWKids"
+            className="AdoptableDogProfile-label select "
+          >
+            Good with children:
+          </label>
+          <select
+            name="goodWKids"
+            id="goodWKids"
+            onChange={handleChange}
+            value={formData.goodWKids ? "1" : "0"}
+            className="AdoptableDogProfile-select"
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
+        </div>
 
-        <label>Dog's Bio:</label>
+        <label className="AdoptableDogProfile-label">Dog's Bio:</label>
         <textarea
           id="description"
           name="description"
           value={formData.description}
           onChange={handleChange}
           rows="5"
-          cols="33"
+          cols="50"
         ></textarea>
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Edit</button>
+        {isInvalid && isTouched && <small className="AdoptableDogProfile-warning">{WARNING}</small>}
+        <button className="AdoptableDogProfile-button">Edit</button>
       </form>
     </div>
   );

@@ -1,0 +1,72 @@
+.ShelterLogin-container {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.ShelterLogin-header {
+    font-size: 2em;
+    margin: 20px;
+}
+
+.ShelterLogin-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.ShelterLogin-label {
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.ShelterLogin-input {
+    width: 400px;
+    background-color: transparent;
+    border: none;
+    color: black;
+    outline: none;
+    border-bottom: 1px solid #000000;
+    font-size: 1em;
+    font-weight: 300;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ShelterLogin-input:focus {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
+.ShelterLogin-warning {
+    font-size: x-small;
+    color: red;
+    margin: 10px;
+    font-weight: 400;
+}
+
+.ShelterLogin-button {
+    border-radius: 10px;
+    border-style: none;
+    background-color: white;
+    height: 40px;
+    width: 70px;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.ShelterLogin-button:hover {
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+.ShelterLogin-reminder {
+    margin-top: 20px;
+}
+
+.ShelterLogin-signuplink {
+    text-decoration: none;
+    color: rgb(226, 129, 148);
+}

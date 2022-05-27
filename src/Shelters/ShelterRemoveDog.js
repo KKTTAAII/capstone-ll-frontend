@@ -5,27 +5,27 @@ import { useParams, Redirect } from "react-router-dom";
 import swal from "sweetalert";
 import UserInfoContext from "../common/UserInfoContext";
 import AdoptableDogCard from "../AdoptableDogs/AdoptableDogCard";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../css/ShelterRemoveDog.css";
+import Loading from "../common/Loading";
 
 const RemoveDog = ({ removeDog }) => {
   const { shelterId } = useParams();
   const { user, token } = useContext(UserInfoContext);
   const [shelter, isLoading, setShelter] = useFetch(
     PetlyApi.get("shelters", shelterId, token),
-    !isLoading && shelter ? shelter.adoptableDogs.length : null
+    !isLoading && shelter ? [shelter.adoptableDogs.length] : []
   );
   let dogs;
   //ensure correct shelter adding their dog
-  if (+shelterId !== user.id ) {
+  if (+shelterId !== user.id) {
     swal({ text: "Unautorized user", icon: "warning" });
     return <Redirect to="/" />;
   }
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const { adoptableDogs } = shelter;
@@ -50,18 +50,23 @@ const RemoveDog = ({ removeDog }) => {
   } else {
     dogs = adoptableDogs.map(dog => {
       return (
-        <div key={dog.id}>
+        <div key={dog.id} className="ShelterRemoveDog-dogContainer">
           <AdoptableDogCard dog={dog} />
-          <button onClick={e => handleClick(e, dog.id)}>Delete</button>
+          <button
+            onClick={e => handleClick(e, dog.id)}
+            className="ShelterRemoveDog-deleteButton"
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+          </button>
         </div>
       );
     });
   }
 
   return (
-    <div>
-      <div>All dogs at the shelter:</div>
-      {dogs}
+    <div className="ShelterRemoveDog-container">
+      <div className="ShelterRemoveDog-header">All dogs at the shelter</div>
+      <div className="ShelterRemoveDog-list">{dogs}</div>
     </div>
   );
 };

@@ -11,6 +11,8 @@ import {
   createStateOptions,
   WARNING,
 } from "../common/helpers";
+import "../css/ShelterProfile.css";
+import Loading from "../common/Loading";
 
 const ShelterProfile = () => {
   const { shelterId } = useParams();
@@ -18,7 +20,7 @@ const ShelterProfile = () => {
   const [shelter, isLoading] = useFetch(
     PetlyApi.get("shelters", shelterId, token)
   );
-  //No need to include this property with the formData  
+  //No need to include this property with the formData
   delete shelter.adoptableDogs;
   //we want to track if the user can confirm the password so we add password property
   shelter.password = "";
@@ -38,11 +40,7 @@ const ShelterProfile = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const handleChange = e => {
@@ -100,96 +98,137 @@ const ShelterProfile = () => {
   };
 
   return (
-    <div>
-      <div>Update Profile {formData.username}</div>
-      <form onSubmit={handleSubmit}>
-        {createInput(
-          "name",
-          "text",
-          //solution to error A component is changing an uncontrolled input of type text to be controlled.
-          formData.name || "",
-          handleChange,
-          "Shelter Name",
-          true
-        )}
-        {createInput(
-          "address",
-          "text",
-          formData.address || "",
-          handleChange,
-          "Address"
-        )}
-        {createInput(
-          "city",
-          "text",
-          formData.city || "",
-          handleChange,
-          "City",
-          true
-        )}
-        <label htmlFor="state">State:</label>
-        <select
-          id="state"
-          name="state"
-          onChange={handleChange}
-          value={formData.state || ""}
-        >
-          {createStateOptions(USSTATES)}
-        </select>
-        {createInput(
-          "postcode",
-          "text",
-          formData.postcode || "",
-          handleChange,
-          "Post Code"
-        )}
-        {createInput(
-          "phoneNumber",
-          "text",
-          formData.phoneNumber || "",
-          handleChange,
-          "Phone",
-          true
-        )}
-        {createInput(
-          "email",
-          "email",
-          formData.email || "",
-          handleChange,
-          "Email",
-          true
-        )}
-        {createInput(
-          "logo",
-          "text",
-          formData.logo || "",
-          handleChange,
-          "Shelter's Logo"
-        )}
+    <div className="ShelterProfile-container">
+      <div className="ShelterProfile-imgContainer">
+        <img
+          alt={shelter.username}
+          src={shelter.logo}
+          className="ShelterProfile-img"
+        />
+        <small className="ShelterProfile-caption">{shelter.username}</small>
+      </div>
+      <div>
+        <div className="ShelterProfile-header">
+          Update Profile {formData.username}
+          <a
+            href={`/shelters/resetPassword/${shelter.id}`}
+            className="ShelterProfile-resetPassword"
+          >
+            Reset Password
+          </a>
+        </div>
+        <form onSubmit={handleSubmit} className="ShelterProfile-form">
+          {createInput(
+            "name",
+            "text",
+            //solution to error A component is changing an uncontrolled input of type text to be controlled.
+            formData.name || "",
+            handleChange,
+            "Shelter Name",
+            true,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
+          {createInput(
+            "address",
+            "text",
+            formData.address || "",
+            handleChange,
+            "Address",
+            false,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
+          {createInput(
+            "city",
+            "text",
+            formData.city || "",
+            handleChange,
+            "City",
+            true,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
+          <label htmlFor="state" className="ShelterProfile-label">
+            State:
+          </label>
+          <select
+            id="state"
+            name="state"
+            onChange={handleChange}
+            value={formData.state || ""}
+          >
+            {createStateOptions(USSTATES)}
+          </select>
+          {createInput(
+            "postcode",
+            "text",
+            formData.postcode || "",
+            handleChange,
+            "Post Code",
+            false,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
+          {createInput(
+            "phoneNumber",
+            "text",
+            formData.phoneNumber || "",
+            handleChange,
+            "Phone",
+            true,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
+          {createInput(
+            "email",
+            "email",
+            formData.email || "",
+            handleChange,
+            "Email",
+            true,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
+          {createInput(
+            "logo",
+            "text",
+            formData.logo || "",
+            handleChange,
+            "Shelter's Logo URL",
+            false,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
 
-        <label>Shelter's Bio:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description || ""}
-          onChange={handleChange}
-          rows="5"
-          cols="33"
-        ></textarea>
+          <label className="ShelterProfile-label">Shelter's Bio:</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description || ""}
+            onChange={handleChange}
+            rows="5"
+            cols="45"
+          ></textarea>
 
-        <div>Please confirm your password to update the profile</div>
-        {createInput(
-          "password",
-          "password",
-          formData.password || "",
-          handleChange,
-          "Password",
-          true
-        )}
+          <div className="ShelterProfile-passwordConfirm">
+            Please confirm your password to update the profile
+          </div>
+          {createInput(
+            "password",
+            "password",
+            formData.password || "",
+            handleChange,
+            "Password",
+            true,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
 
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Update</button>
-      </form>
+          {isInvalid && isTouched && <small>{WARNING}</small>}
+          <button className="ShelterProfile-button">Update</button>
+        </form>
+      </div>
     </div>
   );
 };

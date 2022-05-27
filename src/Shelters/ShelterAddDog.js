@@ -10,6 +10,7 @@ import {
 } from "../common/helpers";
 import UserInfoContext from "../common/UserInfoContext";
 import DEFAULT_PIC from "../assets/dog.png";
+import "../css/ShelterAddDog.css";
 
 const INITIAL_STATE = {
   name: "",
@@ -74,96 +75,130 @@ const AddDog = ({ addDog }) => {
   };
 
   return (
-    <div>
-      <div>Add a Dog</div>
-      <form onSubmit={handleSubmit}>
-        {createInput("name", "text", formData.name, handleChange, "Name", true)}
+    <div className="ShelterAddDog-container">
+      <div className="ShelterAddDog-header">Add a Dog</div>
+      <form onSubmit={handleSubmit} className="ShelterAddDog-form">
+        {createInput(
+          "name",
+          "text",
+          formData.name,
+          handleChange,
+          "Name",
+          true,
+          "ShelterAddDog-label",
+          "ShelterAddDog-input"
+        )}
         {createInput(
           "picture",
           "text",
           formData.picture,
           handleChange,
-          "Picture"
+          "Picture URL",
+          false,
+          "ShelterAddDog-label",
+          "ShelterAddDog-input"
         )}
 
-        <label htmlFor="breedId">Breed:</label>
+        <label htmlFor="breedId" className="ShelterAddDog-label">
+          Breed:
+        </label>
         <select
           id="breedId"
           name="breedId"
           onChange={handleChange}
           value={formData.breedId}
+          className="ShelterAddDog-select"
         >
           {createBreedOptions(DOGBREEDS)}
         </select>
 
-        <label htmlFor="gender">Gender:</label>
-        <select
-          name="gender"
-          id="gender"
-          onChange={handleChange}
-          value={formData.gender}
-        >
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-        </select>
+        <div className="ShelterAddDog-form-identity">
+          <label htmlFor="gender" className="ShelterAddDog-label select">
+            Gender:
+          </label>
+          <select
+            name="gender"
+            id="gender"
+            onChange={handleChange}
+            value={formData.gender}
+            className="ShelterAddDog-select"
+          >
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+          </select>
 
-        <label htmlFor="age">Age:</label>
-        <select
-          name="age"
-          id="age"
-          onChange={handleChange}
-          value={formData.age}
-        >
-          <option value="Baby">Baby</option>
-          <option value="Young">Young</option>
-          <option value="Adult">Adult</option>
-          <option value="Senior">Senior</option>
-        </select>
+          <label htmlFor="age" className="ShelterAddDog-label select age">
+            Age:
+          </label>
+          <select
+            name="age"
+            id="age"
+            onChange={handleChange}
+            value={formData.age}
+            className="ShelterAddDog-select"
+          >
+            <option value="Baby">Baby</option>
+            <option value="Young">Young</option>
+            <option value="Adult">Adult</option>
+            <option value="Senior">Senior</option>
+          </select>
+        </div>
 
-        <label htmlFor="goodWDogs">Good with other dogs:</label>
-        <select
-          name="goodWDogs"
-          id="goodWDogs"
-          onChange={handleChange}
-          value={formData.goodWDogs}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+        <div>
+          <label htmlFor="goodWDogs" className="ShelterAddDog-label select">
+            Good with other dogs:
+          </label>
+          <select
+            name="goodWDogs"
+            id="goodWDogs"
+            onChange={handleChange}
+            value={formData.goodWDogs}
+            className="ShelterAddDog-select"
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <label htmlFor="goodWCats">Good with cats:</label>
-        <select
-          name="goodWCats"
-          id="goodWCats"
-          onChange={handleChange}
-          value={formData.goodWCats}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label htmlFor="goodWCats" className="ShelterAddDog-label select">
+            Good with cats:
+          </label>
+          <select
+            name="goodWCats"
+            id="goodWCats"
+            onChange={handleChange}
+            value={formData.goodWCats}
+            className="ShelterAddDog-select"
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <label htmlFor="goodWKids">Good with children:</label>
-        <select
-          name="goodWKids"
-          id="goodWKids"
-          onChange={handleChange}
-          value={formData.goodWKids}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label htmlFor="goodWKids" className="ShelterAddDog-label select">
+            Good with children:
+          </label>
+          <select
+            name="goodWKids"
+            id="goodWKids"
+            onChange={handleChange}
+            value={formData.goodWKids}
+            className="ShelterAddDog-select"
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
+        </div>
 
-        <label>Dog's Bio:</label>
+        <label className="ShelterAddDog-label bio">Dog's Bio:</label>
         <textarea
           id="description"
           name="description"
           value={formData.description}
           onChange={handleChange}
           rows="5"
-          cols="33"
+          cols="50"
         ></textarea>
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Add a Dog</button>
+        {isInvalid && isTouched && <small className="ShelterAddDog-warning">{WARNING}</small>}
+        <button className="ShelterAddDog-button">Add a Dog</button>
       </form>
     </div>
   );

@@ -4,6 +4,7 @@ import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import { checkAllRequiredField, createInput, WARNING } from "../common/helpers";
 import PetlyApi from "../api";
+import "../css/AdopterResetPassword.css";
 
 const INITIAL_VALUE = {
   oldPassword: "",
@@ -65,9 +66,9 @@ const AdopterResetPassword = () => {
   };
 
   return (
-    <div>
-      <div>Reset Password</div>
-      <form onSubmit={handleSubmit}>
+    <div className="AdopterResetPassword-container">
+      <div className="AdopterResetPassword-header">Reset Password</div>
+      <form onSubmit={handleSubmit} className="AdopterResetPassword-form">
         {createInput(
           "newPassword",
           "password",
@@ -75,19 +76,23 @@ const AdopterResetPassword = () => {
           formData.newPassword || "",
           handleChange,
           "New Password",
-          true
+          true,
+          "AdopterResetPassword-label",
+          "AdopterResetPassword-input"
         )}
-        <div>Please confirm your password to update the profile</div>
+        <div className="AdopterResetPassword-reminder">Please confirm your password to update the profile</div>
         {createInput(
           "oldPassword",
           "password",
           formData.oldPassword || "",
           handleChange,
           "Old Password",
-          true
+          true,
+          "AdopterResetPassword-label",
+          "AdopterResetPassword-input"
         )}
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Reset</button>
+        {isInvalid && isTouched && <small className="AdopterResetPassword-warning">{WARNING}</small>}
+        <button className="AdopterResetPassword-button">Reset</button>
       </form>
     </div>
   );

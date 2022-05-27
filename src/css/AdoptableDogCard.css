@@ -1,0 +1,44 @@
+.AdoptableDogCard-container {
+    margin: 15px;
+}
+
+#AdoptableDogCard-card {
+    border: none;
+}
+
+#AdoptableDogCard-img {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    border-style: none;
+    border-radius: 50px;
+    background-color: rgb(192, 192, 192);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.like-button {
+    width: 20px;
+    height: 20px;
+}
+
+.AdoptableDogCard-link {
+    text-decoration: none;
+    color: black;
+}
+
+.AdoptableDogCard-name {
+    font-weight: 500;
+    font-size: 1.5rem;
+}

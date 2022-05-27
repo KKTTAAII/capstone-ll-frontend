@@ -7,6 +7,9 @@ import AdoptableDogCard from "../AdoptableDogs/AdoptableDogCard";
 import "../css/ShelterDetails.css";
 import { createInput, checkAllRequiredField } from "../common/helpers";
 import swal from "sweetalert";
+import Loading from "../common/Loading";
+import { FormGroup, Row, Col } from "reactstrap";
+import "../css/ShelterDetails.css";
 
 const INITIAL_STATE = {
   message: "",
@@ -25,11 +28,7 @@ const ShelterDetails = () => {
   let dogs;
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const {
@@ -86,37 +85,62 @@ const ShelterDetails = () => {
   };
 
   return (
-    <div id={id}>
+    <div id={id} className="ShelterDetails-container">
       {/* shelter's info section */}
-      <section>
+      <section className="ShelterDetails-infoSection">
         <img src={logo} className="ShelterDetails-img" alt={name} />
-        <div>{name}</div>
-        <div>
-          {address} {city}, {state} {postcode}
+        <div className="ShelterDetails-info">
+          <div className="name">{name}</div>
+          <div className="address">
+            {address} {city}, {state} {postcode}
+          </div>
+          <div className="mission">
+            <div className="label">Shelter's Mission:</div> {description}
+          </div>
+          <div className="contact">
+            <div className="label">Contact:</div>
+            <div>Phone Number: {phoneNumber}</div>
+            <div>Email: {email}</div>
+          </div>
         </div>
-        <div>Shelter's Mission: {description}</div>
-        <div>
-          Contact:
-          <div>Phone Number: {phoneNumber}</div>
-          <div>Email: {email}</div>
-        </div>
-        <div>Shelter's Pet:</div>
-        <div>{adoptableDogs ? dogs : "There are no adoptable dogs"}</div>
       </section>
       {/* contact shelter section */}
-      <section>
-        <div>
-          Contact us:
-          <form onSubmit={handleSubmit}>
-            {createInput("name", "text", formData.name, handleChange, "Name")}
-            {createInput(
-              "adopterEmail",
-              "email",
-              formData.adopterEmail,
-              handleChange,
-              "Email"
-            )}
-            <label>Message to the shelter:</label>
+      <section className="ShelterDetails-contactSection">
+        <div className="ShelterDetails-contactSectionContainer">
+          <div className="label contact-us">Contact us:</div>
+          <form onSubmit={handleSubmit} className="ShelterDetails-form">
+            <Row>
+              <Col md={4}>
+                <FormGroup>
+                  {createInput(
+                    "name",
+                    "text",
+                    formData.name,
+                    handleChange,
+                    "Name",
+                    false,
+                    "SheltersDetails-contactSectionLabel",
+                    "SheltersDetails-contactSectionInput"
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  {createInput(
+                    "adopterEmail",
+                    "email",
+                    formData.adopterEmail,
+                    handleChange,
+                    "Email",
+                    false,
+                    "SheltersDetails-contactSectionLabel",
+                    "SheltersDetails-contactSectionInput"
+                  )}
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <label className="SheltersDetails-contactSectionLabel">Message to the shelter:</label>
             <textarea
               id="message"
               name="message"
@@ -125,9 +149,13 @@ const ShelterDetails = () => {
               rows="5"
               cols="33"
             ></textarea>
-            <button>Message Shelter</button>
+            <button className="ShelterDetails-button">Message Shelter</button>
           </form>
         </div>
+      </section>
+      <section className="ShelterDetails-petSection">
+        <div className="label pets">Shelter's Pet:</div>
+        <div className="allPets">{adoptableDogs ? dogs : "There are no adoptable dogs"}</div>
       </section>
     </div>
   );

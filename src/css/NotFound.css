@@ -1,0 +1,21 @@
+.NotFound-container{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.NotFound-message {
+    text-align: center;
+}
+
+.NotFound-img {
+    margin: 0 auto;
+    width: 300px;
+    height: 300px;
+}
+
+.NotFound-backHome {
+    text-align: center;
+    text-decoration: none;
+    color: rgb(226, 129, 148);;
+}

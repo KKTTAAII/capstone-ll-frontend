@@ -9,6 +9,8 @@ import {
   USSTATES,
 } from "../common/helpers";
 import DEFAULT_PIC from "../assets/shelter.jpg";
+import "../css/ShelterSignup.css";
+import { Row, Col, FormGroup } from "reactstrap";
 
 const INITIAL_STATE = {
   username: "",
@@ -81,95 +83,174 @@ const ShelterSignUp = ({ signUp }) => {
   };
 
   return (
-    <div>
-      <div>Sign up</div>
-      <form onSubmit={handleSubmit}>
-        {createInput(
-          "username",
-          "text",
-          formData.username,
-          handleChange,
-          "Username",
-          true
-        )}
-        {createInput(
-          "password",
-          "password",
-          formData.password,
-          handleChange,
-          "Password",
-          true
-        )}
-        {createInput(
-          "name",
-          "text",
-          formData.name,
-          handleChange,
-          "Shelter Name",
-          true
-        )}
-        {createInput(
-          "address",
-          "text",
-          formData.address,
-          handleChange,
-          "Address"
-        )}
-        {createInput("city", "text", formData.city, handleChange, "City", true)}
-        <label htmlFor="state">State:</label>
-        <select
-          id="state"
-          name="state"
-          onChange={handleChange}
-          value={formData.state}
-        >
-          {createStateOptions(USSTATES)}
-        </select>
-        {createInput(
-          "postcode",
-          "text",
-          formData.postcode,
-          handleChange,
-          "Post Code"
-        )}
-        {createInput(
-          "phoneNumber",
-          "text",
-          formData.phoneNumber,
-          handleChange,
-          "Phone",
-          true
-        )}
-        {createInput(
-          "email",
-          "email",
-          formData.email,
-          handleChange,
-          "Email",
-          true
-        )}
-        {createInput(
-          "logo",
-          "text",
-          formData.logo,
-          handleChange,
-          "Shelter's Logo"
-        )}
+    <div className="ShelterSignup-container">
+      <div className="ShelterSignup-header">Sign up</div>
+      
+        <form onSubmit={handleSubmit} className="ShelterSignup-form">
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                {createInput(
+                  "username",
+                  "text",
+                  formData.username,
+                  handleChange,
+                  "Username",
+                  true,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                {createInput(
+                  "password",
+                  "password",
+                  formData.password,
+                  handleChange,
+                  "Password",
+                  true,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+          </Row>
 
-        <label>Shelter's Bio:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          rows="5"
-          cols="33"
-        ></textarea>
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Sign up</button>
-      </form>
-      <div>
-        Already signed up? <Link to={`/shelters/login`}>Log in</Link>
+          <Row>
+            <Col md={4}>
+              <FormGroup>
+                {createInput(
+                  "name",
+                  "text",
+                  formData.name,
+                  handleChange,
+                  "Shelter Name",
+                  true,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+            <Col md={4}>
+              <FormGroup>
+                {createInput(
+                  "email",
+                  "email",
+                  formData.email,
+                  handleChange,
+                  "Email",
+                  true,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+            <Col md={4}>
+              <FormGroup>
+                {createInput(
+                  "phoneNumber",
+                  "text",
+                  formData.phoneNumber,
+                  handleChange,
+                  "Phone",
+                  true,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={3}>
+              <FormGroup>
+                {" "}
+                {createInput(
+                  "address",
+                  "text",
+                  formData.address,
+                  handleChange,
+                  "Address",
+                  false,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                {createInput(
+                  "city",
+                  "text",
+                  formData.city,
+                  handleChange,
+                  "City",
+                  true,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+            <Col md={1}>
+              <FormGroup>
+                <label htmlFor="state" className="ShelterSignup-label">
+                  State:
+                </label>
+                <select
+                  id="state"
+                  name="state"
+                  onChange={handleChange}
+                  value={formData.state}
+                  className="ShelterSignup-select"
+                >
+                  {createStateOptions(USSTATES)}
+                </select>
+              </FormGroup>
+            </Col>
+            <Col md={2}>
+              <FormGroup>
+                {createInput(
+                  "postcode",
+                  "text",
+                  formData.postcode,
+                  handleChange,
+                  "Post Code",
+                  false,
+                  "ShelterSignup-label",
+                  "ShelterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+          </Row>
+
+          {createInput(
+            "logo",
+            "text",
+            formData.logo,
+            handleChange,
+            "Shelter's Logo URL",
+            false,
+            "ShelterSignup-label",
+            "ShelterSignup-input-long"
+          )}
+
+          <label className="ShelterSignup-label" id="bio">Shelter's Bio:</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="5"
+            cols="33"
+          ></textarea>
+          {isInvalid && isTouched && <small className="ShelterSignup-warning">{WARNING}</small>}
+          <button className="ShelterSignup-button">Shelter Sign up</button>
+        </form>
+      
+      <div className="ShelterSignup-alreadySignup">
+        Already signed up? <Link to={`/shelters/login`} className="ShelterSignup-signupLink">Log in</Link>
       </div>
     </div>
   );

@@ -1,0 +1,52 @@
+.ShelterList-container {
+    margin-top: 100px;
+}
+
+.ShelterList-form {
+    display: flex;
+    justify-content: center;
+}
+
+.ShelterList-label {
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+.ShelterList-input {
+    background-color: transparent;
+    border: none;
+    color: black;
+    outline: none;
+    border-bottom: 1px solid #000000;
+    font-size: 1em;
+    font-weight: 300;
+    padding-bottom: 10px;
+}
+
+.ShelterList-select {
+    border-radius: 10px;
+}
+
+.ShelterList-button {
+    margin-left: 15px;
+    border-radius: 10px;
+    border-style: none;
+    background-color: white;
+    height: 30px;
+    width: 70px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.ShelterList-button:hover {
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+.ShelterList-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80vw;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}

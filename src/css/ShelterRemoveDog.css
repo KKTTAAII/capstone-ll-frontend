@@ -1,0 +1,29 @@
+.ShelterRemoveDog-container {
+    margin-top: 75px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ShelterRemoveDog-header {
+    font-size: 2em;
+    margin: 20px auto;
+}
+
+.ShelterRemoveDog-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80vw;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.ShelterRemoveDog-dogContainer {
+    position: relative;
+}
+
+.ShelterRemoveDog-deleteButton {
+    position: absolute;
+    border-style: none;
+    top: 0;
+}

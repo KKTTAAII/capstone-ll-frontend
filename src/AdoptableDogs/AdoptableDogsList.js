@@ -12,6 +12,8 @@ import {
 import ReactPaginate from "react-paginate";
 import "../css/Pagination.css";
 import AdoptableDogCard from "./AdoptableDogCard";
+import "../css/AdoptableDogList.css";
+import Loading from "../common/Loading";
 
 const INITIAL_SEARCH = {
   name: "",
@@ -29,6 +31,24 @@ const AdoptableDogsList = () => {
   const [dogs, isLoading, setDogs] = useFetch(
     PetlyApi.getAll("adoptableDogs", {}, token)
   );
+
+  // const [favoriteDogs, setFavoriteDogs] = useState([])
+
+  // // //useEffect(()=> {
+  //   if (user && user.userType === "adopters") {
+  //     async function getFavoriteDogs() {
+  //       try {
+  //         const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+  //         console.log(favDogs)
+  //         setFavoriteDogs(favDogs);
+  //       } catch (err) {
+  //         console.log(err);
+  //         swal({ text: err[0], icon: "warning" });
+  //         return <Redirect to="/" />;
+  //       }
+  //     }
+  //     getFavoriteDogs();
+  // // }, [favoriteDogs.length])
 
   const [pageNumber, setPageNumber] = useState(0);
   const dogsPerPage = 10;
@@ -53,19 +73,11 @@ const AdoptableDogsList = () => {
     });
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
-  if (user.userType === "adopters" && !favoriteDogs) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+  if (user.userType === "adopters" && favoriteDogs === null) {
+    return <Loading />;
   }
 
   const handleChange = e => {
@@ -95,44 +107,56 @@ const AdoptableDogsList = () => {
   };
 
   return (
-    <div>
+    <div className="AdoptableDogList-container">
       {/* Form for shelter search */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="AdoptableDogList-form">
         {createInput(
           "name",
           "text",
           searchTerms.name,
           handleChange,
-          "Dog Name"
+          "Dog Name",
+          false,
+          "AdoptableDogList-label",
+          "AdoptableDogList-input"
         )}
 
-        <label htmlFor="breedId">Breed:</label>
+        <label htmlFor="breedId" className="AdoptableDogList-label">
+          Breed:
+        </label>
         <select
           id="breedId"
           name="breedId"
           onChange={handleChange}
           value={searchTerms.breedId}
+          className="AdoptableDogList-select"
         >
           {createBreedOptions(DOGBREEDS)}
         </select>
 
-        <label htmlFor="gender">Gender:</label>
+        <label htmlFor="gender" className="AdoptableDogList-label">
+          Gender:
+        </label>
         <select
           name="gender"
           id="gender"
           onChange={handleChange}
           value={searchTerms.gender}
+          className="AdoptableDogList-select"
         >
           <option value="Female">Female</option>
           <option value="Male">Male</option>
         </select>
 
-        <label htmlFor="age">Age:</label>
+        <label htmlFor="age" className="AdoptableDogList-label">
+          Age:
+        </label>
         <select
           name="age"
           id="age"
           onChange={handleChange}
           value={searchTerms.age}
+          className="AdoptableDogList-select"
         >
           <option value="Baby">Baby</option>
           <option value="Young">Young</option>
@@ -140,43 +164,52 @@ const AdoptableDogsList = () => {
           <option value="Senior">Senior</option>
         </select>
 
-        <label htmlFor="goodWDogs">Good with other dogs:</label>
+        <label htmlFor="goodWDogs" className="AdoptableDogList-label">
+          Good with other dogs:
+        </label>
         <select
           name="goodWDogs"
           id="goodWDogs"
           onChange={handleChange}
           value={searchTerms.goodWDogs}
+          className="AdoptableDogList-select"
         >
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
 
-        <label htmlFor="goodWCats">Good with cats:</label>
+        <label htmlFor="goodWCats" className="AdoptableDogList-label">
+          Good with cats:
+        </label>
         <select
           name="goodWCats"
           id="goodWCats"
           onChange={handleChange}
           value={searchTerms.goodWCats}
+          className="AdoptableDogList-select"
         >
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
 
-        <label htmlFor="goodWKids">Good with children:</label>
+        <label htmlFor="goodWKids" className="AdoptableDogList-label">
+          Good with children:
+        </label>
         <select
           name="goodWKids"
           id="goodWKids"
           onChange={handleChange}
           value={searchTerms.goodWKids}
+          className="AdoptableDogList-select"
         >
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
 
-        <button>Seacrh</button>
+        <button className="AdoptableDogList-button">Seacrh</button>
       </form>
 
-      {allDogs}
+      <div className="AdoptableDogList-list">{allDogs}</div>
 
       <ReactPaginate
         previousLabel={"Previous"}

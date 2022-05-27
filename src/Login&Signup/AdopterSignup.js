@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import { createInput, checkAllRequiredField, WARNING } from "../common/helpers";
 import DEFAULT_PIC from "../assets/user.png";
+import { Row, Col, FormGroup } from "reactstrap";
+import "../css/AdopterSignup.css";
 
 const INITIAL_STATE = {
   username: "",
@@ -46,11 +48,11 @@ const AdopterSignUp = ({ signUp }) => {
       //I mutate the data, is it okay here?
       formData.picture =
         formData.picture === "" ? DEFAULT_PIC : formData.picture;
-  
+
       let response = await signUp("Adopter", formData);
       //if there is a response, there is an error
       if (response) {
-        swal({text: response[0], icon: "warning"});
+        swal({ text: response[0], icon: "warning" });
       } else {
         history.push("/adopters");
       }
@@ -64,102 +66,159 @@ const AdopterSignUp = ({ signUp }) => {
   };
 
   return (
-    <div>
-      <div>Sign up</div>
-      <form onSubmit={handleSubmit}>
-        {createInput(
-          "username",
-          "text",
-          formData.username,
-          handleChange,
-          "Username",
-          true
-        )}
-        {createInput(
-          "password",
-          "password",
-          formData.password,
-          handleChange,
-          "Password",
-          true
-        )}
-        {createInput(
-          "email",
-          "email",
-          formData.email,
-          handleChange,
-          "Email",
-          true
-        )}
-        {createInput(
-          "picture",
-          "text",
-          formData.picture,
-          handleChange,
-          "Profile Picture"
-        )}
-        
-        <label>Adopter's Bio:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          rows="5"
-          cols="33"
-        ></textarea>
+    <div className="AdopterSignup-container">
+      <div className="AdopterSignup-header">Adopter Sign up</div>
+        <form onSubmit={handleSubmit} className="AdopterSignup-form">
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                {createInput(
+                  "username",
+                  "text",
+                  formData.username,
+                  handleChange,
+                  "Username",
+                  true,
+                  "AdopterSignup-label",
+                  "AdopterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                {createInput(
+                  "password",
+                  "password",
+                  formData.password,
+                  handleChange,
+                  "Password",
+                  true,
+                  "AdopterSignup-label",
+                  "AdopterSignup-input"
+                )}
+              </FormGroup>
+            </Col>
+          </Row>
 
-        <label htmlFor="privateOutdoors">Private Outdoors:</label>
-        <select
-          name="privateOutdoors"
-          id="privateOutdoors"
-          onChange={handleChange}
-          value={formData.privateOutdoors}
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          {createInput(
+            "email",
+            "email",
+            formData.email,
+            handleChange,
+            "Email",
+            true,
+            "AdopterSignup-label",
+            "AdopterSignup-input"
+          )}
+          {createInput(
+            "picture",
+            "text",
+            formData.picture,
+            handleChange,
+            "Profile Picture URL",
+            false,
+            "AdopterSignup-label",
+            "AdopterSignup-input-long"
+          )}
 
-        <label htmlFor="numOfDogs">Number of dogs:</label>
-        <input
-          onChange={handleChange}
-          type="number"
-          id="numOfDogs"
-          name="numOfDogs"
-          min="0"
-          max="20"
-          value={formData.numOfDogs}
-        ></input>
+          <Row>
+            <Col>
+              <FormGroup>
+                <label
+                  htmlFor="privateOutdoors"
+                  className="AdopterSignup-label"
+                >
+                  Private Outdoors:
+                </label>
+                <select
+                  name="privateOutdoors"
+                  id="privateOutdoors"
+                  onChange={handleChange}
+                  value={formData.privateOutdoors}
+                  className="AdopterSignup-select"
+                >
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                {" "}
+                <label htmlFor="numOfDogs" className="AdopterSignup-label">
+                  Number of dogs:
+                </label>
+                <input
+                  onChange={handleChange}
+                  type="number"
+                  id="numOfDogs"
+                  name="numOfDogs"
+                  min="0"
+                  max="20"
+                  value={formData.numOfDogs}
+                  className="AdopterSignup-select"
+                ></input>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <label
+                  htmlFor="preferredGender"
+                  className="AdopterSignup-label"
+                >
+                  Preferred Gender:
+                </label>
+                <select
+                  name="preferredGender"
+                  id="preferredGender"
+                  onChange={handleChange}
+                  value={formData.preferredGender}
+                  className="AdopterSignup-select"
+                >
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <label htmlFor="preferredAge" className="AdopterSignup-label">
+                  Preferred Age:
+                </label>
+                <select
+                  name="preferredAge"
+                  id="preferredAge"
+                  onChange={handleChange}
+                  value={formData.preferredAge}
+                  className="AdopterSignup-select"
+                >
+                  <option value="Baby">Baby</option>
+                  <option value="Young">Young</option>
+                  <option value="Adult">Adult</option>
+                  <option value="Senior">Senior</option>
+                </select>
+              </FormGroup>
+            </Col>
+          </Row>
 
-        <label htmlFor="preferredGender">Preferred Gender:</label>
-        <select
-          name="preferredGender"
-          id="preferredGender"
-          onChange={handleChange}
-          value={formData.preferredGender}
-        >
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-        </select>
+          <label htmlFor="description" className="AdopterSignup-label">
+            Adopter's Bio:
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="5"
+            cols="45"
+          ></textarea>
 
-        <label htmlFor="preferredAge">Preferred Age:</label>
-        <select
-          name="preferredAge"
-          id="preferredAge"
-          onChange={handleChange}
-          value={formData.preferredAge}
-        >
-          <option value="Baby">Baby</option>
-          <option value="Young">Young</option>
-          <option value="Adult">Adult</option>
-          <option value="Senior">Senior</option>
-        </select>
-
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Sign up</button>
-      </form>
-      <div>
-        Already signed up? <Link to={`/adopters/login`}>Log in</Link>
+          {isInvalid && isTouched && <small>{WARNING}</small>}
+          <button className="AdopterSignup-button">Sign up</button>
+        </form>
+      
+      <div className="AdopterSignup-alreadySignup">
+        Already signed up? <Link to={`/adopters/login`} className="AdopterSignup-signupLink">Log in</Link>
       </div>
     </div>
   );

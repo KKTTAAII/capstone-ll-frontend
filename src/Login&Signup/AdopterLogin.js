@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import swal from "sweetalert";
 import { WARNING, checkAllRequiredField, createInput } from "../common/helpers";
+import "../css/AdopterLogin.css";
 
 const INITIAL_STATE = {
   username: "",
@@ -38,7 +39,7 @@ const AdopterLogin = ({ logIn }) => {
       if (response) {
         swal({ text: response[0], icon: "warning" });
       } else {
-        history.push("/adopters");
+        history.push("/adoptableDogs");
       }
     } else {
       swal({
@@ -50,16 +51,18 @@ const AdopterLogin = ({ logIn }) => {
   };
 
   return (
-    <div>
-      <div>Log in</div>
-      <form onSubmit={handleSubmit}>
+    <div className="AdopterLogin-container">
+      <div className="AdopterLogin-header">Adopter Log in</div>
+      <form onSubmit={handleSubmit} className="AdopterLogin-form">
         {createInput(
           "username",
           "text",
           formData.username,
           handleChange,
           "Username",
-          true
+          false,
+          "AdopterLogin-label",
+          "AdopterLogin-input"
         )}
         {createInput(
           "password",
@@ -67,14 +70,20 @@ const AdopterLogin = ({ logIn }) => {
           formData.password,
           handleChange,
           "Password",
-          true
+          false,
+          "AdopterLogin-label",
+          "AdopterLogin-input"
         )}
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Log in</button>
+        {isInvalid && isTouched && (
+          <small className="AdopterLogin-warning">{WARNING}</small>
+        )}
+        <button className="AdopterLogin-button">Log in</button>
       </form>
-      <div>
+      <div className="AdopterLogin-reminder">
         Don't have an account yet? Sign up{" "}
-        <Link to={`/adopters/signup`}>here</Link>
+        <Link to={`/adopters/signup`} className="AdopterLogin-signuplink">
+          here
+        </Link>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import { checkAllRequiredField, createInput, WARNING } from "../common/helpers";
 import PetlyApi from "../api";
+import "../css/ShelterResetPassword.css";
 
 const INITIAL_VALUE = {
   oldPassword: "",
@@ -65,9 +66,9 @@ const ShelterResetPassword = () => {
   };
 
   return (
-    <div>
-      <div>Reset Password</div>
-      <form onSubmit={handleSubmit}>
+    <div className="ShelterResetPassword-container">
+      <div className="ShelterResetPassword-header">Reset Password</div>
+      <form onSubmit={handleSubmit} className="ShelterResetPassword-form">
         {createInput(
           "newPassword",
           "password",
@@ -75,19 +76,23 @@ const ShelterResetPassword = () => {
           formData.newPassword || "",
           handleChange,
           "New Password",
-          true
+          true,
+          "ShelterResetPassword-label",
+          "ShelterResetPassword-input"
         )}
-        <div>Please confirm your password to update the profile</div>
+        <div className="ShelterResetPassword-reminder">Please confirm your old password to reset password</div>
         {createInput(
           "oldPassword",
           "password",
           formData.oldPassword || "",
           handleChange,
           "Old Password",
-          true
+          true,
+          "ShelterResetPassword-label",
+          "ShelterResetPassword-input"
         )}
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Reset</button>
+        {isInvalid && isTouched && <small className="ShelterResetPassword-warning">{WARNING}</small>}
+        <button className="ShelterResetPassword-button">Reset</button>
       </form>
     </div>
   );

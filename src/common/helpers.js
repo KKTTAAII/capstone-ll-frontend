@@ -368,20 +368,24 @@ const createInput = (
   value,
   handleChange,
   label,
-  required = false
+  required = false,
+  labelClassName = "",
+  inputClassName = ""
 ) => {
   return (
     <>
-      <label>
+      <label className={labelClassName}>
         {label}
         {required ? "*" : ""}:
       </label>
       <input
+        placeholder={label}
         name={name}
         id={name}
         type={type}
         value={value}
         onChange={handleChange}
+        className={inputClassName}
       ></input>
     </>
   );
@@ -411,5 +415,5 @@ export {
   createStateOptions,
   convertToYesNo,
   createBreedOptions,
-  DOGBREEDS
+  DOGBREEDS,
 };

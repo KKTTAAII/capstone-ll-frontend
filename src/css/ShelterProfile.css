@@ -1,0 +1,85 @@
+.ShelterProfile-container {
+    margin-top: 75px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.ShelterProfile-header {
+    font-size: 2em;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.ShelterProfile-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.ShelterProfile-label {
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.ShelterProfile-input {
+    width: 400px;
+    background-color: transparent;
+    border: none;
+    color: black;
+    outline: none;
+    border-bottom: 1px solid #000000;
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.ShelterProfile-passwordConfirm {
+    margin-top: 15px;
+    font-size: x-small;
+}
+
+.ShelterProfile-button {
+    margin-top: 10px;
+    margin-left: 15px;
+    border-radius: 10px;
+    border-style: none;
+    background-color: white;
+    height: 30px;
+    width: 100px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.ShelterProfile-button:hover {
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+.ShelterProfile-img {
+    width: 300px;
+    height: 300px;
+}
+
+.ShelterProfile-imgContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
+    padding: 10px;
+    border: solid 2px rgb(242, 242, 242);
+    height: fit-content;
+}
+
+.ShelterProfile-caption {
+    margin: 5px auto;
+    font-weight: 500;
+}
+
+.ShelterProfile-resetPassword {
+    margin: 0 auto;
+    font-size: medium;
+    text-decoration: underline;
+    color: black;
+}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import swal from "sweetalert";
 import { WARNING, checkAllRequiredField, createInput } from "../common/helpers";
+import "../css/ShelterLogin.css";
 
 const INITIAL_STATE = {
   username: "",
@@ -50,16 +51,18 @@ const ShelterLogin = ({ logIn }) => {
   };
 
   return (
-    <div>
-      <div>Log in</div>
-      <form onSubmit={handleSubmit}>
+    <div className="ShelterLogin-container">
+      <div className="ShelterLogin-header">Shelter Log in</div>
+      <form onSubmit={handleSubmit} className="ShelterLogin-form">
         {createInput(
           "username",
           "text",
           formData.username,
           handleChange,
           "Username",
-          true
+          false,
+          "ShelterLogin-label",
+          "ShelterLogin-input"
         )}
         {createInput(
           "password",
@@ -67,14 +70,16 @@ const ShelterLogin = ({ logIn }) => {
           formData.password,
           handleChange,
           "Password",
-          true
+          false,
+          "ShelterLogin-label",
+          "ShelterLogin-input"
         )}
-        {isInvalid && isTouched && <small>{WARNING}</small>}
-        <button>Log in</button>
+        {isInvalid && isTouched && <small className="ShelterLogin-warning">{WARNING}</small>}
+        <button className="ShelterLogin-button">Log in</button>
       </form>
-      <div>
+      <div className="ShelterLogin-reminder">
         Don't have an account yet? Sign up{" "}
-        <Link to={`/shelters/signup`}>here</Link>
+        <Link to={`/shelters/signup`} className="ShelterLogin-signuplink">here</Link>
       </div>
     </div>
   );

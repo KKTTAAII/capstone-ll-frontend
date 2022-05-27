@@ -1,0 +1,33 @@
+.NavBar {
+    text-align: center;
+}
+  
+.navbar-brand {
+    margin-left: 50px;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+/* Logged out styling */
+
+.nav-loggedOut {
+    width: 100%;
+}
+
+.nav {
+    width: max-content;
+}
+
+.nav-item {
+    margin-left: 20px
+}
+
+.navbar-link, .nav-loggedinLink  {
+    text-decoration: none;
+    color: black;
+}
+
+#navbar-dropdown {
+    color: black;
+}
+

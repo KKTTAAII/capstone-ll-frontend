@@ -59,6 +59,7 @@ const App = () => {
       async function getFavoriteDogs() {
         try {
           const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+          console.log(favDogs)
           setFavoriteDogs(favDogs);
           setIsFavoriteDogsLoading(false);
         } catch (err) {
@@ -144,6 +145,7 @@ const App = () => {
             logIn={logIn}
             addDog={addDog}
             removeDog={removeDog}
+            logOut={logOut}
           />
         </div>
       </UserInfoContext.Provider>

@@ -3,7 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import PetlyApi from "../api";
 import { convertToYesNo } from "../common/helpers";
 import { useFetch } from "../common/hooks";
+import Loading from "../common/Loading";
 import UserInfoContext from "../common/UserInfoContext";
+import "../css/AdoptableDogDetails.css";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const AdoptableDogDetails = () => {
   const { token, user } = useContext(UserInfoContext);
@@ -13,11 +17,7 @@ const AdoptableDogDetails = () => {
   );
 
   if (isLoading) {
-    return (
-      <div className="loading">
-        <div>LOADING ...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   //in case there are more than 1 dog with the same ids (from db and from petfinder)
@@ -36,33 +36,55 @@ const AdoptableDogDetails = () => {
       shelter,
     } = dog;
     return (
-      <div id={id} key={id}>
+      <div id={id} key={id} className="AdoptableDogDetails-container">
         {/* show edit button for the correct shelter */}
         {user.userType === "shelters" && user.id === shelter.id ? (
-          <button>
-            <a href={`/adoptableDogs/edit/${id}/${shelter.id}`}>Edit</a>
+          <button className="edit-button">
+            <a href={`/adoptableDogs/edit/${id}/${shelter.id}`}><FontAwesomeIcon icon={faPenToSquare}>Edit</FontAwesomeIcon></a>
           </button>
         ) : (
           ""
         )}
 
-        <div>Name: {name}</div>
-        <img src={picture} alt={name} />
-        <div>
-          About
-          <ul>
-            <li>Breed: {breed}</li>
-            <li>Gender: {gender}</li>
-            <li>Age: {age}</li>
-            <li>Good With Dogs: {convertToYesNo(goodWDogs)}</li>
-            <li>Good With Cats: {convertToYesNo(goodWCats)}</li>
-            <li>Good With Kids: {convertToYesNo(goodWKids)}</li>
+        <div className="AdoptableDogDetails-name">{name}</div>
+        <img src={picture} alt={name} className="AdoptableDogDetails-img" />
+        <div className="AdoptableDogDetails-infoContainer">
+          <div className="label">About</div>
+          <ul className="list">
+            <li className="item">
+              <div className="label">Breed: </div>
+              {breed}
+            </li>
+            <li className="item">
+              <div className="label">Gender: </div>
+              {gender}
+            </li>
+            <li className="item">
+              <div className="label">Age: </div>
+              {age}
+            </li>
+
+            <li className="item">
+              <div className="label">Good With Dogs: </div>
+              {convertToYesNo(goodWDogs)}
+            </li>
+            <li className="item">
+              <div className="label">Good With Cats: </div>
+              {convertToYesNo(goodWCats)}
+            </li>
+            <li className="item">
+              <div className="label">Good With Kids: </div>
+              {convertToYesNo(goodWKids)}
+            </li>
           </ul>
         </div>
-        <div>{name}'s Story:</div>
-        <div>{description}</div>
-        <div>
-          Back to the <Link to={`/shelters/${shelter.id}`}>shelter</Link>
+        <div className="label story">{name}'s Story:</div>
+        <div className="description">{description}</div>
+        <div className="back-to-link">
+          Back to the{" "}
+          <Link to={`/shelters/${shelter.id}`} className="link">
+            shelter
+          </Link>
         </div>
       </div>
     );

@@ -13,7 +13,7 @@ import Loading from "../common/Loading";
 const RemoveDog = ({ removeDog }) => {
   const { shelterId } = useParams();
   const { user, token } = useContext(UserInfoContext);
-  const [shelter, isLoading, setShelter] = useFetch(
+  const [shelter, isLoading, setShelter] = useFetch( 
     PetlyApi.get("shelters", shelterId, token),
     !isLoading && shelter ? [shelter.adoptableDogs.length] : []
   );

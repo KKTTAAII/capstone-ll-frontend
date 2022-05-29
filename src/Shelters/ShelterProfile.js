@@ -17,7 +17,7 @@ import Loading from "../common/Loading";
 const ShelterProfile = () => {
   const { shelterId } = useParams();
   const { user, token } = useContext(UserInfoContext);
-  const [shelter, isLoading] = useFetch(
+  const [shelter, isLoading] = useFetch( 
     PetlyApi.get("shelters", shelterId, token)
   );
   //No need to include this property with the formData

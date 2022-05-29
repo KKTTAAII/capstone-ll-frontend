@@ -7,7 +7,6 @@ import { useLocalStorageState } from "./common/hooks";
 import { getUser, getFavoriteDogs } from "./common/helpers";
 import jwt_decode from "jwt-decode";
 
-
 const App = () => {
   const [token, setToken] = useLocalStorageState("token", null);
   const [user, setUser] = useLocalStorageState("user", null);

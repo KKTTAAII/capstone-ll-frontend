@@ -40,7 +40,9 @@ const AdoptableDogDetails = () => {
         {/* show edit button for the correct shelter */}
         {user.userType === "shelters" && user.id === shelter.id ? (
           <button className="edit-button">
-            <a href={`/adoptableDogs/edit/${id}/${shelter.id}`}><FontAwesomeIcon icon={faPenToSquare}>Edit</FontAwesomeIcon></a>
+            <a href={`/adoptableDogs/edit/${id}/${shelter.id}`}>
+              <FontAwesomeIcon icon={faPenToSquare}>Edit</FontAwesomeIcon>
+            </a>
           </button>
         ) : (
           ""

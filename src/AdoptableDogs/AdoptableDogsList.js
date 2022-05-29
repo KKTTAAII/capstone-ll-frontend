@@ -32,6 +32,7 @@ const AdoptableDogsList = () => {
     PetlyApi.getAll("adoptableDogs", {}, token)
   );
 
+  console.log(dogs);
   const [pageNumber, setPageNumber] = useState(0);
   const dogsPerPage = 10;
   const pagesVisites = pageNumber * dogsPerPage;

@@ -24,7 +24,7 @@ const AdopterProfile = () => {
   }, [adopter]);
 
   //we want to track if the user can confirm the password so we add password property
-  formData.password = "";
+  adopter.password = "";
   //we do not update this so we delete it
   delete formData.favDogs;
 

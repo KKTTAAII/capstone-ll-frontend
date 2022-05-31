@@ -463,6 +463,8 @@ const getUser = async (
             token
           );
           setUser(tokenInfo);
+          let i = 0;
+          console.log("how many times it runs", i++)
         }
       }
     }

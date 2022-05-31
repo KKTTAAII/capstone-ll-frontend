@@ -77,3 +77,8 @@
     text-decoration: none;
     color: rgb(226, 129, 148);
 }
+
+.AdopterSignup-preview-img {
+    width: 200px;
+    height: 200px;
+}

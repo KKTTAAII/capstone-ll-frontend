@@ -1,24 +1,39 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, Redirect } from "react-router-dom";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 import PetlyApi from "../api";
-import { useFetch } from "../common/hooks";
 import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import { checkAllRequiredField, createInput, WARNING } from "../common/helpers";
 import "../css/AdopterProfile.css";
 import Loading from "../common/Loading";
+import DEFAULT_PIC from "../assets/user.png";
 
 const AdopterProfile = () => {
   const { username } = useParams();
   const { user, token } = useContext(UserInfoContext);
-  const [adopter, isLoading] = useFetch(
-    PetlyApi.get("adopters", username, token)
-  );
+  const [adopter, setAdopter] = useState([]);
   const [formData, setFormData] = useState(JSON.parse(JSON.stringify(adopter)));
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
 
-  //first render will not show shelter data, once the data is fetched from useFetched, update the formData
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.get("adopters", username, token);
+        setAdopter(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
+
+  //first render will not show shelter data, once the data is fetched, update the formData
   useEffect(() => {
     setFormData(adopter);
   }, [adopter]);
@@ -34,7 +49,7 @@ const AdopterProfile = () => {
     return <Redirect to="/" />;
   }
 
-  if (isLoading) {
+  if (isLoading || adopter === []) {
     return <Loading />;
   }
 
@@ -52,6 +67,7 @@ const AdopterProfile = () => {
     e.preventDefault();
     const { email, password } = formData;
     const isAllRequiredFieldFilled = checkAllRequiredField([email, password]);
+    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
         //authenticate user before updating profile

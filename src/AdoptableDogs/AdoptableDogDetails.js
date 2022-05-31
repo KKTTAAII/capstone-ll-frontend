@@ -1,20 +1,35 @@
-import React, { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
 import PetlyApi from "../api";
 import { convertToYesNo } from "../common/helpers";
-import { useFetch } from "../common/hooks";
 import Loading from "../common/Loading";
 import UserInfoContext from "../common/UserInfoContext";
 import "../css/AdoptableDogDetails.css";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import swal from "sweetalert";
 
 const AdoptableDogDetails = () => {
   const { token, user } = useContext(UserInfoContext);
   const { dogId } = useParams();
-  const [dogs, isLoading] = useFetch(
-    PetlyApi.get("adoptableDogs", dogId, token)
-  );
+  const [dogs, setDogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.get("adoptableDogs", dogId, token);
+        setDogs(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
 
   if (isLoading) {
     return <Loading />;

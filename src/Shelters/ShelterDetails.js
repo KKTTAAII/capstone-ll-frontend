@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useFetch } from "../common/hooks";
+import React, { useContext, useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import PetlyApi from "../api";
 import UserInfoContext from "../common/UserInfoContext";
 import AdoptableDogCard from "../AdoptableDogs/AdoptableDogCard";
@@ -20,12 +19,27 @@ const INITIAL_STATE = {
 const ShelterDetails = () => {
   const { token } = useContext(UserInfoContext);
   const { shelterId } = useParams();
-  const [shelter, isLoading] = useFetch(
-    PetlyApi.get("shelters", shelterId, token)
-  );
+  const [shelter, setShelter] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isInvalid, setIsInvalid] = useState(true);
   let dogs;
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.get("shelters", shelterId, token);
+        setShelter(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -140,7 +154,9 @@ const ShelterDetails = () => {
               </Col>
             </Row>
 
-            <label className="SheltersDetails-contactSectionLabel">Message to the shelter:</label>
+            <label className="SheltersDetails-contactSectionLabel">
+              Message to the shelter:
+            </label>
             <textarea
               id="message"
               name="message"
@@ -155,7 +171,9 @@ const ShelterDetails = () => {
       </section>
       <section className="ShelterDetails-petSection">
         <div className="label pets">Shelter's Pet:</div>
-        <div className="allPets">{adoptableDogs ? dogs : "There are no adoptable dogs"}</div>
+        <div className="allPets">
+          {adoptableDogs ? dogs : "There are no adoptable dogs"}
+        </div>
       </section>
     </div>
   );

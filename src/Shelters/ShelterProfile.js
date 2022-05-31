@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, Redirect } from "react-router-dom";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 import PetlyApi from "../api";
-import { useFetch } from "../common/hooks";
 import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import {
@@ -13,13 +12,30 @@ import {
 } from "../common/helpers";
 import "../css/ShelterProfile.css";
 import Loading from "../common/Loading";
+import DEFAULT_PIC from "../assets/shelter.jpg";
 
 const ShelterProfile = () => {
   const { shelterId } = useParams();
   const { user, token } = useContext(UserInfoContext);
-  const [shelter, isLoading] = useFetch( 
-    PetlyApi.get("shelters", shelterId, token)
-  );
+  const [shelter, setShelter] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.get("shelters", shelterId, token);
+        setShelter(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
+
   //No need to include this property with the formData
   delete shelter.adoptableDogs;
   //we want to track if the user can confirm the password so we add password property
@@ -28,7 +44,7 @@ const ShelterProfile = () => {
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
 
-  //first render will not show shelter data, once the data is fetched from useFetched, update the formData
+  //first render will not show shelter data, once the data is fetched, update the formData
   useEffect(() => {
     setFormData(shelter);
   }, [shelter]);
@@ -73,6 +89,7 @@ const ShelterProfile = () => {
       password,
     ]);
 
+    formData.logo = formData.logo === "" ? DEFAULT_PIC : formData.logo;
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
         //authenticate user before updating profile

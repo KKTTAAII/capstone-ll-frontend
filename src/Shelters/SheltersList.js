@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import PetlyApi from "../api";
-import { useFetch } from "../common/hooks";
 import {
   createInput,
   createStateOptions,
@@ -25,9 +25,25 @@ const INITIAL_SEARCH = {
 const SheltersList = () => {
   const { token } = useContext(UserInfoContext);
   const [searchTerms, setSearchTerms] = useState(INITIAL_SEARCH);
-  const [shelters, isLoading, setShelters] = useFetch(
-    PetlyApi.getAll("shelters", {}, token)
-  );
+  const [shelters, setShelters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.getAll("shelters", {}, token);
+        setShelters(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
+
   const [pageNumber, setPageNumber] = useState(0);
   const sheltersPerPage = 10;
   const pagesVisites = pageNumber * sheltersPerPage;

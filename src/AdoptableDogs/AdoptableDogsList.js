@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import PetlyApi from "../api";
-import { useFetch } from "../common/hooks";
 import {
   createInput,
   createBreedOptions,
@@ -26,11 +26,28 @@ const INITIAL_SEARCH = {
 };
 
 const AdoptableDogsList = () => {
-  const { token, favoriteDogs, user, isFavoriteDogsLoading } = useContext(UserInfoContext);
-  const [searchTerms, setSearchTerms] = useState(INITIAL_SEARCH);
-  const [dogs, isLoading, setDogs] = useFetch(
-    PetlyApi.getAll("adoptableDogs", {}, token)
+  const { token, favoriteDogs, user, isFavoriteDogsLoading } = useContext(
+    UserInfoContext
   );
+  const [searchTerms, setSearchTerms] = useState(INITIAL_SEARCH);
+  const [dogs, setDogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.getAll("adoptableDogs", {}, token);
+        setDogs(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
 
   const [pageNumber, setPageNumber] = useState(0);
   const dogsPerPage = 10;

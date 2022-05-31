@@ -50,7 +50,7 @@ const NavBar = ({ logOut }) => {
               to={`/shelters/remove/${user.id}`}
               className="nav-loggedinLink"
             >
-              Remove Pet
+              All Pets
             </NavLink>
           </NavItem>
 

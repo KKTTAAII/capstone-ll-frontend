@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PetlyApi from "../api";
-import { useFetch } from "../common/hooks";
-import { useParams, Redirect } from "react-router-dom";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import UserInfoContext from "../common/UserInfoContext";
 import AdoptableDogCard from "../AdoptableDogs/AdoptableDogCard";
@@ -13,11 +12,26 @@ import Loading from "../common/Loading";
 const RemoveDog = ({ removeDog }) => {
   const { shelterId } = useParams();
   const { user, token } = useContext(UserInfoContext);
-  const [shelter, isLoading, setShelter] = useFetch( 
-    PetlyApi.get("shelters", shelterId, token),
-    !isLoading && shelter ? [shelter.adoptableDogs.length] : []
-  );
+  const [shelter, setShelter] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
   let dogs;
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.get("shelters", shelterId, token);
+        setShelter(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
+
   //ensure correct shelter adding their dog
   if (+shelterId !== user.id) {
     swal({ text: "Unautorized user", icon: "warning" });

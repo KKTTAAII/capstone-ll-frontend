@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, Redirect } from "react-router-dom";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 import UserInfoContext from "../common/UserInfoContext";
 import swal from "sweetalert";
 import PetlyApi from "../api";
-import { useFetch } from "../common/hooks";
 import {
   checkAllRequiredField,
   createBreedOptions,
@@ -18,14 +17,29 @@ import "../css/AdoptableDogProfile.css";
 const AdoptableDogProfile = () => {
   const { shelterId, dogId } = useParams();
   const { user, token } = useContext(UserInfoContext);
-  const [dog, isLoading] = useFetch(
-    PetlyApi.get("adoptableDogs", dogId, token)
-  );
   const [formData, setFormData] = useState(dog);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
+  const [dog, setDog] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
 
-  //first render will not show dog data, once the data is fetched from useFetched, update the formData
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await PetlyApi.get("adoptableDogs", dogId, token);
+        setDog(res);
+        setIsLoading(false);
+      } catch (err) {
+        swal("Oops, not found");
+        history.push("/");
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
+
+  //first render will not show dog data, once the data is fetched, update the formData
   useEffect(() => {
     const matchedShelterDog = dog.filter(dog => dog.shelter.id === +shelterId);
     setFormData(matchedShelterDog[0]);

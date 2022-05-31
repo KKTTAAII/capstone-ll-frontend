@@ -409,7 +409,29 @@ const convertToYesNo = boolean => {
   }
 };
 
-const getUser = async (setToken, setUser, token) => {
+const getFavoriteDogs = async (
+  user,
+  setFavoriteDogs,
+  setIsFavoriteDogsLoading,
+  token
+) => {
+  try {
+    const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+    setFavoriteDogs(favDogs);
+    setIsFavoriteDogsLoading(false);
+  } catch (err) {
+    console.log(err);
+    swal({ text: err[0], icon: "warning" });
+  }
+};
+
+const getUser = async (
+  setToken,
+  setUser,
+  token,
+  setFavoriteDogs,
+  setIsFavoriteDogsLoading
+) => {
   try {
     //check first if there is token in localStorage
     if (token) {
@@ -434,6 +456,12 @@ const getUser = async (setToken, setUser, token) => {
         );
         //check if we have this user in db, if not, token may expire or no that user
         if (user) {
+          getFavoriteDogs(
+            user,
+            setFavoriteDogs,
+            setIsFavoriteDogsLoading,
+            token
+          );
           setUser(tokenInfo);
         }
       }
@@ -442,22 +470,6 @@ const getUser = async (setToken, setUser, token) => {
     setUser(null);
     setToken(null);
     console.log(err);
-  }
-};
-
-const getFavoriteDogs = async (
-  user,
-  setFavoriteDogs,
-  setIsFavoriteDogsLoading,
-  token
-) => {
-  try {
-    const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
-    setFavoriteDogs(favDogs);
-    setIsFavoriteDogsLoading(false);
-  } catch (err) {
-    console.log(err);
-    swal({ text: err[0], icon: "warning" });
   }
 };
 

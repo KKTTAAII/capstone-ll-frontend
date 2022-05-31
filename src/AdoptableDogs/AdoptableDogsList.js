@@ -26,13 +26,12 @@ const INITIAL_SEARCH = {
 };
 
 const AdoptableDogsList = () => {
-  const { token, favoriteDogs, user } = useContext(UserInfoContext);
+  const { token, favoriteDogs, user, isFavoriteDogsLoading } = useContext(UserInfoContext);
   const [searchTerms, setSearchTerms] = useState(INITIAL_SEARCH);
   const [dogs, isLoading, setDogs] = useFetch(
     PetlyApi.getAll("adoptableDogs", {}, token)
   );
 
-  console.log(dogs);
   const [pageNumber, setPageNumber] = useState(0);
   const dogsPerPage = 10;
   const pagesVisites = pageNumber * dogsPerPage;
@@ -59,7 +58,7 @@ const AdoptableDogsList = () => {
     return <Loading />;
   }
 
-  if (user.userType === "adopters" && favoriteDogs === null) {
+  if (user.userType === "adopters" && isFavoriteDogsLoading) {
     return <Loading />;
   }
 

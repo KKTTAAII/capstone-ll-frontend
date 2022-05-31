@@ -84,7 +84,7 @@ const ShelterSignUp = ({ signUp }) => {
 
   return (
     <div className="ShelterSignup-container">
-      <div className="ShelterSignup-header">Sign up</div>
+      <div className="ShelterSignup-header">Shelter Sign up</div>
       
         <form onSubmit={handleSubmit} className="ShelterSignup-form">
           <Row>
@@ -246,7 +246,7 @@ const ShelterSignUp = ({ signUp }) => {
             cols="33"
           ></textarea>
           {isInvalid && isTouched && <small className="ShelterSignup-warning">{WARNING}</small>}
-          <button className="ShelterSignup-button">Shelter Sign up</button>
+          <button className="ShelterSignup-button">Sign up</button>
         </form>
       
       <div className="ShelterSignup-alreadySignup">

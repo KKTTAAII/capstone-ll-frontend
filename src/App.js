@@ -4,28 +4,24 @@ import PetlyApi from "./api";
 import UserInfoContext from "./common/UserInfoContext";
 import { BrowserRouter } from "react-router-dom";
 import { useLocalStorageState } from "./common/hooks";
-import { getUser, getFavoriteDogs } from "./common/helpers";
+import { getUser } from "./common/helpers";
 import jwt_decode from "jwt-decode";
 
 const App = () => {
   const [token, setToken] = useLocalStorageState("token", null);
   const [user, setUser] = useLocalStorageState("user", null);
-  const [favoriteDogs, setFavoriteDogs] = useState(null);
+  const [favoriteDogs, setFavoriteDogs] = useState([]);
   const [isFavoriteDogsLoading, setIsFavoriteDogsLoading] = useState(true);
-  // stop memory leak in useEffect hook react - does not work? why?
-  const unmounted = useRef(false);
 
   useEffect(() => {
-    getUser(setToken, setUser, token);
-    //when the user is adopter, we want to get their list of favorite dogs so we can pass it to the Adoptable dog card
-    if (user && user.userType === "adopters") {
-      getFavoriteDogs(user, setFavoriteDogs, setIsFavoriteDogsLoading, token);
-      // stop memory leak in useEffect hook react - does not work! why?
-      return () => {
-        unmounted.current = true;
-      };
-    }
-  }, [token, favoriteDogs ? favoriteDogs.length : ""]);
+    getUser(
+      setToken,
+      setUser,
+      token,
+      setFavoriteDogs,
+      setIsFavoriteDogsLoading
+    );
+  }, [token, favoriteDogs.length]);
 
   const signUp = async (userType, data) => {
     try {

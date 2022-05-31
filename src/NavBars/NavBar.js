@@ -25,6 +25,18 @@ const NavBar = ({ logOut }) => {
       <Collapse navbar className="nav-loggedIn">
         <Nav className="ms-auto">
           <NavItem>
+            <NavLink to={`/adoptableDogs`} className="nav-loggedinLink">
+              All Dogs
+            </NavLink>
+          </NavItem>
+
+          <NavItem>
+            <NavLink to={`/shelters`} className="nav-loggedinLink">
+              All Shelters
+            </NavLink>
+          </NavItem>
+
+          <NavItem>
             <NavLink
               to={`/shelters/add/${user.id}`}
               className="nav-loggedinLink"
@@ -65,6 +77,18 @@ const NavBar = ({ logOut }) => {
       <Collapse navbar>
         <Nav className="ms-auto">
           <NavItem>
+            <NavLink to={`/adoptableDogs`} className="nav-loggedinLink">
+              All Dogs
+            </NavLink>
+          </NavItem>
+
+          <NavItem>
+            <NavLink to={`/shelters`} className="nav-loggedinLink">
+              All Shelters
+            </NavLink>
+          </NavItem>
+
+          <NavItem>
             <NavLink
               to={`/adopters/favorites/${user.username}`}
               className="nav-loggedinLink"
@@ -93,7 +117,7 @@ const NavBar = ({ logOut }) => {
   } else {
     href = "/";
   }
-  
+
   return (
     <div className="NavBar">
       <Navbar expand="md" light color="light" fixed="top">

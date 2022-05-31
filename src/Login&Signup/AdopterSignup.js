@@ -25,13 +25,19 @@ const AdopterSignUp = ({ signUp }) => {
   const [image, setImage] = useState(null);
   const history = useHistory();
 
-  const handleChange = e => {
-    const { name, value } = e.target;
+  const onImageChange = e => {
     if (e.target.files && e.target.files[0]) {
       let img = e.target.files[0];
       setImage(URL.createObjectURL(img));
       formData.picture = URL.createObjectURL(img);
+      setFormData(formData => ({
+        ...formData,
+      }));
     }
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
     setFormData(formData => ({
       ...formData,
       [name]: value,
@@ -43,6 +49,7 @@ const AdopterSignUp = ({ signUp }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log(formData);
     setFormData(INITIAL_STATE);
     let { username, password, email } = formData;
     const isAllRequiredFieldFilled = checkAllRequiredField([
@@ -117,7 +124,7 @@ const AdopterSignUp = ({ signUp }) => {
         <div>
           <img src={image} className="AdopterSignup-preview-img" />
           <h1>Select Image</h1>
-          <input type="file" name="picture" onChange={handleChange} />
+          <input type="file" name="picture" onChange={onImageChange} />
         </div>
         {/* {createInput(
           "picture",

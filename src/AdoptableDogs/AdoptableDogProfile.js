@@ -17,11 +17,11 @@ import "../css/AdoptableDogProfile.css";
 const AdoptableDogProfile = () => {
   const { shelterId, dogId } = useParams();
   const { user, token } = useContext(UserInfoContext);
+  const [dog, setDog] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState(dog);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
-  const [dog, setDog] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
 
   useEffect(() => {

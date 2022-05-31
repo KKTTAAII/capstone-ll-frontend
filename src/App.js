@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Routes from "./Routes/Routes";
 import PetlyApi from "./api";
 import UserInfoContext from "./common/UserInfoContext";

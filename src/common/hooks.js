@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import swal from "sweetalert";
 import PetlyApi from "../api";
 

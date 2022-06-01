@@ -17,6 +17,7 @@ const AdopterProfile = () => {
   const [isInvalid, setIsInvalid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
+  let pic;
 
   useEffect(() => {
     async function getData() {
@@ -36,6 +37,16 @@ const AdopterProfile = () => {
   //first render will not show shelter data, once the data is fetched, update the formData
   useEffect(() => {
     setFormData(adopter);
+    if (adopter && adopter.picture) {
+      const blob = new Blob([adopter.picture], { type: "image/png" });
+      let reader = new FileReader();
+      reader.addEventListener("loadend", () => {
+        let contents = reader.result;
+        pic = contents;
+      });
+      reader.readAsDataURL(blob);
+      console.log(blob instanceof Blob);
+    }
   }, [adopter]);
 
   //we want to track if the user can confirm the password so we add password property
@@ -52,6 +63,25 @@ const AdopterProfile = () => {
   if (isLoading || adopter === []) {
     return <Loading />;
   }
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      formData.picture = URL.createObjectURL(img);
+      setFormData(formData => ({
+        ...formData,
+      }));
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -92,6 +122,7 @@ const AdopterProfile = () => {
     }
   };
 
+  console.log(adopter.picture);
   return (
     <div className="AdopterProfile-container">
       <div className="AdopterProfile-imgContainer">
@@ -125,16 +156,21 @@ const AdopterProfile = () => {
             "AdopterProfile-label",
             "AdopterProfile-input"
           )}
-          {createInput(
-            "picture",
-            "text",
-            formData.picture || "",
-            handleChange,
-            "Profile Picture",
-            false,
-            "AdopterProfile-label",
-            "AdopterProfile-input"
-          )}
+
+          <div className="AdopterProfile-preview-img-container">
+            <input
+              id="picture"
+              type="file"
+              name="picture"
+              onChange={onImageChange}
+              className="AdopterProfile-img-button"
+            />
+            <label htmlFor="picture">
+              <div className="AdopterProfile-add-picture-button">
+                Update picture
+              </div>
+            </label>
+          </div>
 
           <label htmlFor="numOfDogs" className="AdopterProfile-label">
             Number of dogs:

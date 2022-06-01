@@ -22,17 +22,26 @@ const AdopterSignUp = ({ signUp }) => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
-  const [image, setImage] = useState(null);
+  const [imageFile, setImageFile] = useState({ file: "" });
   const history = useHistory();
 
-  const onImageChange = e => {
-    if (e.target.files && e.target.files[0]) {
+  const onImageChange = async e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
       let img = e.target.files[0];
-      setImage(URL.createObjectURL(img));
       formData.picture = URL.createObjectURL(img);
+      //how can i store the image file in postgresql and retrieve it to display the next time the user logs in?
       setFormData(formData => ({
         ...formData,
       }));
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
     }
   };
 
@@ -43,13 +52,11 @@ const AdopterSignUp = ({ signUp }) => {
       [name]: value,
     }));
     setIsTouched(true);
-    console.log(formData);
     e.target.value === "" ? setIsInvalid(true) : setIsInvalid(false);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log(formData);
     setFormData(INITIAL_STATE);
     let { username, password, email } = formData;
     const isAllRequiredFieldFilled = checkAllRequiredField([
@@ -121,21 +128,24 @@ const AdopterSignUp = ({ signUp }) => {
           "AdopterSignup-input"
         )}
 
-        <div>
-          <img src={image} className="AdopterSignup-preview-img" />
-          <h1>Select Image</h1>
-          <input type="file" name="picture" onChange={onImageChange} />
+        <div className="AdopterSignup-preview-img-container">
+          <img
+            src={formData.picture}
+            className="AdopterSignup-preview-img"
+            alt={formData.username}
+          />
+          <div>Profile Image</div>
+          <input
+            id="picture"
+            type="file"
+            name="picture"
+            onChange={onImageChange}
+            className="AdopterSignup-img-button"
+          />
+          <label htmlFor="picture">
+            <div className="AdopterSignup-add-picture-button">Add picture</div>
+          </label>
         </div>
-        {/* {createInput(
-          "picture",
-          "text",
-          formData.picture,
-          handleChange,
-          "Profile Picture URL",
-          false,
-          "AdopterSignup-label",
-          "AdopterSignup-input-long"
-        )} */}
 
         <Row>
           <Col>

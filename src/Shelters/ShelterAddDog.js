@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   breedId: "1",
   gender: "Female",
   age: "Baby",
-  picture: "",
+  picture: DEFAULT_PIC,
   description: "",
   goodWKids: "0",
   goodWDogs: "0",
@@ -37,6 +37,25 @@ const AddDog = ({ addDog }) => {
     swal({ text: "Unautorized user", icon: "warning" });
     return <Redirect to="/" />;
   }
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      formData.picture = URL.createObjectURL(img);
+      setFormData(formData => ({
+        ...formData,
+      }));
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -58,9 +77,6 @@ const AddDog = ({ addDog }) => {
       gender,
       age,
     ]);
-
-    //i mutate data here, is it okay?
-    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await addDog(shelterId, formData);
@@ -88,16 +104,24 @@ const AddDog = ({ addDog }) => {
           "ShelterAddDog-label",
           "ShelterAddDog-input"
         )}
-        {createInput(
-          "picture",
-          "text",
-          formData.picture,
-          handleChange,
-          "Picture URL",
-          false,
-          "ShelterAddDog-label",
-          "ShelterAddDog-input"
-        )}
+
+        <div className="ShelterAddDog-preview-img-container">
+          <img
+            src={formData.picture}
+            className="ShelterAddDog-preview-img"
+            alt={formData.username}
+          />
+          <input
+            id="picture"
+            type="file"
+            name="picture"
+            onChange={onImageChange}
+            className="ShelterAddDog-img-button"
+          />
+          <label htmlFor="picture">
+            <div className="ShelterAddDog-button add-button">Add picture</div>
+          </label>
+        </div>
 
         <label htmlFor="breedId" className="ShelterAddDog-label">
           Breed:
@@ -197,7 +221,9 @@ const AddDog = ({ addDog }) => {
           rows="5"
           cols="50"
         ></textarea>
-        {isInvalid && isTouched && <small className="ShelterAddDog-warning">{WARNING}</small>}
+        {isInvalid && isTouched && (
+          <small className="ShelterAddDog-warning">{WARNING}</small>
+        )}
         <button className="ShelterAddDog-button">Add a Dog</button>
       </form>
     </div>

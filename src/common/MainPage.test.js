@@ -1,16 +1,12 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import ShelterSignUp from "./ShelterSignup";
 import { MemoryRouter } from "react-router-dom";
-import App from "../App";
-
-jest.mock("../App");
-App.signUp = jest.fn();
+import MainPage from "./MainPage";
 
 it("renders without crashing", () => {
   render(
     <MemoryRouter>
-      <ShelterSignUp signUp={App.signUp} />
+      <MainPage />
     </MemoryRouter>
   );
 });
@@ -18,8 +14,19 @@ it("renders without crashing", () => {
 it("matches snapshot", () => {
   const { asFragment } = render(
     <MemoryRouter>
-      <ShelterSignUp signUp={App.signUp} />
+      <MainPage />
     </MemoryRouter>
   );
   expect(asFragment()).toMatchSnapshot();
+});
+
+it("shows main page text", () => {
+  const { getByText } = render(
+    <MemoryRouter>
+      <MainPage />
+    </MemoryRouter>
+  );
+
+  //expect the welcome text in the Document
+  expect(getByText("Welcome to Petly!")).toBeInTheDocument();
 });

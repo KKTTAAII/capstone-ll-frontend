@@ -1,6 +1,6 @@
 import React from "react";
-import "./css/MainPage.css";
-import PawPrints from "./assets/paw-print-mainpage/pawPrint.jpg";
+import "../css/MainPage.css";
+import PawPrints from "../assets/paw-print-mainpage/pawPrint.jpg";
 
 const MainPage = () => {
   return (

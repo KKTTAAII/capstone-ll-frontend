@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Routes from "./Routes/Routes";
 import PetlyApi from "./api";
 import UserInfoContext from "./common/UserInfoContext";
-import BrowserRouter from "react-router-dom";
-import useLocalStorageState from "./common/hooks";
-import getUser from "./common/helpers";
+import { BrowserRouter } from "react-router-dom";
+import { useLocalStorageState } from "./common/hooks";
+import { getUser } from "./common/helpers";
 import jwt_decode from "jwt-decode";
 
 const App = () => {

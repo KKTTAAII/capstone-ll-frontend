@@ -8,21 +8,11 @@ import { Card, CardImg, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import PetlyApi from "../api";
 import swal from "sweetalert";
 import "../css/AdoptableDogCard.css";
-import Loading from "../common/Loading";
 
 const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
-  const {
-    user,
-    setFavoriteDogs,
-    favoriteDogs,
-    isFavoriteDogsLoading,
-  } = useContext(UserInfoContext);
+  const { user, setFavoriteDogs, favoriteDogs } = useContext(UserInfoContext);
   const [like, setLike] = useToggle(isFavoriteDog);
   const { id, name, picture, gender, age } = dog;
-
-  if (isFavoriteDogsLoading) {
-    return <Loading />;
-  }
 
   const favorite = async dogId => {
     try {

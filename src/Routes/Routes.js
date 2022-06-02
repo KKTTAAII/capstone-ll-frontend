@@ -22,7 +22,7 @@ import AdopterProfile from "../Adopters/AdopterProfile";
 import AdopterFavoriteDogs from "../Adopters/AdopterFavoriteDogs";
 import AdopterResetPassword from "../Adopters/AdopterResetPassword";
 import NavBar from "../NavBars/NavBar";
-import MainPage from "../MainPage";
+import MainPage from "../common/MainPage";
 
 const Routes = ({ signUp, logIn, addDog, removeDog, logOut }) => {
   return (

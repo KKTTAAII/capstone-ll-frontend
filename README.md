@@ -39,6 +39,7 @@ Ktai-Petly is a resemblance of a two sided marketplace app. There are 2 sides of
 - nodemailer
 - jsonschema
 - postgresql
+- [PetFinder API](https://www.petfinder.com/developers/v2/docs/)
 
 ## Try the code on your local machine
 
@@ -65,7 +66,7 @@ Ktai-Petly is a resemblance of a two sided marketplace app. There are 2 sides of
 2. run a test by using this command
 
         $ jest FILE_NAME.test.js
-- For frontend
+- For frontend (note: any files with 'reactstrap' components will give you an error when testing. This is reactstrap issue)
 1. ensure you are inside the frontend folder
 2. run tests by using this command
 
@@ -77,5 +78,6 @@ Ktai-Petly is a resemblance of a two sided marketplace app. There are 2 sides of
 ## v2.0.0 - Future Features
 - user can share the dog they want to adopt with their friends via social media
 - user can upload their picture from their local machine
+- fix the reactstrap jest test issue by replacing it with CSS
 
 Author: [Boonyawee P.](https://www.linkedin.com/in/boonyawee-prasertsiripond/)       

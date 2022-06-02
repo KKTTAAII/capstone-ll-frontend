@@ -167,7 +167,6 @@ const ShelterSignUp = ({ signUp }) => {
         <Row>
           <Col md={3}>
             <FormGroup>
-              {" "}
               {createInput(
                 "address",
                 "text",

@@ -81,6 +81,9 @@ const AdoptableDogProfile = () => {
     delete copiedFormData.shelterId;
     delete copiedFormData.shelter;
 
+    copiedFormData.picture =
+      copiedFormData.picture === "" ? DEFAULT_PIC : copiedFormData.picture;
+
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
         const response = await PetlyApi.updateDog(copiedFormData, {
@@ -123,6 +126,16 @@ const AdoptableDogProfile = () => {
           handleChange,
           "Name",
           true,
+          "AdoptableDogProfile-label",
+          "AdoptableDogProfile-input"
+        )}
+        {createInput(
+          "picture",
+          "text",
+          formData.picture,
+          handleChange,
+          "Picture",
+          false,
           "AdoptableDogProfile-label",
           "AdoptableDogProfile-input"
         )}

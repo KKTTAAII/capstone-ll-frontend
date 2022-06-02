@@ -6,7 +6,7 @@ import {
   checkAllRequiredField,
   createInput,
   DOGBREEDS,
-  createBreedOptions,
+  createBreedOptions
 } from "../common/helpers";
 import UserInfoContext from "../common/UserInfoContext";
 import DEFAULT_PIC from "../assets/dog.png";
@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   breedId: "1",
   gender: "Female",
   age: "Baby",
-  picture: DEFAULT_PIC,
+  picture: "",
   description: "",
   goodWKids: "0",
   goodWDogs: "0",
@@ -37,25 +37,6 @@ const AddDog = ({ addDog }) => {
     swal({ text: "Unautorized user", icon: "warning" });
     return <Redirect to="/" />;
   }
-
-  const onImageChange = e => {
-    if (
-      e.target.files &&
-      e.target.files[0] &&
-      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
-    ) {
-      let img = e.target.files[0];
-      formData.picture = URL.createObjectURL(img);
-      setFormData(formData => ({
-        ...formData,
-      }));
-    } else {
-      swal({
-        text: "Not an image",
-        icon: "warning",
-      });
-    }
-  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -77,6 +58,8 @@ const AddDog = ({ addDog }) => {
       gender,
       age,
     ]);
+
+    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await addDog(shelterId, formData);
@@ -105,23 +88,16 @@ const AddDog = ({ addDog }) => {
           "ShelterAddDog-input"
         )}
 
-        <div className="ShelterAddDog-preview-img-container">
-          <img
-            src={formData.picture}
-            className="ShelterAddDog-preview-img"
-            alt={formData.username}
-          />
-          <input
-            id="picture"
-            type="file"
-            name="picture"
-            onChange={onImageChange}
-            className="ShelterAddDog-img-button"
-          />
-          <label htmlFor="picture">
-            <div className="ShelterAddDog-button add-button">Add picture</div>
-          </label>
-        </div>
+        {createInput(
+          "picture",
+          "text",
+          formData.picture,
+          handleChange,
+          "Picture URL",
+          false,
+          "ShelterAddDog-label",
+          "ShelterAddDog-input"
+        )}
 
         <label htmlFor="breedId" className="ShelterAddDog-label">
           Breed:

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import ShelterSignup from "../Login&Signup/ShelterSignup";
-import AdopterSignUp from "../Login&Signup/AdopterSignup";
+import AdopterSignUp from "../Login&Signup/AdopterSignUp";
 import ShelterLogin from "../Login&Signup/ShelterLogin";
 import AdopterLogin from "../Login&Signup/AdopterLogin";
 import SheltersList from "../Shelters/SheltersList";

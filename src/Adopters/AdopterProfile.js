@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { useParams, Redirect, useHistory } from "react-router-dom";
 import PetlyApi from "../api";
 import UserInfoContext from "../common/UserInfoContext";
@@ -17,7 +17,7 @@ const AdopterProfile = () => {
   const [isInvalid, setIsInvalid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
-  let pic;
+  const picture = useRef("");
 
   useEffect(() => {
     async function getData() {
@@ -37,15 +37,21 @@ const AdopterProfile = () => {
   //first render will not show shelter data, once the data is fetched, update the formData
   useEffect(() => {
     setFormData(adopter);
+
     if (adopter && adopter.picture) {
       const blob = new Blob([adopter.picture], { type: "image/png" });
       let reader = new FileReader();
-      reader.addEventListener("loadend", () => {
+
+      function getContents() {
         let contents = reader.result;
-        pic = contents;
-      });
+        picture.current = contents;
+      }
+
+      reader.addEventListener("loadend", getContents);
       reader.readAsDataURL(blob);
-      console.log(blob instanceof Blob);
+      return function cleanup() {
+        reader.removeEventListener("loadend", getContents);
+      };
     }
   }, [adopter]);
 
@@ -128,7 +134,7 @@ const AdopterProfile = () => {
       <div className="AdopterProfile-imgContainer">
         <img
           alt={adopter.username}
-          src={adopter.picture}
+          src={picture.current}
           className="AdopterProfile-img"
         />
         <small className="AdopterProfile-caption">{adopter.username}</small>

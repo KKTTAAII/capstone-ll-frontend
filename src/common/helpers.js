@@ -473,6 +473,18 @@ const getUser = async (
   }
 };
 
+const checkImageName = url => {
+  if (url.match(/.(jpg|jpeg|png|gif)$/i)) {
+    return true;
+  } else {
+    swal({
+      text: "Not an image",
+      icon: "warning",
+    });
+    return false;
+  }
+};
+
 export {
   getFavoriteDogs,
   getUser,
@@ -485,4 +497,5 @@ export {
   convertToYesNo,
   createBreedOptions,
   DOGBREEDS,
+  checkImageName,
 };

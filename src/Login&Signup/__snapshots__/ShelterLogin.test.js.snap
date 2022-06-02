@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="ShelterLogin-container"
+  >
+    <div
+      class="ShelterLogin-header"
+    >
+      Shelter Log in
+    </div>
+    <form
+      class="ShelterLogin-form"
+    >
+      <label
+        class="ShelterLogin-label"
+      >
+        Username:
+      </label>
+      <input
+        class="ShelterLogin-input"
+        id="username"
+        name="username"
+        placeholder="Username"
+        type="text"
+        value=""
+      />
+      <label
+        class="ShelterLogin-label"
+      >
+        Password:
+      </label>
+      <input
+        class="ShelterLogin-input"
+        id="password"
+        name="password"
+        placeholder="Password"
+        type="password"
+        value=""
+      />
+      <button
+        class="ShelterLogin-button"
+      >
+        Log in
+      </button>
+    </form>
+    <div
+      class="ShelterLogin-reminder"
+    >
+      Don't have an account yet? Sign up 
+      <a
+        class="ShelterLogin-signuplink"
+        href="/shelters/signup"
+      >
+        here
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;

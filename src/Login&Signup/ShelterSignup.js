@@ -22,7 +22,7 @@ const INITIAL_STATE = {
   postcode: "",
   phoneNumber: "",
   email: "",
-  logo: DEFAULT_PIC,
+  logo: "",
   description: "",
 };
 
@@ -31,25 +31,6 @@ const ShelterSignUp = ({ signUp }) => {
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
   const history = useHistory();
-
-  const onImageChange = e => {
-    if (
-      e.target.files &&
-      e.target.files[0] &&
-      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
-    ) {
-      let img = e.target.files[0];
-      formData.logo = URL.createObjectURL(img);
-      setFormData(formData => ({
-        ...formData,
-      }));
-    } else {
-      swal({
-        text: "Not an image",
-        icon: "warning",
-      });
-    }
-  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -82,6 +63,9 @@ const ShelterSignUp = ({ signUp }) => {
       phoneNumber,
       email,
     ]);
+
+    formData.logo = formData.logo === "" ? DEFAULT_PIC : formData.logo;
+
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await signUp("Shelter", formData);
       //if there is a response, there is an error
@@ -242,24 +226,16 @@ const ShelterSignUp = ({ signUp }) => {
           </Col>
         </Row>
 
-        <div className="ShelterSignup-preview-img-container">
-          <img
-            src={formData.logo}
-            className="ShelterSignup-preview-img"
-            alt={formData.username}
-          />
-          <div>Profile Image</div>
-          <input
-            id="logo"
-            type="file"
-            name="logo"
-            onChange={onImageChange}
-            className="ShelterSignup-img-button"
-          />
-          <label htmlFor="logo">
-            <div className="ShelterSignup-add-picture-button">Add logo</div>
-          </label>
-        </div>
+        {createInput(
+          "logo",
+          "text",
+          formData.logo,
+          handleChange,
+          "Shelter's Logo URL",
+          false,
+          "ShelterSignup-label",
+          "ShelterSignup-input-long"
+        )}
 
         <label className="ShelterSignup-label" id="bio">
           Shelter's Bio:

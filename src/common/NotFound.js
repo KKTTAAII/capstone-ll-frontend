@@ -7,10 +7,12 @@ function NotFound() {
   return (
     <div className="NotFound-container">
       <div className="NotFound-message">
-        Sorry, we did not find the page you were looking for. 
+        Sorry, we did not find the page you were looking for.
       </div>
-      <img src={ERROR_PIC} alt="404-Page-Not-Found" className="NotFound-img"/>
-      <Link to={`/`} className="NotFound-backHome">Back home</Link>
+      <img src={ERROR_PIC} alt="404-Page-Not-Found" className="NotFound-img" />
+      <Link to={`/`} className="NotFound-backHome">
+        Back home
+      </Link>
     </div>
   );
 }

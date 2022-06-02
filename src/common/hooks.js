@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import swal from "sweetalert";
-import PetlyApi from "../api";
+import { useState, useEffect } from "react";
 
 const useLocalStorageState = (key, defaultValue) => {
   const [state, setState] = useState(() => {
@@ -29,28 +26,4 @@ const useToggle = initialState => {
   return [state, toggle];
 };
 
-const useFavoriteDogsState = (user, token) => {
-  if (user.userType === "adopters") {
-    const [favoriteDogs, setFavoriteDogs] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-      async function getFavoriteDogs() {
-        try {
-          const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
-          setFavoriteDogs(favDogs);
-          setIsLoading(false);
-        } catch (err) {
-          console.log(err);
-          swal({ text: err[0], icon: "warning" });
-          return <Redirect to="/" />;
-        }
-      }
-      getFavoriteDogs();
-    }, [favoriteDogs ? favoriteDogs.length : ""]);
-
-    return [favoriteDogs, isLoading, setFavoriteDogs];
-  }
-};
-
-export { useLocalStorageState, useToggle, useFavoriteDogsState };
+export { useLocalStorageState, useToggle };

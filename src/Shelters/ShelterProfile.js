@@ -8,7 +8,7 @@ import {
   createInput,
   USSTATES,
   createStateOptions,
-  WARNING,
+  WARNING
 } from "../common/helpers";
 import "../css/ShelterProfile.css";
 import Loading from "../common/Loading";
@@ -47,10 +47,6 @@ const ShelterProfile = () => {
   //first render will not show shelter data, once the data is fetched, update the formData
   useEffect(() => {
     setFormData(shelter);
-    if (shelter && shelter.logo) {
-      const url = URL.createObjectURL(shelter.logo);
-      console.log(url);
-    }
   }, [shelter]);
 
   //ensure correct shelter adding their dog
@@ -62,25 +58,6 @@ const ShelterProfile = () => {
   if (isLoading) {
     return <Loading />;
   }
-
-  const onImageChange = e => {
-    if (
-      e.target.files &&
-      e.target.files[0] &&
-      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
-    ) {
-      let img = e.target.files[0];
-      formData.logo = URL.createObjectURL(img);
-      setFormData(formData => ({
-        ...formData,
-      }));
-    } else {
-      swal({
-        text: "Not an image",
-        icon: "warning",
-      });
-    }
-  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -231,20 +208,16 @@ const ShelterProfile = () => {
             "ShelterProfile-input"
           )}
 
-          <div className="ShelterProfile-preview-img-container">
-            <input
-              id="logo"
-              type="file"
-              name="logo"
-              onChange={onImageChange}
-              className="ShelterProfile-img-button"
-            />
-            <label htmlFor="logo">
-              <div className="ShelterProfile-add-picture-button">
-                Update logo
-              </div>
-            </label>
-          </div>
+          {createInput(
+            "logo",
+            "text",
+            formData.logo || "",
+            handleChange,
+            "Shelter's Logo URL",
+            false,
+            "ShelterProfile-label",
+            "ShelterProfile-input"
+          )}
 
           <label className="ShelterProfile-label">Shelter's Bio:</label>
           <textarea

@@ -10,7 +10,7 @@ const INITIAL_STATE = {
   username: "",
   password: "",
   email: "",
-  picture: DEFAULT_PIC,
+  picture: "",
   description: "",
   privateOutdoors: false,
   numOfDogs: 0,
@@ -32,8 +32,9 @@ const AdopterSignUp = ({ signUp }) => {
       e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
     ) {
       let img = e.target.files[0];
-      formData.picture = URL.createObjectURL(img);
+      formData.picture = URL.createObjectURL(img); //return blob URL string
       //how can i store the image file in postgresql and retrieve it to display the next time the user logs in?
+
       setFormData(formData => ({
         ...formData,
       }));
@@ -64,6 +65,8 @@ const AdopterSignUp = ({ signUp }) => {
       password,
       email,
     ]);
+
+    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await signUp("Adopter", formData);

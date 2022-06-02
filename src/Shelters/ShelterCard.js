@@ -8,7 +8,7 @@ const ShelterCard = ({ shelter }) => {
   return (
     <div id={id} className="ShelterCard-container">
       <Card id="Sheltercard-card">
-        <CardImg alt={name} src={logo} top id="ShelterCard-img"/>
+        <CardImg alt={name} src={logo} top id="ShelterCard-img" />
         <CardBody>
           <CardTitle>
             <Link to={`/shelters/${id}`} className="ShelterCard-link">

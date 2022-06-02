@@ -74,12 +74,16 @@ const ShelterLogin = ({ logIn }) => {
           "ShelterLogin-label",
           "ShelterLogin-input"
         )}
-        {isInvalid && isTouched && <small className="ShelterLogin-warning">{WARNING}</small>}
+        {isInvalid && isTouched && (
+          <small className="ShelterLogin-warning">{WARNING}</small>
+        )}
         <button className="ShelterLogin-button">Log in</button>
       </form>
       <div className="ShelterLogin-reminder">
         Don't have an account yet? Sign up{" "}
-        <Link to={`/shelters/signup`} className="ShelterLogin-signuplink">here</Link>
+        <Link to={`/shelters/signup`} className="ShelterLogin-signuplink">
+          here
+        </Link>
       </div>
     </div>
   );

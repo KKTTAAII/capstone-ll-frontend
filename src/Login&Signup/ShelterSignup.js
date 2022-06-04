@@ -230,7 +230,7 @@ const ShelterSignUp = ({ signUp }) => {
           "text",
           formData.logo,
           handleChange,
-          "Shelter's Logo URL",
+          "Shelter's Logo Link",
           false,
           "ShelterSignup-label",
           "ShelterSignup-input-long"

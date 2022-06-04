@@ -134,7 +134,7 @@ const AdoptableDogProfile = () => {
           "text",
           formData.picture,
           handleChange,
-          "Picture",
+          "Picture Link",
           false,
           "AdoptableDogProfile-label",
           "AdoptableDogProfile-input"

@@ -213,7 +213,7 @@ const ShelterProfile = () => {
             "text",
             formData.logo || "",
             handleChange,
-            "Shelter's Logo URL",
+            "Shelter's Logo Link",
             false,
             "ShelterProfile-label",
             "ShelterProfile-input"

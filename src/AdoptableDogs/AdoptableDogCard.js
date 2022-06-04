@@ -10,7 +10,9 @@ import swal from "sweetalert";
 import "../css/AdoptableDogCard.css";
 
 const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
-  const { user, setFavoriteDogs, favoriteDogs } = useContext(UserInfoContext);
+  const { user, setFavoriteDogs, favoriteDogs, allFavoritedDogs } = useContext(
+    UserInfoContext
+  );
   const [like, setLike] = useToggle(isFavoriteDog);
   const { id, name, picture, gender, age } = dog;
 
@@ -18,6 +20,10 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
     try {
       await PetlyApi.favoriteDog(dogId);
       const newFavoriteDog = dog;
+      setLike(!like);
+      //add to allFavoritedDogs so we can check through frontend data
+      //first before calling API if the data does not exist 
+      allFavoritedDogs.current[newFavoriteDog.id] = newFavoriteDog;
       setFavoriteDogs(dogs => [...dogs, newFavoriteDog]);
     } catch (err) {
       console.log(err);
@@ -29,6 +35,7 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
     try {
       await PetlyApi.unFavoriteDog(dogId);
       const updateFavoriteDogs = favoriteDogs.filter(dog => dog.id !== dogId);
+      setLike(!like);
       setFavoriteDogs(updateFavoriteDogs);
     } catch (err) {
       console.log(err);
@@ -46,7 +53,6 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
             type="button"
             onClick={async () => {
               like ? await unFavorite(id) : await favorite(id);
-              setLike(!like);
             }}
           >
             {like ? (

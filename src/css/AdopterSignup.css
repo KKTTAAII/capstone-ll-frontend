@@ -106,3 +106,10 @@
 .AdopterSignup-add-picture-button:hover {
     cursor: pointer;
 }
+
+.AdopterSignup-warning {
+    font-size: x-small;
+    color: red;
+    margin: 10px;
+    font-weight: 400;
+}

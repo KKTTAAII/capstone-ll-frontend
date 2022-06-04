@@ -11,8 +11,7 @@ const AdopterFavoriteDogs = () => {
   const { user, favoriteDogs, isFavoriteDogsLoading } = useContext(
     UserInfoContext
   );
-
-  console.log(favoriteDogs)
+  
   //ensure correct shelter adding their dog
   if (username !== user.username) {
     swal({ text: "Unautorized user", icon: "warning" });

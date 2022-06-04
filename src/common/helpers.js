@@ -409,16 +409,44 @@ const convertToYesNo = boolean => {
   }
 };
 
+const getId = dogs => {
+  const ids = dogs.map(dog => dog.id);
+  return ids;
+};
+
 const getFavoriteDogs = async (
   user,
   setFavoriteDogs,
   setIsFavoriteDogsLoading,
-  token
+  token,
+  allFavoritedDogs,
+  favoriteDogs
 ) => {
   try {
-    const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
-    setFavoriteDogs(favDogs);
-    setIsFavoriteDogsLoading(false);
+    //get ids from the user's favorite dogs first
+    const dogsIds = getId(favoriteDogs);
+    const allFavoritedDogsCurrent = allFavoritedDogs.current;
+    //check if the ids are in our global variable obj allFavoriteDogs
+    const areIdsInThere = dogsIds.every(id =>
+      allFavoritedDogsCurrent.hasOwnProperty(id)
+    );
+    //then we check that first and if areIdsInThere is false 
+    // or there is nothing in the allFavoritedDogsCurrent, 
+    //we call PetlyApi.getFavoriteDogs
+    //save API calls
+    if (
+      dogsIds.length !== 0 &&
+      areIdsInThere &&
+      Object.keys(allFavoritedDogsCurrent).length !== 0
+    ) {
+      const matchedDogs = dogsIds.map(id => allFavoritedDogsCurrent[id]);
+      setFavoriteDogs(matchedDogs);
+      setIsFavoriteDogsLoading(false);
+    } else {
+      const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+      setFavoriteDogs(favDogs);
+      setIsFavoriteDogsLoading(false);
+    }
   } catch (err) {
     console.log(err);
     swal({ text: err[0], icon: "warning" });
@@ -430,7 +458,9 @@ const getUser = async (
   setUser,
   token,
   setFavoriteDogs,
-  setIsFavoriteDogsLoading
+  setIsFavoriteDogsLoading,
+  allFavoritedDogs,
+  favoriteDogs
 ) => {
   try {
     //check first if there is token in localStorage
@@ -460,7 +490,9 @@ const getUser = async (
             user,
             setFavoriteDogs,
             setIsFavoriteDogsLoading,
-            token
+            token,
+            allFavoritedDogs,
+            favoriteDogs
           );
           setUser(tokenInfo);
         }

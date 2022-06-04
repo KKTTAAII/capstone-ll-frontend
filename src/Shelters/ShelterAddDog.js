@@ -93,7 +93,7 @@ const AddDog = ({ addDog }) => {
           "text",
           formData.picture,
           handleChange,
-          "Picture URL",
+          "Picture Link",
           false,
           "ShelterAddDog-label",
           "ShelterAddDog-input"

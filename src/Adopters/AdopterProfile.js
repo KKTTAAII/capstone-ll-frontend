@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, Redirect, useHistory } from "react-router-dom";
 import PetlyApi from "../api";
 import UserInfoContext from "../common/UserInfoContext";
@@ -17,7 +17,6 @@ const AdopterProfile = () => {
   const [isInvalid, setIsInvalid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
-  const picture = useRef("");
 
   useEffect(() => {
     async function getData() {
@@ -37,22 +36,6 @@ const AdopterProfile = () => {
   //first render will not show shelter data, once the data is fetched, update the formData
   useEffect(() => {
     setFormData(adopter);
-
-    if (adopter && adopter.picture) {
-      const blob = new Blob([adopter.picture], { type: "image/png" });
-      let reader = new FileReader();
-
-      function getContents() {
-        let contents = reader.result;
-        picture.current = contents;
-      }
-
-      reader.addEventListener("loadend", getContents);
-      reader.readAsDataURL(blob);
-      return function cleanup() {
-        reader.removeEventListener("loadend", getContents);
-      };
-    }
   }, [adopter]);
 
   //we want to track if the user can confirm the password so we add password property
@@ -69,25 +52,6 @@ const AdopterProfile = () => {
   if (isLoading || adopter === []) {
     return <Loading />;
   }
-
-  const onImageChange = e => {
-    if (
-      e.target.files &&
-      e.target.files[0] &&
-      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
-    ) {
-      let img = e.target.files[0];
-      formData.picture = URL.createObjectURL(img);
-      setFormData(formData => ({
-        ...formData,
-      }));
-    } else {
-      swal({
-        text: "Not an image",
-        icon: "warning",
-      });
-    }
-  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -128,13 +92,12 @@ const AdopterProfile = () => {
     }
   };
 
-  console.log(adopter.picture);
   return (
     <div className="AdopterProfile-container">
       <div className="AdopterProfile-imgContainer">
         <img
           alt={adopter.username}
-          src={picture.current}
+          src={formData.picture}
           className="AdopterProfile-img"
         />
         <small className="AdopterProfile-caption">{adopter.username}</small>
@@ -163,20 +126,16 @@ const AdopterProfile = () => {
             "AdopterProfile-input"
           )}
 
-          <div className="AdopterProfile-preview-img-container">
-            <input
-              id="picture"
-              type="file"
-              name="picture"
-              onChange={onImageChange}
-              className="AdopterProfile-img-button"
-            />
-            <label htmlFor="picture">
-              <div className="AdopterProfile-add-picture-button">
-                Update picture
-              </div>
-            </label>
-          </div>
+          {createInput(
+            "picture",
+            "picture",
+            formData.picture || "",
+            handleChange,
+            "Picture Link",
+            false,
+            "AdopterSignup-label",
+            "AdopterSignup-input"
+          )}
 
           <label htmlFor="numOfDogs" className="AdopterProfile-label">
             Number of dogs:

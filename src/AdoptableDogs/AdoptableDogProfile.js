@@ -132,7 +132,9 @@ const AdoptableDogProfile = () => {
         {createInput(
           "picture",
           "text",
-          formData.picture,
+          formData.picture.includes("../assets/dog.png")
+            ? DEFAULT_PIC
+            : formData.picture,
           handleChange,
           "Picture Link",
           false,

@@ -9,6 +9,7 @@ import swal from "sweetalert";
 import Loading from "../common/Loading";
 import { FormGroup, Row, Col } from "reactstrap";
 import "../css/ShelterDetails.css";
+import LOGO from "../assets/shelter.jpg";
 
 const INITIAL_STATE = {
   message: "",
@@ -102,7 +103,11 @@ const ShelterDetails = () => {
     <div id={id} className="ShelterDetails-container">
       {/* shelter's info section */}
       <section className="ShelterDetails-infoSection">
-        <img src={logo} className="ShelterDetails-img" alt={name} />
+        <img
+          src={logo.includes("../assets/shelter.png") ? LOGO : logo}
+          className="ShelterDetails-img"
+          alt={name}
+        />
         <div className="ShelterDetails-info">
           <div className="name">{name}</div>
           <div className="address">

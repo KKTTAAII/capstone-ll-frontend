@@ -8,6 +8,7 @@ import { Card, CardImg, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import PetlyApi from "../api";
 import swal from "sweetalert";
 import "../css/AdoptableDogCard.css";
+import LOCAL_IMAGE from "../assets/dog.png";
 
 const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
   const { user, setFavoriteDogs, favoriteDogs, allFavoritedDogs } = useContext(
@@ -22,7 +23,7 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
       const newFavoriteDog = dog;
       setLike(!like);
       //add to allFavoritedDogs so we can check through frontend data
-      //first before calling API if the data does not exist 
+      //first before calling API if the data does not exist
       allFavoritedDogs.current[newFavoriteDog.id] = newFavoriteDog;
       setFavoriteDogs(dogs => [...dogs, newFavoriteDog]);
     } catch (err) {
@@ -46,7 +47,12 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
   return (
     <div id={id} className="AdoptableDogCard-container">
       <Card id="AdoptableDogCard-card">
-        <CardImg alt={name} src={picture} top id="AdoptableDogCard-img" />
+        <CardImg
+          alt={name}
+          src={picture.includes("../assets/dog.png") ? LOCAL_IMAGE : picture}
+          top
+          id="AdoptableDogCard-img"
+        />
         {user.userType === "adopters" ? (
           <button
             className="button"

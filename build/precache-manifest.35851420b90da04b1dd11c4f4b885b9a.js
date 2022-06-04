@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "7aac8f3322cb54a2e7ef",
-    "url": "/static/css/main.eadf64ed.chunk.css"
+    "revision": "490dd54d47ce7317f92f",
+    "url": "/static/css/main.24af2c19.chunk.css"
   },
   {
-    "revision": "7aac8f3322cb54a2e7ef",
-    "url": "/static/js/main.7aac8f33.chunk.js"
+    "revision": "490dd54d47ce7317f92f",
+    "url": "/static/js/main.490dd54d.chunk.js"
   },
   {
-    "revision": "1362726b5fe2c4665fac",
+    "revision": "2d71c4b7a8d11f0dbbee",
     "url": "/static/css/1.704c3a09.chunk.css"
   },
   {
-    "revision": "1362726b5fe2c4665fac",
-    "url": "/static/js/1.1362726b.chunk.js"
+    "revision": "2d71c4b7a8d11f0dbbee",
+    "url": "/static/js/1.2d71c4b7.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/static/media/pawPrint.f4075326.jpg"
   },
   {
-    "revision": "7aea90dcf9a9cc2e99a6e091d0669f7b",
+    "revision": "ed88b7d7fba4c5171c673afb99028359",
     "url": "/index.html"
   }
 ];

@@ -211,7 +211,7 @@ const ShelterProfile = () => {
           {createInput(
             "logo",
             "text",
-            formData.logo || "",
+            formData.logo.includes("../assets/shelter.png") ? DEFAULT_PIC : formData.logo || "",
             handleChange,
             "Shelter's Logo Link",
             false,

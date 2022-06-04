@@ -8,6 +8,7 @@ import "../css/AdoptableDogDetails.css";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import swal from "sweetalert";
+import LOCAL_IMAGE from "../assets/dog.png";
 
 const AdoptableDogDetails = () => {
   const { token, user } = useContext(UserInfoContext);
@@ -64,7 +65,7 @@ const AdoptableDogDetails = () => {
         )}
 
         <div className="AdoptableDogDetails-name">{name}</div>
-        <img src={picture} alt={name} className="AdoptableDogDetails-img" />
+        <img src={picture.includes("../assets/dog.png") ? LOCAL_IMAGE : picture} alt={name} className="AdoptableDogDetails-img" />
         <div className="AdoptableDogDetails-infoContainer">
           <div className="label">About</div>
           <ul className="list">

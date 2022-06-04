@@ -255,7 +255,7 @@ const AdoptableDogProfile = () => {
         {isInvalid && isTouched && (
           <small className="AdoptableDogProfile-warning">{WARNING}</small>
         )}
-        <button className="AdoptableDogProfile-button">Edit</button>
+        <button className="AdoptableDogProfile-button">update</button>
       </form>
     </div>
   );

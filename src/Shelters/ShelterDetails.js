@@ -104,7 +104,7 @@ const ShelterDetails = () => {
       {/* shelter's info section */}
       <section className="ShelterDetails-infoSection">
         <img
-          src={logo.includes("../assets/shelter.png") ? LOGO : logo}
+          src={logo.includes("../assets/shelter.jpg") ? LOGO : logo}
           className="ShelterDetails-img"
           alt={name}
         />

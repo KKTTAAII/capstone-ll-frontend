@@ -89,7 +89,7 @@ const ShelterDetails = () => {
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await PetlyApi.contactShelter(formData, shelterId);
-      swal({ text: response, icon: "warning" });
+      swal({ text: response });
     } else {
       swal({
         text: "Oop, please fill out all required fields",

@@ -81,6 +81,7 @@ const App = () => {
   const logOut = () => {
     setToken(null);
     setUser(null);
+    swal({icon: "success", text:"You are logged out"})
   };
 
   const addDog = async (shelterId, data) => {

@@ -187,16 +187,22 @@ const ShelterProfile = () => {
             "ShelterProfile-label",
             "ShelterProfile-input"
           )}
-          {createInput(
-            "phoneNumber",
-            "text",
-            formData.phoneNumber || "",
-            handleChange,
-            "Phone",
-            true,
-            "ShelterProfile-label",
-            "ShelterProfile-input"
-          )}
+          
+           <label htmlFor="phoneNumber" className="ShelterSignup-label">
+                Phone*:
+              </label>
+              <input
+                id="phoneNumber"
+                type="tel"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+                name="phoneNumber"
+                placeholder="123-456-7890"
+                className="ShelterSignup-input"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              ></input>
+
           {createInput(
             "email",
             "email",

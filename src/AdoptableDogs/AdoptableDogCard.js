@@ -47,12 +47,14 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
   return (
     <div id={id} className="AdoptableDogCard-container">
       <Card id="AdoptableDogCard-card">
-        <CardImg
-          alt={name}
-          src={picture.includes("../assets/dog.png") ? LOCAL_IMAGE : picture}
-          top
-          id="AdoptableDogCard-img"
-        />
+        <Link to={`/adoptableDogs/${id}`}>
+          <CardImg
+            alt={name}
+            src={picture.includes("../assets/dog.png") ? LOCAL_IMAGE : picture}
+            top
+            id="AdoptableDogCard-img"
+          />
+        </Link>
         {user.userType === "adopters" ? (
           <button
             className="button"

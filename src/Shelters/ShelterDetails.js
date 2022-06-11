@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 };
 
 const ShelterDetails = () => {
-  const { token } = useContext(UserInfoContext);
+  const { token, favoriteDogs, user } = useContext(UserInfoContext);
   const { shelterId } = useParams();
   const [shelter, setShelter] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,8 +63,17 @@ const ShelterDetails = () => {
   if (!adoptableDogs) {
     console.log("This shelter does not have adoptable dogs");
   } else {
+    const favoriteDogsIds = favoriteDogs ? favoriteDogs.map(dog => dog.id) : [];
     dogs = adoptableDogs.map(dog => {
-      return <AdoptableDogCard dog={dog} key={dog.id} />;
+      return (
+        <AdoptableDogCard
+          dog={dog}
+          key={dog.id}
+          isFavoriteDog={
+            user.userType === "adopters" ? favoriteDogsIds.includes(dog.id) : ""
+          }
+        />
+      );
     });
   }
 
@@ -176,9 +185,11 @@ const ShelterDetails = () => {
       </section>
       <section className="ShelterDetails-petSection">
         <div className="label pets">Shelter's Pet:</div>
-        <div className="allPets">
-          {adoptableDogs ? dogs : "There are no adoptable dogs"}
-        </div>
+        {adoptableDogs ? (
+          <div className="allPets">{dogs}</div>
+        ) : (
+          <div>There are no adoptable dogs</div>
+        )}
       </section>
     </div>
   );

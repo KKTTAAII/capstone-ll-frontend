@@ -150,16 +150,20 @@ const ShelterSignUp = ({ signUp }) => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              {createInput(
-                "phoneNumber",
-                "text",
-                formData.phoneNumber,
-                handleChange,
-                "Phone",
-                true,
-                "ShelterSignup-label",
-                "ShelterSignup-input"
-              )}
+              <label htmlFor="phoneNumber" className="ShelterSignup-label">
+                Phone*:
+              </label>
+              <input
+                id="phoneNumber"
+                type="tel"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+                name="phoneNumber"
+                placeholder="123-456-7890"
+                className="ShelterSignup-input"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              ></input>
             </FormGroup>
           </Col>
         </Row>

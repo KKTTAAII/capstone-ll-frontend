@@ -74,65 +74,77 @@ const SheltersList = () => {
     try {
       const response = await PetlyApi.getAll("shelters", searchTerms, token);
       setShelters(response);
-      setSearchTerms(INITIAL_SEARCH);
     } catch (err) {
       console.log(e);
       swal({ text: ERROR, icon: "warning" });
     }
   };
 
+  const clearSearchTerms = async () => {
+    setSearchTerms(INITIAL_SEARCH);
+  };
+
   return (
     <div className="ShelterList-container">
       {/* Form for shelter search */}
-      <form onSubmit={handleSubmit} className="ShelterList-form">
-        {createInput(
-          "name",
-          "text",
-          searchTerms.name,
-          handleChange,
-          "Shelter Name",
-          false,
-          "ShelterList-label",
-          "ShelterList-input"
-        )}
-        {createInput(
-          "city",
-          "text",
-          searchTerms.city,
-          handleChange,
-          "City",
-          false,
-          "ShelterList-label",
-          "ShelterList-input"
-        )}
+      <div className="ShelterList-form-container">
+        <form onSubmit={handleSubmit} className="ShelterList-form">
+          {createInput(
+            "name",
+            "text",
+            searchTerms.name,
+            handleChange,
+            "Shelter Name",
+            false,
+            "ShelterList-label",
+            "ShelterList-input"
+          )}
+          {createInput(
+            "city",
+            "text",
+            searchTerms.city,
+            handleChange,
+            "City",
+            false,
+            "ShelterList-label",
+            "ShelterList-input"
+          )}
 
-        <label htmlFor="state" className="ShelterList-label">
-          State:
-        </label>
-        <select
-          id="state"
-          name="state"
-          onChange={handleChange}
-          value={searchTerms.state}
-          className="ShelterList-select"
-        >
-          {createStateOptions(USSTATES)}
-        </select>
+          <label htmlFor="state" className="ShelterList-label">
+            State:
+          </label>
+          <select
+            id="state"
+            name="state"
+            onChange={handleChange}
+            value={searchTerms.state}
+            className="ShelterList-select"
+          >
+            {createStateOptions(USSTATES)}
+          </select>
 
-        {createInput(
-          "postcode",
-          "text",
-          searchTerms.postcode,
-          handleChange,
-          "Zip Code",
-          false,
-          "ShelterList-label",
-          "ShelterList-input"
-        )}
-        <button className="ShelterList-button">Search</button>
-      </form>
+          {createInput(
+            "postcode",
+            "text",
+            searchTerms.postcode,
+            handleChange,
+            "Zip Code",
+            false,
+            "ShelterList-label",
+            "ShelterList-input"
+          )}
+          <button className="ShelterList-button">Search</button>
+        </form>
+        <button className="ShelterList-clearSearch-button" onClick={clearSearchTerms}>
+          Clear search
+        </button>
+      </div>
 
-      <div className="ShelterList-list">{allShelters}</div>
+      {allShelters.length !== 0 ? (
+        <div className="ShelterList-list">{allShelters}</div>
+      ) : (
+        <div className="ShelterList-no-dogs">No shelters found</div>
+      )}
 
       <ReactPaginate
         previousLabel={"Previous"}

@@ -89,7 +89,6 @@ const AdoptableDogsList = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setSearchTerms(INITIAL_SEARCH);
     try {
       const response = await PetlyApi.getAll(
         "adoptableDogs",
@@ -97,117 +96,135 @@ const AdoptableDogsList = () => {
         token
       );
       setDogs(response);
-      setSearchTerms(INITIAL_SEARCH);
     } catch (err) {
       console.log(e);
       swal({ text: ERROR, icon: "warning" });
     }
   };
 
+  const clearSearchTerms = async () => {
+    setSearchTerms(INITIAL_SEARCH);
+  };
+
   return (
     <div className="AdoptableDogList-container">
       {/* Form for shelter search */}
-      <form onSubmit={handleSubmit} className="AdoptableDogList-form">
-        {createInput(
-          "name",
-          "text",
-          searchTerms.name,
-          handleChange,
-          "Dog Name",
-          false,
-          "AdoptableDogList-label",
-          "AdoptableDogList-input"
-        )}
+      <div className="AdoptableDogList-form-container">
+        <form onSubmit={handleSubmit} className="AdoptableDogList-form">
+          {createInput(
+            "name",
+            "text",
+            searchTerms.name,
+            handleChange,
+            "Dog Name",
+            false,
+            "AdoptableDogList-label",
+            "AdoptableDogList-input"
+          )}
 
-        <label htmlFor="breedId" className="AdoptableDogList-label">
-          Breed:
-        </label>
-        <select
-          id="breedId"
-          name="breedId"
-          onChange={handleChange}
-          value={searchTerms.breedId}
-          className="AdoptableDogList-select breed"
-        >
-          {createBreedOptions(DOGBREEDS)}
-        </select>
+          <label htmlFor="breedId" className="AdoptableDogList-label">
+            Breed:
+          </label>
+          <select
+            id="breedId"
+            name="breedId"
+            onChange={handleChange}
+            value={searchTerms.breedId}
+            className="AdoptableDogList-select breed"
+          >
+            <option value=""></option>
+            {createBreedOptions(DOGBREEDS)}
+          </select>
 
-        <label htmlFor="gender" className="AdoptableDogList-label">
-          Gender:
-        </label>
-        <select
-          name="gender"
-          id="gender"
-          onChange={handleChange}
-          value={searchTerms.gender}
-          className="AdoptableDogList-select"
-        >
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-        </select>
+          <label htmlFor="gender" className="AdoptableDogList-label">
+            Gender:
+          </label>
+          <select
+            name="gender"
+            id="gender"
+            onChange={handleChange}
+            value={searchTerms.gender}
+            className="AdoptableDogList-select"
+          >
+            <option value=""></option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+          </select>
 
-        <label htmlFor="age" className="AdoptableDogList-label">
-          Age:
-        </label>
-        <select
-          name="age"
-          id="age"
-          onChange={handleChange}
-          value={searchTerms.age}
-          className="AdoptableDogList-select"
-        >
-          <option value="Baby">Baby</option>
-          <option value="Young">Young</option>
-          <option value="Adult">Adult</option>
-          <option value="Senior">Senior</option>
-        </select>
+          <label htmlFor="age" className="AdoptableDogList-label">
+            Age:
+          </label>
+          <select
+            name="age"
+            id="age"
+            onChange={handleChange}
+            value={searchTerms.age}
+            className="AdoptableDogList-select"
+          >
+            <option value=""></option>
+            <option value="Baby">Baby</option>
+            <option value="Young">Young</option>
+            <option value="Adult">Adult</option>
+            <option value="Senior">Senior</option>
+          </select>
 
-        <label htmlFor="goodWDogs" className="AdoptableDogList-label">
-          Good with other dogs:
-        </label>
-        <select
-          name="goodWDogs"
-          id="goodWDogs"
-          onChange={handleChange}
-          value={searchTerms.goodWDogs}
-          className="AdoptableDogList-select"
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label htmlFor="goodWDogs" className="AdoptableDogList-label">
+            Good with other dogs:
+          </label>
+          <select
+            name="goodWDogs"
+            id="goodWDogs"
+            onChange={handleChange}
+            value={searchTerms.goodWDogs}
+            className="AdoptableDogList-select"
+          >
+            <option value=""></option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <label htmlFor="goodWCats" className="AdoptableDogList-label">
-          Good with cats:
-        </label>
-        <select
-          name="goodWCats"
-          id="goodWCats"
-          onChange={handleChange}
-          value={searchTerms.goodWCats}
-          className="AdoptableDogList-select"
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label htmlFor="goodWCats" className="AdoptableDogList-label">
+            Good with cats:
+          </label>
+          <select
+            name="goodWCats"
+            id="goodWCats"
+            onChange={handleChange}
+            value={searchTerms.goodWCats}
+            className="AdoptableDogList-select"
+          >
+            <option value=""></option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <label htmlFor="goodWKids" className="AdoptableDogList-label">
-          Good with children:
-        </label>
-        <select
-          name="goodWKids"
-          id="goodWKids"
-          onChange={handleChange}
-          value={searchTerms.goodWKids}
-          className="AdoptableDogList-select"
-        >
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
+          <label htmlFor="goodWKids" className="AdoptableDogList-label">
+            Good with children:
+          </label>
+          <select
+            name="goodWKids"
+            id="goodWKids"
+            onChange={handleChange}
+            value={searchTerms.goodWKids}
+            className="AdoptableDogList-select"
+          >
+            <option value=""></option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
 
-        <button className="AdoptableDogList-button">Search</button>
-      </form>
+          <button className="AdoptableDogList-button">Search</button>
+        </form>
+        <button className="AdoptableDogList-clearSearch-button" onClick={clearSearchTerms}>
+          Clear search
+        </button>
+      </div>
 
-      <div className="AdoptableDogList-list">{allDogs}</div>
+      {allDogs.length !== 0 ? (
+        <div className="AdoptableDogList-list">{allDogs}</div>
+      ) : (
+        <div className="AdoptableDogList-no-dogs">No dogs found</div>
+      )}
 
       <ReactPaginate
         previousLabel={"Previous"}

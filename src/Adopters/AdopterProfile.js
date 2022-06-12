@@ -92,12 +92,14 @@ const AdopterProfile = () => {
     }
   };
 
+  const profilePic = JSON.parse(formData.picture);
+
   return (
     <div className="AdopterProfile-container">
       <div className="AdopterProfile-imgContainer">
         <img
           alt={adopter.username}
-          src={formData.picture}
+          src={profilePic.url ? profilePic.url : formData.picture}
           className="AdopterProfile-img"
         />
         <small className="AdopterProfile-caption">{adopter.username}</small>

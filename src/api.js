@@ -227,6 +227,13 @@ class PetlyApi {
     const res = await this.request(`adopters/favoriteDogs/${params}`);
     return res.favoriteDogs;
   }
+
+  /**Post upload picture from
+   * local machine and return src */
+  static async uploadFile(data) {
+    const res = await this.request(`authAdopter/uploadPicture`, data, "post");
+    return res;
+  }
 }
 
 export default PetlyApi;

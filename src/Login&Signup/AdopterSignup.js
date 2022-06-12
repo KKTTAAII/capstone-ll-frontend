@@ -22,29 +22,36 @@ const AdopterSignUp = ({ signUp }) => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
   const history = useHistory();
 
-  //V.2.0.0 Implement picture from local machine upload
-  // const onImageChange = async e => {
-  //   if (
-  //     e.target.files &&
-  //     e.target.files[0] &&
-  //     e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
-  //   ) {
-  //     let img = e.target.files[0];
-  //     formData.picture = URL.createObjectURL(img); //return blob URL string
-  //     //how can i store the image file in postgresql and retrieve it to display the next time the user logs in?
+  const transformFile = file => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+    }
+  };
 
-  //     setFormData(formData => ({
-  //       ...formData,
-  //     }));
-  //   } else {
-  //     swal({
-  //       text: "Not an image",
-  //       icon: "warning",
-  //     });
-  //   }
-  // };
+  //V.2.0.0 Implement picture from local machine upload
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      console.log(img);
+      transformFile(img);
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -66,7 +73,8 @@ const AdopterSignUp = ({ signUp }) => {
       email,
     ]);
 
-    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
+    formData.picture = imageFile === null ? DEFAULT_PIC : imageFile;
+    console.log(formData);
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await signUp("Adopter", formData);
@@ -130,7 +138,7 @@ const AdopterSignUp = ({ signUp }) => {
           "AdopterSignup-label",
           "AdopterSignup-input"
         )}
-        {createInput(
+        {/* {createInput(
           "picture",
           "picture",
           formData.picture,
@@ -139,27 +147,31 @@ const AdopterSignUp = ({ signUp }) => {
           false,
           "AdopterSignup-label",
           "AdopterSignup-input"
-        )}
+        )} */}
 
-        {/*V.2.0.0 Implement local machine picture upload feature/*}
-        {/* <div className="AdopterSignup-preview-img-container">
-          <img
-            src={formData.picture}
-            className="AdopterSignup-preview-img"
-            alt={formData.username}
-          />
-          <div>Profile Image</div>
+        {/* V.2.0.0 Implement local machine picture upload feature/*} */}
+        <div className="AdopterSignup-preview-img-container">
+          {imageFile && (
+            <img
+              src={imageFile}
+              className="AdopterSignup-preview-img"
+              alt={formData.username}
+            />
+          )}
           <input
             id="picture"
             type="file"
             name="picture"
             onChange={onImageChange}
             className="AdopterSignup-img-button"
+            accept="image/"
           />
           <label htmlFor="picture">
-            <div className="AdopterSignup-add-picture-button">Add picture</div>
+            <div className="AdopterSignup-add-picture-button">
+              Add profile picture
+            </div>
           </label>
-        </div> */}
+        </div>
 
         <Row>
           <Col>
@@ -246,7 +258,9 @@ const AdopterSignUp = ({ signUp }) => {
           cols="45"
         ></textarea>
 
-        {isInvalid && isTouched && <small className="AdopterSignup-warning">{WARNING}</small>}
+        {isInvalid && isTouched && (
+          <small className="AdopterSignup-warning">{WARNING}</small>
+        )}
         <button className="AdopterSignup-button">Sign up</button>
       </form>
 

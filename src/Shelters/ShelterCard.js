@@ -5,7 +5,11 @@ import "../css/ShelterCard.css";
 import LOGO from "../assets/shelter.jpg";
 
 const ShelterCard = ({ shelter }) => {
-  const { id, name, city, state, logo } = shelter;
+  let { id, name, city, state, logo } = shelter;
+  if (logo.startsWith("{")) {
+    const parsedLogo = JSON.parse(logo);
+    logo = parsedLogo.url;
+  }
   return (
     <div id={id} className="ShelterCard-container">
       <Card id="Sheltercard-card">

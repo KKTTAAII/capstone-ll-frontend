@@ -26,6 +26,7 @@ const ShelterDetails = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isInvalid, setIsInvalid] = useState(true);
   let dogs;
+  let logoPic;
 
   useEffect(() => {
     async function getData() {
@@ -46,7 +47,7 @@ const ShelterDetails = () => {
     return <Loading />;
   }
 
-  const {
+  let {
     address,
     city,
     state,
@@ -107,6 +108,11 @@ const ShelterDetails = () => {
       console.log("Oop, please fill out all required fields");
     }
   };
+
+  if (logo && logo.startsWith("{")) {
+    const parsedLogo = JSON.parse(shelter.logo);
+    logo = parsedLogo.url;
+  }
 
   return (
     <div id={id} className="ShelterDetails-container">

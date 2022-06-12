@@ -146,18 +146,6 @@ const AdopterProfile = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="AdopterProfile-form">
-          {createInput(
-            "email",
-            "email",
-            //solution to error A component is changing an uncontrolled input of type text to be controlled.
-            formData.email || "",
-            handleChange,
-            "Email",
-            true,
-            "AdopterProfile-label",
-            "AdopterProfile-input"
-          )}
-
           <input
             id="picture"
             type="file"
@@ -171,6 +159,18 @@ const AdopterProfile = () => {
               Update picture
             </div>
           </label>
+
+          {createInput(
+            "email",
+            "email",
+            //solution to error A component is changing an uncontrolled input of type text to be controlled.
+            formData.email || "",
+            handleChange,
+            "Email",
+            true,
+            "AdopterProfile-label",
+            "AdopterProfile-input"
+          )}
 
           <label htmlFor="numOfDogs" className="AdopterProfile-label">
             Number of dogs:

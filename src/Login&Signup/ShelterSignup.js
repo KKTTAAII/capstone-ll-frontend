@@ -30,7 +30,34 @@ const ShelterSignUp = ({ signUp }) => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
   const history = useHistory();
+
+  const transformFile = file => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+    }
+  };
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      transformFile(img);
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -44,7 +71,6 @@ const ShelterSignUp = ({ signUp }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setFormData(INITIAL_STATE);
     const {
       username,
       password,
@@ -64,7 +90,7 @@ const ShelterSignUp = ({ signUp }) => {
       email,
     ]);
 
-    formData.logo = formData.logo === "" ? DEFAULT_PIC : formData.logo;
+    formData.logo = imageFile === null ? DEFAULT_PIC : imageFile;
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await signUp("Shelter", formData);
@@ -229,16 +255,28 @@ const ShelterSignUp = ({ signUp }) => {
           </Col>
         </Row>
 
-        {createInput(
-          "logo",
-          "text",
-          formData.logo,
-          handleChange,
-          "Shelter's Logo Link",
-          false,
-          "ShelterSignup-label",
-          "ShelterSignup-input-long"
-        )}
+        <div className="ShelterSignup-preview-img-container">
+          {imageFile && (
+            <img
+              src={imageFile}
+              className="ShelterSignup-preview-img"
+              alt={formData.username}
+            />
+          )}
+          <input
+            id="logo"
+            type="file"
+            name="logo"
+            onChange={onImageChange}
+            className="ShelterSignup-img-button"
+            accept="image/"
+          />
+          <label htmlFor="logo">
+            <div className="ShelterSignup-add-picture-button">
+              Add shelter's picture
+            </div>
+          </label>
+        </div>
 
         <label className="ShelterSignup-label" id="bio">
           Shelter's Bio:

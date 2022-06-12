@@ -8,7 +8,7 @@ import {
   createInput,
   USSTATES,
   createStateOptions,
-  WARNING
+  WARNING,
 } from "../common/helpers";
 import "../css/ShelterProfile.css";
 import Loading from "../common/Loading";
@@ -19,12 +19,15 @@ const ShelterProfile = () => {
   const { user, token } = useContext(UserInfoContext);
   const [shelter, setShelter] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
   const history = useHistory();
+  let logoPic;
 
   useEffect(() => {
     async function getData() {
       try {
         const res = await PetlyApi.get("shelters", shelterId, token);
+        console.log(res);
         setShelter(res);
         setIsLoading(false);
       } catch (err) {
@@ -59,6 +62,32 @@ const ShelterProfile = () => {
     return <Loading />;
   }
 
+  const transformFile = file => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+    }
+  };
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      transformFile(img);
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(formData => ({
@@ -89,7 +118,8 @@ const ShelterProfile = () => {
       password,
     ]);
 
-    formData.logo = formData.logo === "" ? DEFAULT_PIC : formData.logo;
+    formData.logo = imageFile === null ? DEFAULT_PIC : imageFile;
+
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
         //authenticate user before updating profile
@@ -114,12 +144,16 @@ const ShelterProfile = () => {
     }
   };
 
+  if (formData.logo) {
+    logoPic = JSON.parse(formData.logo);
+  }
+
   return (
     <div className="ShelterProfile-container">
       <div className="ShelterProfile-imgContainer">
         <img
           alt={shelter.username}
-          src={formData.logo}
+          src={imageFile ? imageFile : logoPic.url}
           className="ShelterProfile-img"
         />
         <small className="ShelterProfile-caption">{shelter.username}</small>
@@ -135,6 +169,20 @@ const ShelterProfile = () => {
           </a>
         </div>
         <form onSubmit={handleSubmit} className="ShelterProfile-form">
+          <input
+            id="logo"
+            type="file"
+            name="logo"
+            onChange={onImageChange}
+            className="ShelterProfile-img-button"
+            accept="image/"
+          />
+          <label htmlFor="logo">
+            <div className="ShelterProfile-add-picture-button">
+              Update shelter's picture
+            </div>
+          </label>
+
           {createInput(
             "name",
             "text",
@@ -187,21 +235,21 @@ const ShelterProfile = () => {
             "ShelterProfile-label",
             "ShelterProfile-input"
           )}
-          
-           <label htmlFor="phoneNumber" className="ShelterSignup-label">
-                Phone*:
-              </label>
-              <input
-                id="phoneNumber"
-                type="tel"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                required
-                name="phoneNumber"
-                placeholder="123-456-7890"
-                className="ShelterSignup-input"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              ></input>
+
+          <label htmlFor="phoneNumber" className="ShelterSignup-label">
+            Phone*:
+          </label>
+          <input
+            id="phoneNumber"
+            type="tel"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            required
+            name="phoneNumber"
+            placeholder="123-456-7890"
+            className="ShelterSignup-input"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          ></input>
 
           {createInput(
             "email",
@@ -210,17 +258,6 @@ const ShelterProfile = () => {
             handleChange,
             "Email",
             true,
-            "ShelterProfile-label",
-            "ShelterProfile-input"
-          )}
-
-          {createInput(
-            "logo",
-            "text",
-            formData.logo.includes("../assets/shelter.jpg") ? DEFAULT_PIC : formData.logo || "",
-            handleChange,
-            "Shelter's Logo Link",
-            false,
             "ShelterProfile-label",
             "ShelterProfile-input"
           )}

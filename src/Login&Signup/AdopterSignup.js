@@ -35,7 +35,6 @@ const AdopterSignUp = ({ signUp }) => {
     }
   };
 
-  //V.2.0.0 Implement picture from local machine upload
   const onImageChange = e => {
     if (
       e.target.files &&
@@ -43,7 +42,6 @@ const AdopterSignUp = ({ signUp }) => {
       e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
     ) {
       let img = e.target.files[0];
-      console.log(img);
       transformFile(img);
     } else {
       swal({
@@ -74,7 +72,6 @@ const AdopterSignUp = ({ signUp }) => {
     ]);
 
     formData.picture = imageFile === null ? DEFAULT_PIC : imageFile;
-    console.log(formData);
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await signUp("Adopter", formData);
@@ -138,18 +135,7 @@ const AdopterSignUp = ({ signUp }) => {
           "AdopterSignup-label",
           "AdopterSignup-input"
         )}
-        {/* {createInput(
-          "picture",
-          "picture",
-          formData.picture,
-          handleChange,
-          "Picture Link",
-          false,
-          "AdopterSignup-label",
-          "AdopterSignup-input"
-        )} */}
-
-        {/* V.2.0.0 Implement local machine picture upload feature/*} */}
+      
         <div className="AdopterSignup-preview-img-container">
           {imageFile && (
             <img

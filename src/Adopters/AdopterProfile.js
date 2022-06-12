@@ -16,7 +16,9 @@ const AdopterProfile = () => {
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
   const history = useHistory();
+  let profilePic;
 
   useEffect(() => {
     async function getData() {
@@ -53,6 +55,32 @@ const AdopterProfile = () => {
     return <Loading />;
   }
 
+  const transformFile = file => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+    }
+  };
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      transformFile(img);
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(formData => ({
@@ -67,7 +95,7 @@ const AdopterProfile = () => {
     e.preventDefault();
     const { email, password } = formData;
     const isAllRequiredFieldFilled = checkAllRequiredField([email, password]);
-    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
+    formData.picture = imageFile === null ? DEFAULT_PIC : imageFile;
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
         //authenticate user before updating profile
@@ -92,14 +120,16 @@ const AdopterProfile = () => {
     }
   };
 
-  const profilePic = JSON.parse(formData.picture);
+  if (formData.picture) {
+    profilePic = JSON.parse(formData.picture);
+  }
 
   return (
     <div className="AdopterProfile-container">
       <div className="AdopterProfile-imgContainer">
         <img
           alt={adopter.username}
-          src={profilePic.url ? profilePic.url : formData.picture}
+          src={imageFile ? imageFile : profilePic.url}
           className="AdopterProfile-img"
         />
         <small className="AdopterProfile-caption">{adopter.username}</small>
@@ -128,16 +158,19 @@ const AdopterProfile = () => {
             "AdopterProfile-input"
           )}
 
-          {createInput(
-            "picture",
-            "picture",
-            formData.picture || "",
-            handleChange,
-            "Picture Link",
-            false,
-            "AdopterSignup-label",
-            "AdopterSignup-input"
-          )}
+          <input
+            id="picture"
+            type="file"
+            name="picture"
+            onChange={onImageChange}
+            className="AdopterProfile-img-button"
+            accept="image/"
+          />
+          <label htmlFor="picture">
+            <div className="AdopterProfile-add-picture-button">
+              Update picture
+            </div>
+          </label>
 
           <label htmlFor="numOfDogs" className="AdopterProfile-label">
             Number of dogs:

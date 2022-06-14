@@ -60,6 +60,7 @@ const App = () => {
     setToken("");
     setUser(null);
     setIsFavoriteDogsLoading(true);
+    setFavoriteDogs([])
     swal({ icon: "success", text: "You are logged out" });
   };
 

@@ -6,7 +6,7 @@ import {
   checkAllRequiredField,
   createInput,
   DOGBREEDS,
-  createBreedOptions
+  createBreedOptions,
 } from "../common/helpers";
 import UserInfoContext from "../common/UserInfoContext";
 import DEFAULT_PIC from "../assets/dog.png";
@@ -30,6 +30,7 @@ const AddDog = ({ addDog }) => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
   const history = useHistory();
 
   //ensure correct shelter adding their dog
@@ -37,6 +38,32 @@ const AddDog = ({ addDog }) => {
     swal({ text: "Unautorized user", icon: "warning" });
     return <Redirect to="/" />;
   }
+
+  const transformFile = file => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+    }
+  };
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      transformFile(img);
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -59,8 +86,8 @@ const AddDog = ({ addDog }) => {
       age,
     ]);
 
-    formData.picture = formData.picture === "" ? DEFAULT_PIC : formData.picture;
-
+    formData.picture = imageFile === null ? DEFAULT_PIC : imageFile;
+    
     if (!isInvalid && isAllRequiredFieldFilled) {
       let response = await addDog(shelterId, formData);
       history.push(`/adoptableDogs/${response.id}`);
@@ -88,16 +115,26 @@ const AddDog = ({ addDog }) => {
           "ShelterAddDog-input"
         )}
 
-        {createInput(
-          "picture",
-          "text",
-          formData.picture,
-          handleChange,
-          "Picture Link",
-          false,
-          "ShelterAddDog-label",
-          "ShelterAddDog-input"
-        )}
+        <div className="ShelterAddDog-preview-img-container">
+          {imageFile && (
+            <img
+              src={imageFile}
+              className="ShelterAddDog-preview-img"
+              alt={formData.username}
+            />
+          )}
+          <input
+            id="picture"
+            type="file"
+            name="picture"
+            onChange={onImageChange}
+            className="ShelterAddDog-img-button"
+            accept="image/"
+          />
+          <label htmlFor="picture">
+            <div className="ShelterAddDog-add-picture-button">Add picture</div>
+          </label>
+        </div>
 
         <label htmlFor="breedId" className="ShelterAddDog-label">
           Breed:

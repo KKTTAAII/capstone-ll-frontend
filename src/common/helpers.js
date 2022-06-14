@@ -430,8 +430,8 @@ const getFavoriteDogs = async (
     const areIdsInThere = dogsIds.every(id =>
       allFavoritedDogsCurrent.hasOwnProperty(id)
     );
-    //then we check that first and if areIdsInThere is false 
-    // or there is nothing in the allFavoritedDogsCurrent, 
+    //then we check that first and if areIdsInThere is false
+    // or there is nothing in the allFavoritedDogsCurrent,
     //we call PetlyApi.getFavoriteDogs
     //save API calls
     if (
@@ -444,6 +444,11 @@ const getFavoriteDogs = async (
       setIsFavoriteDogsLoading(false);
     } else {
       const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
+      favDogs.forEach(dog => {
+        //we can then save all the favorite dogs in allFavoritedDogs so we do not have to call API
+        //again and again if the user happens to favorite those again
+        allFavoritedDogs.current[dog.id] = dog;
+      });
       setFavoriteDogs(favDogs);
       setIsFavoriteDogsLoading(false);
     }
@@ -486,7 +491,7 @@ const getUser = async (
         );
         //check if we have this user in db, if not, token may expire or no that user
         if (user) {
-          getFavoriteDogs(
+          await getFavoriteDogs(
             user,
             setFavoriteDogs,
             setIsFavoriteDogsLoading,

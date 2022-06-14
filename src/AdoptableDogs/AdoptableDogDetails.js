@@ -38,7 +38,7 @@ const AdoptableDogDetails = () => {
 
   //in case there are more than 1 dog with the same ids (from db and from petfinder)
   const allDogs = dogs.map(dog => {
-    const {
+    let {
       name,
       age,
       breed,
@@ -51,6 +51,12 @@ const AdoptableDogDetails = () => {
       picture,
       shelter,
     } = dog;
+
+    if (picture && picture.startsWith("{")) {
+      const parsedPicture = JSON.parse(picture);
+      picture = parsedPicture.url;
+    }
+
     return (
       <div id={id} key={id} className="AdoptableDogDetails-container">
         {/* show edit button for the correct shelter */}
@@ -65,7 +71,11 @@ const AdoptableDogDetails = () => {
         )}
 
         <div className="AdoptableDogDetails-name">{name}</div>
-        <img src={picture.includes("../assets/dog.png") ? LOCAL_IMAGE : picture} alt={name} className="AdoptableDogDetails-img" />
+        <img
+          src={picture.includes("../assets/dog.png") ? LOCAL_IMAGE : picture}
+          alt={name}
+          className="AdoptableDogDetails-img"
+        />
         <div className="AdoptableDogDetails-infoContainer">
           <div className="label">About</div>
           <ul className="list">

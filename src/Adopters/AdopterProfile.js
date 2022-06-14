@@ -120,8 +120,11 @@ const AdopterProfile = () => {
     }
   };
 
-  if (formData.picture) {
-    profilePic = JSON.parse(formData.picture);
+  if (formData.picture && formData.picture.startsWith("{")) {
+    const parsedPicture = JSON.parse(formData.picture);
+    profilePic = parsedPicture.url;
+  } else {
+    profilePic = formData.picture;
   }
 
   return (
@@ -129,7 +132,7 @@ const AdopterProfile = () => {
       <div className="AdopterProfile-imgContainer">
         <img
           alt={adopter.username}
-          src={imageFile ? imageFile : profilePic.url}
+          src={imageFile ? imageFile : profilePic}
           className="AdopterProfile-img"
         />
         <small className="AdopterProfile-caption">{adopter.username}</small>

@@ -32,6 +32,7 @@ const AdoptableDogsList = () => {
   const [searchTerms, setSearchTerms] = useState(INITIAL_SEARCH);
   const [dogs, setDogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(0);
   const history = useHistory();
 
   useEffect(() => {
@@ -47,9 +48,12 @@ const AdoptableDogsList = () => {
       }
     }
     getData();
-  }, []);
+  }, [favoriteDogs]);
 
-  const [pageNumber, setPageNumber] = useState(0);
+  if ((user.userType === "adopters" && isFavoriteDogsLoading) || isLoading) {
+    return <Loading />;
+  }
+
   const dogsPerPage = 10;
   const pagesVisites = pageNumber * dogsPerPage;
   const pageCount = Math.ceil(dogs.length / dogsPerPage);
@@ -70,14 +74,6 @@ const AdoptableDogsList = () => {
         />
       );
     });
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (user.userType === "adopters" && isFavoriteDogsLoading) {
-    return <Loading />;
-  }
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -215,7 +211,10 @@ const AdoptableDogsList = () => {
 
           <button className="AdoptableDogList-button">Search</button>
         </form>
-        <button className="AdoptableDogList-clearSearch-button" onClick={clearSearchTerms}>
+        <button
+          className="AdoptableDogList-clearSearch-button"
+          onClick={clearSearchTerms}
+        >
           Clear search
         </button>
       </div>

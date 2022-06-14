@@ -15,7 +15,11 @@ const AdoptableDogCard = ({ dog, isFavoriteDog }) => {
     UserInfoContext
   );
   const [like, setLike] = useToggle(isFavoriteDog);
-  const { id, name, picture, gender, age } = dog;
+  let { id, name, picture, gender, age } = dog;
+  if (picture.startsWith("{")) {
+    const parsedPicture = JSON.parse(picture);
+    picture = parsedPicture.url;
+  }
 
   const favorite = async dogId => {
     try {

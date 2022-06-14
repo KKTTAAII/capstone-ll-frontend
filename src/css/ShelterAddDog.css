@@ -102,3 +102,27 @@
 .add-button:hover {
     cursor: pointer;
 }
+
+.ShelterAddDog-preview-img-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ShelterAddDog-img-button {
+    display: none;
+}
+
+.ShelterAddDog-add-picture-button {
+    margin: 15px;
+    text-align: center;
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.ShelterAddDog-add-picture-button:hover {
+    cursor: pointer;
+}

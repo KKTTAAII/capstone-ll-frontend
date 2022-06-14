@@ -27,7 +27,6 @@ const ShelterProfile = () => {
     async function getData() {
       try {
         const res = await PetlyApi.get("shelters", shelterId, token);
-        console.log(res);
         setShelter(res);
         setIsLoading(false);
       } catch (err) {
@@ -144,8 +143,11 @@ const ShelterProfile = () => {
     }
   };
 
-  if (formData.logo) {
-    logoPic = JSON.parse(formData.logo);
+  if (formData.logo && formData.logo.startsWith("{")) {
+    const parsedLogo = JSON.parse(formData.logo);
+    logoPic = parsedLogo.url;
+  } else {
+    logoPic = formData.logo;
   }
 
   return (
@@ -153,7 +155,7 @@ const ShelterProfile = () => {
       <div className="ShelterProfile-imgContainer">
         <img
           alt={shelter.username}
-          src={imageFile ? imageFile : logoPic.url}
+          src={imageFile ? imageFile : logoPic}
           className="ShelterProfile-img"
         />
         <small className="ShelterProfile-caption">{shelter.username}</small>

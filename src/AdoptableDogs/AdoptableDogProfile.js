@@ -22,7 +22,9 @@ const AdoptableDogProfile = () => {
   const [formData, setFormData] = useState(dog);
   const [isTouched, setIsTouched] = useState(false);
   const [isInvalid, setIsInvalid] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
   const history = useHistory();
+  let profilePic;
 
   useEffect(() => {
     async function getData() {
@@ -55,6 +57,33 @@ const AdoptableDogProfile = () => {
     return <Loading />;
   }
 
+  const transformFile = file => {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+    }
+  };
+
+  const onImageChange = e => {
+    if (
+      e.target.files &&
+      e.target.files[0] &&
+      e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)
+    ) {
+      let img = e.target.files[0];
+      transformFile(img);
+      setIsInvalid(false);
+    } else {
+      swal({
+        text: "Not an image",
+        icon: "warning",
+      });
+    }
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(formData => ({
@@ -81,8 +110,7 @@ const AdoptableDogProfile = () => {
     delete copiedFormData.shelterId;
     delete copiedFormData.shelter;
 
-    copiedFormData.picture =
-      copiedFormData.picture === "" ? DEFAULT_PIC : copiedFormData.picture;
+    copiedFormData.picture = imageFile === null ? DEFAULT_PIC : imageFile;
 
     if (!isInvalid && isAllRequiredFieldFilled) {
       try {
@@ -110,15 +138,36 @@ const AdoptableDogProfile = () => {
     return <Redirect to="/" />;
   }
 
+  if (formData.picture && formData.picture.startsWith("{")) {
+    const parsedPicture = JSON.parse(formData.picture);
+    profilePic = parsedPicture.url;
+  } else {
+    profilePic = formData.picture;
+  }
+
   return (
     <div className="AdoptableDogProfile-container">
       <div className="AdoptableDogProfile-header">Update {formData.name}</div>
       <img
         alt={formData.name}
-        src={formData.picture}
+        src={imageFile ? imageFile : profilePic}
         className="AdoptabledogProfile-img"
       />
       <form onSubmit={handleSubmit} className="AdoptableDogProfile-form">
+        <input
+          id="picture"
+          type="file"
+          name="picture"
+          onChange={onImageChange}
+          className="AdoptableDogProfile-img-button"
+          accept="image/"
+        />
+        <label htmlFor="picture">
+          <div className="AdoptableDogProfile-add-picture-button">
+            Update picture
+          </div>
+        </label>
+
         {createInput(
           "name",
           "text",
@@ -126,18 +175,6 @@ const AdoptableDogProfile = () => {
           handleChange,
           "Name",
           true,
-          "AdoptableDogProfile-label",
-          "AdoptableDogProfile-input"
-        )}
-        {createInput(
-          "picture",
-          "text",
-          formData.picture.includes("../assets/dog.png")
-            ? DEFAULT_PIC
-            : formData.picture,
-          handleChange,
-          "Picture Link",
-          false,
           "AdoptableDogProfile-label",
           "AdoptableDogProfile-input"
         )}

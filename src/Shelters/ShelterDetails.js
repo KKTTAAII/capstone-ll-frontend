@@ -26,7 +26,6 @@ const ShelterDetails = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isInvalid, setIsInvalid] = useState(true);
   let dogs;
-  let logoPic;
 
   useEffect(() => {
     async function getData() {
@@ -110,7 +109,7 @@ const ShelterDetails = () => {
   };
 
   if (logo && logo.startsWith("{")) {
-    const parsedLogo = JSON.parse(shelter.logo);
+    const parsedLogo = JSON.parse(logo);
     logo = parsedLogo.url;
   }
 

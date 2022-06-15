@@ -405,7 +405,7 @@ const convertToYesNo = boolean => {
   } else if (boolean) {
     return "Yes";
   } else if (!boolean) {
-    return "NO";
+    return "No";
   }
 };
 

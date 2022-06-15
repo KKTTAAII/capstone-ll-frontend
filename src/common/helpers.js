@@ -440,12 +440,10 @@ const getFavoriteDogs = async (
       Object.keys(allFavoritedDogsCurrent).length !== 0
     ) {
       const matchedDogs = dogsIds.map(id => allFavoritedDogsCurrent[id]);
-      console.log("it calls here 111111111")
       setFavoriteDogs(matchedDogs);
       setIsFavoriteDogsLoading(false);
     } else {
       const favDogs = await PetlyApi.getFavoriteDogs(user.username, token);
-      console.log("it calls here 22222222")
       favDogs.forEach(dog => {
         //we can then save all the favorite dogs in allFavoritedDogs so we do not have to call API
         //again and again if the user happens to favorite those again

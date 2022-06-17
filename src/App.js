@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 import swal from "sweetalert";
 
 const App = () => {
-  const [token, setToken] = useLocalStorageState("token", "");
+  const [token, setToken] = useLocalStorageState("token", null);
   const [user, setUser] = useLocalStorageState("user", null);
   const [favoriteDogs, setFavoriteDogs] = useState([]);
   const [isFavoriteDogsLoading, setIsFavoriteDogsLoading] = useState(true);
@@ -57,7 +57,7 @@ const App = () => {
   };
 
   const logOut = () => {
-    setToken("");
+    setToken(null);
     setUser(null);
     setIsFavoriteDogsLoading(true);
     setFavoriteDogs([])
